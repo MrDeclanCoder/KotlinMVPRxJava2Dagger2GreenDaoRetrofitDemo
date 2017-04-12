@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * 作者：${User} on 2017/4/10 16:26

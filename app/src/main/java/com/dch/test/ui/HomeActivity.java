@@ -19,6 +19,8 @@ import com.dch.test.contract.HomeContract;
 import com.dch.test.contract.presenter.HomePresenter;
 import com.dch.test.util.ToastUtils;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 
 /**
@@ -43,6 +45,7 @@ public class HomeActivity extends BaseActivity
     protected void initData() {
         presenter = new HomePresenter(this, Injection.provideArticalRepository(getApplicationContext()));
         presenter.start();
+
     }
 
     @Override
@@ -128,7 +131,10 @@ public class HomeActivity extends BaseActivity
     }
 
     @Override
-    public void showArticalList() {
+    public void showArticalList(ArrayList<String> list) {
+        for (String s : list){
+            System.out.println("获取到文章数据--"+s);
+        }
         ToastUtils.showMessage("获取到文章数据了");
     }
 }

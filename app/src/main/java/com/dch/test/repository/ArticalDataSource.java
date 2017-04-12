@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public interface ArticalDataSource {
 
     interface LoadArticalCallback {
-        void onArticalLoaded(ArrayList<Artical> list);
+        void onArticalLoaded(ArrayList<String> list);
         void onDataNotAvailable();
     }
 

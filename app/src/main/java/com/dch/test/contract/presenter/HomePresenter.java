@@ -1,7 +1,11 @@
 package com.dch.test.contract.presenter;
 
 import com.dch.test.contract.HomeContract;
+import com.dch.test.repository.Artical;
+import com.dch.test.repository.ArticalDataSource;
 import com.dch.test.repository.ArticalRepository;
+
+import java.util.ArrayList;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -27,6 +31,16 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void getArticalsData() {
-        homeView.showArticalList();
+        mArticalRepository.getArticalsData(new ArticalDataSource.LoadArticalCallback() {
+            @Override
+            public void onArticalLoaded(ArrayList<String> list) {
+                homeView.showArticalList(list);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+        });
     }
 }

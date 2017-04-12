@@ -20,8 +20,8 @@ public class ArticalRepository implements ArticalDataSource {
 
     private ArticalRepository(@NonNull ArticalDataSource articalLocalDataSource,
                               @NonNull ArticalDataSource articalRemoteDataSource) {
-        articalLocalDataSource = checkNotNull(articalLocalDataSource);
-        articalRemoteDataSource = checkNotNull(articalRemoteDataSource);
+        this.articalLocalDataSource = checkNotNull(articalLocalDataSource);
+        this.articalRemoteDataSource = checkNotNull(articalRemoteDataSource);
     }
 
     public static ArticalRepository getInstance(ArticalDataSource articalLocalDataSource, ArticalDataSource articalRemoteDataSource) {
@@ -54,7 +54,7 @@ public class ArticalRepository implements ArticalDataSource {
     private void getArticalDataFromRemote(final LoadArticalCallback callback) {
         articalRemoteDataSource.getArticalsData(new LoadArticalCallback() {
             @Override
-            public void onArticalLoaded(ArrayList<Artical> list) {
+            public void onArticalLoaded(ArrayList<String> list) {
                 callback.onArticalLoaded(list);
             }
 
