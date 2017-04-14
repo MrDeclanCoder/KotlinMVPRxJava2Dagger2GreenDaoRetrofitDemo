@@ -7,4 +7,7 @@ package com.dch.test.base;
  */
 public interface BaseView<T> {
     void setPresenter(T presenter);
+    void showLoading();
+    void hideLoading();
+    void showError(String error);
 }
