@@ -1,7 +1,6 @@
 package com.dch.test.contract.presenter;
 
 import com.dch.test.contract.HomeContract;
-import com.dch.test.repository.Artical;
 import com.dch.test.repository.ArticalDataSource;
 import com.dch.test.repository.ArticalRepository;
 

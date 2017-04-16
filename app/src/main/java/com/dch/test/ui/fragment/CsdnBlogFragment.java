@@ -1,8 +1,9 @@
 package com.dch.test.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +13,15 @@ import android.widget.TextView;
 import com.dch.test.Injection;
 import com.dch.test.R;
 import com.dch.test.base.BaseFragment;
+import com.dch.test.base.adapter.ListBaseAdapter;
+import com.dch.test.base.adapter.SuperViewHolder;
 import com.dch.test.contract.HomeContract;
 import com.dch.test.contract.presenter.HomePresenter;
+import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
+import com.github.jdsjlzx.interfaces.OnRefreshListener;
+import com.github.jdsjlzx.recyclerview.LRecyclerView;
+import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
+import com.github.jdsjlzx.recyclerview.ProgressStyle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,15 +34,16 @@ import butterknife.ButterKnife;
  * 描述：
  * 邮箱：daichuanhao@caijinquan.com
  */
-public class CsdnBlogFragment extends BaseFragment implements HomeContract.HomeView {
-    private MyAdapter myAdapter;
+public class CsdnBlogFragment extends BaseFragment implements HomeContract.HomeView,OnRefreshListener,OnLoadMoreListener {
     private HomePresenter presenter;
     private boolean loadMore = false;
     private List<String> mData = new ArrayList<>();
     @BindView(R.id.recyclerview)
-    RecyclerView mRecyclerView;
+    LRecyclerView mRecyclerView;
     @BindView(R.id.swiperefreshlayout_tab1)
     SwipeRefreshLayout swipeRefreshLayout;
+    private LRecyclerViewAdapter lRecyclerViewAdapter;
+    private DataAdapter<String> mDataAdapter;
 
     public static CsdnBlogFragment newInstance() {
         return new CsdnBlogFragment();
@@ -51,7 +60,13 @@ public class CsdnBlogFragment extends BaseFragment implements HomeContract.HomeV
     }
 
     private void initView() {
-        mRecyclerView.setLayoutManager(new GridLayoutManager(activity, 2));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        mDataAdapter = new DataAdapter<String>(activity);
+        mDataAdapter.setDataList(mData);
+        lRecyclerViewAdapter = new LRecyclerViewAdapter(mDataAdapter);
+        mRecyclerView.setAdapter(lRecyclerViewAdapter);
+        mRecyclerView.setRefreshProgressStyle(ProgressStyle.BallBeat);
+        mRecyclerView.setOnRefreshListener(this);
     }
 
 
@@ -78,51 +93,43 @@ public class CsdnBlogFragment extends BaseFragment implements HomeContract.HomeV
     @Override
     public void showArticalList(ArrayList<String> list) {
         if (loadMore) {
-            mData.addAll(list);
-        } else {
             mData = list;
-        }
-        if (myAdapter != null) {
-            myAdapter.notifyDataSetChanged();
+            mDataAdapter.addAll(mData);
         } else {
-            myAdapter = new MyAdapter(mData);
-            mRecyclerView.setAdapter(myAdapter);
+            mDataAdapter.clear();
+            mData.clear();
+            mData = list;
+            mDataAdapter.setDataList(mData);
         }
-//        swipeRefreshLayout.setRefreshing(false);
+        lRecyclerViewAdapter.notifyDataSetChanged();
+        mRecyclerView.refreshComplete(mDataAdapter.getItemCount());
     }
 
-
-    class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
-
-        private List<String> data;
-
-        public MyAdapter(List<String> list) {
-            this.data = list;
-        }
-
-        @Override
-        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new MyViewHolder(View.inflate(parent.getContext(), R.layout.item_recycler, null));
-        }
-
-        @Override
-        public void onBindViewHolder(MyViewHolder holder, int position) {
-            holder.mTextView.setText(data.get(position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return data.size();
-        }
+    @Override
+    public void onRefresh() {
+        presenter.getArticalsData();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void onLoadMore() {
+        presenter.getArticalsData();
+    }
+    class DataAdapter<String> extends ListBaseAdapter<String>{
 
-        private final TextView mTextView;
 
-        public MyViewHolder(View itemView) {
-            super(itemView);
-            mTextView = ((TextView) itemView.findViewById(R.id.tv_item_title));
+        public DataAdapter(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected int getLayoutId() {
+            return R.layout.item_recycler;
+        }
+
+        @Override
+        protected void onBindItemHolder(SuperViewHolder holder, int position) {
+            TextView textView = holder.getView(R.id.tv_item_title);
+            textView.setText(mDataList.get(position).toString());
         }
     }
 }
