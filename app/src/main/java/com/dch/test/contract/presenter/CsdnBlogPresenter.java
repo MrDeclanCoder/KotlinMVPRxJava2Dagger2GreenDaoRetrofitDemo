@@ -1,6 +1,6 @@
 package com.dch.test.contract.presenter;
 
-import com.dch.test.contract.HomeContract;
+import com.dch.test.contract.CsdnBlogContract;
 import com.dch.test.repository.ArticalDataSource;
 import com.dch.test.repository.ArticalRepository;
 
@@ -13,11 +13,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * 描述：
  * 邮箱：daichuanhao@caijinquan.com
  */
-public class HomePresenter implements HomeContract.Presenter {
-    private final HomeContract.HomeView homeView;
+public class CsdnBlogPresenter implements CsdnBlogContract.Presenter {
+    private final CsdnBlogContract.CsdnBlogView homeView;
     private final ArticalRepository mArticalRepository;
 
-    public HomePresenter(HomeContract.HomeView view, ArticalRepository articalRepository) {
+    public CsdnBlogPresenter(CsdnBlogContract.CsdnBlogView view, ArticalRepository articalRepository) {
         homeView = checkNotNull(view, "view不能为空");
         mArticalRepository = checkNotNull(articalRepository, "articalRepository不能为空");
         homeView.setPresenter(this);

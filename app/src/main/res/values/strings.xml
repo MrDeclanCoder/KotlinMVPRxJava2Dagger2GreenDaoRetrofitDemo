@@ -9,4 +9,6 @@
     <string name="title_activity_test">TestActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="fragment_text">fragment</string>
+    <string name="internet_error">网络错误</string>
+    <string name="transitionName">transitionName</string>
 </resources>

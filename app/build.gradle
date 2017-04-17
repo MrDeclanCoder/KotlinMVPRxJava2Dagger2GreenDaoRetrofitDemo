@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.dch.test"
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -15,6 +15,7 @@ android {
         // Enabling multidex support.
         multiDexEnabled true
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -61,4 +62,5 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-jackson:2.2.0'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.github.jdsjlzx:LRecyclerView:1.4.1'
+    compile 'com.github.qdxxxx:BezierViewPager:v1.0.2'
 }

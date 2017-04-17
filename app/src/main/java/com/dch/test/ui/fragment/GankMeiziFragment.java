@@ -32,17 +32,17 @@ import butterknife.ButterKnife;
  * 描述：
  * 邮箱：daichuanhao@caijinquan.com
  */
-public class CsdnBlogFragment extends BaseFragment implements CsdnBlogContract.CsdnBlogView, OnRefreshListener, OnLoadMoreListener {
-    private boolean loadMore = false;
+public class GankMeiziFragment extends BaseFragment implements CsdnBlogContract.CsdnBlogView, OnRefreshListener, OnLoadMoreListener {
     private CsdnBlogPresenter presenter;
+    private boolean loadMore = false;
     private List<String> mData = new ArrayList<>();
-    private LRecyclerViewAdapter lRecyclerViewAdapter;
-    private DataAdapter<String> mDataAdapter;
     @BindView(R.id.recyclerview)
     LRecyclerView mRecyclerView;
+    private LRecyclerViewAdapter lRecyclerViewAdapter;
+    private DataAdapter<String> mDataAdapter;
 
-    public static CsdnBlogFragment newInstance() {
-        return new CsdnBlogFragment();
+    public static GankMeiziFragment newInstance() {
+        return new GankMeiziFragment();
     }
 
     @Override
@@ -57,11 +57,11 @@ public class CsdnBlogFragment extends BaseFragment implements CsdnBlogContract.C
 
     private void initView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
-        mDataAdapter = new DataAdapter<>(activity);
+        mDataAdapter = new DataAdapter<String>(activity);
         mDataAdapter.setDataList(mData);
         lRecyclerViewAdapter = new LRecyclerViewAdapter(mDataAdapter);
         mRecyclerView.setAdapter(lRecyclerViewAdapter);
-        mRecyclerView.setRefreshProgressStyle(ProgressStyle.BallBeat);
+        mRecyclerView.setRefreshProgressStyle(ProgressStyle.Pacman);
         mRecyclerView.setOnRefreshListener(this);
     }
 

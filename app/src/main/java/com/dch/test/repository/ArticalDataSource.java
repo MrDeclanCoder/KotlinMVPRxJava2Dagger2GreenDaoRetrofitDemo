@@ -2,6 +2,8 @@ package com.dch.test.repository;
 
 import android.support.annotation.NonNull;
 
+import com.dch.test.repository.entity.GankEntity;
+
 import java.util.ArrayList;
 
 /**
@@ -16,5 +18,14 @@ public interface ArticalDataSource {
         void onDataNotAvailable();
     }
 
+    interface GankCallback {
+        void onGankdataLoaded(GankEntity entity);
+        void onDataNotAvailable(Throwable throwable);
+    }
+
     void getArticalsData(@NonNull LoadArticalCallback callback);
+
+    void getMeiziData(@NonNull GankCallback callback);
+
+    void getAndroidData(@NonNull GankCallback callback);
 }

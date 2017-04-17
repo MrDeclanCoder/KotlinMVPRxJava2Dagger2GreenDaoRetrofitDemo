@@ -21,6 +21,8 @@ import com.dch.test.R;
 import com.dch.test.base.BaseActivity;
 import com.dch.test.base.BaseFragment;
 import com.dch.test.ui.fragment.CsdnBlogFragment;
+import com.dch.test.ui.fragment.GankAndroidFragment;
+import com.dch.test.ui.fragment.GankMeiziFragment;
 import com.dch.test.util.RxBus;
 
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ public class HomeActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private List<BaseFragment> mFragmentList = new ArrayList<>();
-    private String[] titles = {"博客","妹纸","其他"};
+    private String[] titles = {"Android", "妹纸", "博客"};
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.fab)
@@ -80,9 +82,10 @@ public class HomeActivity extends BaseActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        for (int i = 0; i < 3; i++) {
-            mFragmentList.add(CsdnBlogFragment.newInstance());
-        }
+        mFragmentList.add(GankAndroidFragment.newInstance());
+        mFragmentList.add(GankMeiziFragment.newInstance());
+        mFragmentList.add(CsdnBlogFragment.newInstance());
+
         RxBus.getInstance().registSubject(new RxBus.CallBack<String>() {
             @Override
             public void onNext(String s) {

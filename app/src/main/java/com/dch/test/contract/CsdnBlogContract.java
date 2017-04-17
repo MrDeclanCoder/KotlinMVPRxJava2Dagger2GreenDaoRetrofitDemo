@@ -2,7 +2,7 @@ package com.dch.test.contract;
 
 import com.dch.test.base.BasePresenter;
 import com.dch.test.base.BaseView;
-import com.dch.test.contract.presenter.HomePresenter;
+import com.dch.test.contract.presenter.CsdnBlogPresenter;
 
 import java.util.ArrayList;
 
@@ -11,9 +11,9 @@ import java.util.ArrayList;
  * 描述：
  * 邮箱：daichuanhao@caijinquan.com
  */
-public interface HomeContract {
+public interface CsdnBlogContract {
 
-    interface HomeView extends BaseView<HomePresenter> {
+    interface CsdnBlogView extends BaseView<CsdnBlogPresenter> {
 
         void showArticalList(ArrayList<String> list);
 

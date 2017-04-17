@@ -4,23 +4,22 @@ import android.support.annotation.NonNull;
 
 import com.dch.test.manager.RetrofitManager;
 import com.dch.test.repository.ArticalDataSource;
+import com.dch.test.repository.entity.GankEntity;
+import com.dch.test.repository.remote.apistores.GankApiService;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
@@ -43,9 +42,12 @@ public class ArticalRemoteDataSource implements ArticalDataSource {
     private ArticalRemoteDataSource() {
     }
 
+
+
+
     @Override
     public void getArticalsData(@NonNull LoadArticalCallback callback) {
-        RetrofitManager.getInstance().createApiService()
+        RetrofitManager.getInstance().createCsdnApiService()
                 .getArticalList()
                 .subscribeOn(Schedulers.io())
                 .map(new Function<String, List<String>>() {
@@ -74,6 +76,73 @@ public class ArticalRemoteDataSource implements ArticalDataSource {
                     public void onComplete() {
                     }
                 });
+    }
+
+    @Override
+    public void getMeiziData(@NonNull GankCallback callback) {
+        RetrofitManager.getInstance()
+                .createGankApiService()
+                .getDailyMeiziData()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GankEntity>() {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        s.request(Long.MAX_VALUE);
+                    }
+
+                    @Override
+                    public void onNext(GankEntity gankEntity) {
+                        callback.onGankdataLoaded(gankEntity);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        callback.onDataNotAvailable(t);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    @Override
+    public void getAndroidData(@NonNull GankCallback callback) {
+        RetrofitManager.getInstance()
+                .createGankApiService()
+                .getDailyAndroidData("Android",20,1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GankEntity>() {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        s.request(Long.MAX_VALUE);
+                    }
+
+                    @Override
+                    public void onNext(GankEntity entity) {
+                        for (GankEntity.Data data : entity.results){
+                            System.out.println(data._id);
+                            System.out.println(data.createdAt);
+                            System.out.println(data.desc);
+                        }
+                        callback.onGankdataLoaded(entity);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        System.out.println("getAndroidData--"+t.getMessage());
+                        callback.onDataNotAvailable(t);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
     }
 
     private List<String> parseData(String html) {

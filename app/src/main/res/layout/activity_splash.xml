@@ -7,10 +7,10 @@
 
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imageView_splash"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorAccent"
+        android:background="@drawable/guide4"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

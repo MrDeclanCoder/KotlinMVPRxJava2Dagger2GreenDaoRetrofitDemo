@@ -1,7 +1,7 @@
-package com.dch.test.repository.remote;
+package com.dch.test.repository.remote.apistores;
 
-import com.dch.test.repository.BaseEntity;
-import com.dch.test.repository.User;
+import com.dch.test.repository.entity.BaseEntity;
+import com.dch.test.repository.entity.User;
 
 import java.util.Map;
 
@@ -16,7 +16,7 @@ import retrofit2.http.POST;
  * 描述：
  * 邮箱：daichuanhao@caijinquan.com
  */
-public interface ApiService {
+public interface CsdnApiService {
     public String base_url = "http://blog.csdn.net";
     public String list_url = "/coderder";
 
@@ -25,6 +25,6 @@ public interface ApiService {
     Observable<BaseEntity<User>> getUser(@FieldMap Map<String, String> map);
 
 
-    @GET(ApiService.list_url)
+    @GET(CsdnApiService.list_url)
     Observable<String> getArticalList();
 }

@@ -1,4 +1,4 @@
-package com.dch.test.repository;
+package com.dch.test.repository.entity;
 
 /**
  * 作者：Dch on 2017/4/12 10:52

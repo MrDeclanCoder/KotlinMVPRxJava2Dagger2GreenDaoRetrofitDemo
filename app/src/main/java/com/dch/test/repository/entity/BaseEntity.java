@@ -1,4 +1,4 @@
-package com.dch.test.repository;
+package com.dch.test.repository.entity;
 
 import java.io.Serializable;
 

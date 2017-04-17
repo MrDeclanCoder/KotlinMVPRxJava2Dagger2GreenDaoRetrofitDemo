@@ -17,4 +17,12 @@ public class Injection {
     public static ArticalRepository provideArticalRepository(@NonNull Context context){
         return ArticalRepository.getInstance(ArticalLocalDataSource.getInstance(context), ArticalRemoteDataSource.getInstance());
     }
+
+    public static ArticalRepository provideAndroidRepository(@NonNull Context context){
+        return ArticalRepository.getInstance(ArticalLocalDataSource.getInstance(context), ArticalRemoteDataSource.getInstance());
+    }
+
+    public static ArticalRepository provideMeiziRepository(@NonNull Context context){
+        return ArticalRepository.getInstance(ArticalLocalDataSource.getInstance(context), ArticalRemoteDataSource.getInstance());
+    }
 }

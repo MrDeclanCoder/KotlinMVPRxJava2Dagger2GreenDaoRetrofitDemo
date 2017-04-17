@@ -2,6 +2,8 @@ package com.dch.test.repository;
 
 import android.support.annotation.NonNull;
 
+import com.dch.test.repository.entity.GankEntity;
+
 import java.util.ArrayList;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -36,9 +38,9 @@ public class ArticalRepository implements ArticalDataSource {
         checkNotNull(callback);
 
         //先从数据库判断缓存是否存在...
-        /*articalLocalDataSource.getArticalsData(new LoadArticalCallback() {
+        /*articalLocalDataSource.getAndroidData(new LoadArticalCallback() {
             @Override
-            public void onArticalLoaded(ArrayList<Artical> list) {
+            public void onGankdataLoaded(ArrayList<Artical> list) {
 
             }
 
@@ -49,6 +51,74 @@ public class ArticalRepository implements ArticalDataSource {
         });*/
         //数据库缓存没有或者过期则从远程(网络)获取
         getArticalDataFromRemote(callback);
+    }
+
+    @Override
+    public void getMeiziData(@NonNull GankCallback callback) {
+        checkNotNull(callback);
+
+        //先从数据库判断缓存是否存在...
+        /*articalLocalDataSource.getAndroidData(new LoadArticalCallback() {
+            @Override
+            public void onGankdataLoaded(ArrayList<Artical> list) {
+
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+        });*/
+        //数据库缓存没有或者过期则从远程(网络)获取
+        getMeiziDataFromRemote(callback);
+    }
+
+    @Override
+    public void getAndroidData(@NonNull GankCallback callback) {
+        checkNotNull(callback);
+
+        //先从数据库判断缓存是否存在...
+        /*articalLocalDataSource.getAndroidData(new LoadArticalCallback() {
+            @Override
+            public void onGankdataLoaded(ArrayList<Artical> list) {
+
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+        });*/
+        //数据库缓存没有或者过期则从远程(网络)获取
+        getAndroidDataFromRemote(callback);
+    }
+
+    private void getAndroidDataFromRemote(GankCallback callback) {
+        articalRemoteDataSource.getAndroidData(new GankCallback() {
+            @Override
+            public void onGankdataLoaded(GankEntity entity) {
+                callback.onGankdataLoaded(entity);
+            }
+
+            @Override
+            public void onDataNotAvailable(Throwable throwable) {
+                callback.onDataNotAvailable(throwable);
+            }
+        });
+    }
+
+    private void getMeiziDataFromRemote(GankCallback callback) {
+        articalRemoteDataSource.getMeiziData(new GankCallback() {
+            @Override
+            public void onGankdataLoaded(GankEntity entity) {
+                callback.onGankdataLoaded(entity);
+            }
+
+            @Override
+            public void onDataNotAvailable(Throwable throwable) {
+                callback.onDataNotAvailable(throwable);
+            }
+        });
     }
 
     private void getArticalDataFromRemote(final LoadArticalCallback callback) {

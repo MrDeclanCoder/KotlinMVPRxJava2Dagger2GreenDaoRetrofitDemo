@@ -31,4 +31,14 @@ public class ArticalLocalDataSource implements ArticalDataSource {
     public void getArticalsData(@NonNull LoadArticalCallback callback) {
 
     }
+
+    @Override
+    public void getMeiziData(@NonNull GankCallback callback) {
+
+    }
+
+    @Override
+    public void getAndroidData(@NonNull GankCallback callback) {
+
+    }
 }
