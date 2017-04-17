@@ -164,7 +164,7 @@ public class GankAndroidFragment extends BaseFragment implements AndroidContract
             textViewContent.setText(data.desc);
             try {
                 ImageView imageView = holder.getView(R.id.iv_item_gank);
-                Glide.with(activity).load(R.drawable.guide1).placeholder(R.mipmap.ic_launcher).into(imageView);
+                Glide.with(activity).load(data.images[position]).placeholder(R.mipmap.ic_launcher).into(imageView);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         style="@style/MaterialAnimations"
         android:src="@drawable/guide4"
+        android:scaleType="centerCrop"
         android:transitionName="@string/transitionName"
-        android:layout_height="wrap_content" />
+        android:layout_height="200dp" />
 
 </LinearLayout>
