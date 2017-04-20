@@ -1,6 +1,8 @@
-package com.dch.test.di;
+package com.dch.test.di.activity;
 
 import android.support.v7.app.AppCompatActivity;
+
+import com.dch.test.di.scope.ActivityScope;
 
 import dagger.Module;
 import dagger.Provides;

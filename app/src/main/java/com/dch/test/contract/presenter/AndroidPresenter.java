@@ -1,10 +1,7 @@
 package com.dch.test.contract.presenter;
 
-import android.support.v7.app.AppCompatActivity;
-
-import com.dch.test.base.BaseView;
 import com.dch.test.contract.AndroidContract;
-import com.dch.test.di.ActivityScope;
+import com.dch.test.di.scope.ActivityScope;
 import com.dch.test.repository.ArticalDataSource;
 import com.dch.test.repository.ArticalRepository;
 import com.dch.test.repository.entity.GankEntity;

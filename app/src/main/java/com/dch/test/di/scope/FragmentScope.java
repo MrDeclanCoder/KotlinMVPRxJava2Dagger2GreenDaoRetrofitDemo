@@ -1,4 +1,4 @@
-package com.dch.test.di;
+package com.dch.test.di.scope;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -12,4 +12,4 @@ import javax.inject.Scope;
  */
 @Scope
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ActivityScope {}
+public @interface FragmentScope {}

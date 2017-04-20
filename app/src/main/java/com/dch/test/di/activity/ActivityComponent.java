@@ -1,8 +1,10 @@
-package com.dch.test.di;
+package com.dch.test.di.activity;
 
 import android.support.v7.app.AppCompatActivity;
 
 import com.dch.test.base.BaseActivity;
+import com.dch.test.di.app.AppComponent;
+import com.dch.test.di.scope.ActivityScope;
 import com.dch.test.ui.DetailActivity;
 import com.dch.test.ui.GuideActivity;
 import com.dch.test.ui.HomeActivity;

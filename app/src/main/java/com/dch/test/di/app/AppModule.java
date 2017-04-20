@@ -1,4 +1,4 @@
-package com.dch.test.di;
+package com.dch.test.di.app;
 
 import android.content.Context;
 

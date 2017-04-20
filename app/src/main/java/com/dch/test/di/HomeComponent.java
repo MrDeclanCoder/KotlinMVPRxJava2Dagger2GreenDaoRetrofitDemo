@@ -2,6 +2,10 @@ package com.dch.test.di;
 
 import android.support.v4.app.Fragment;
 
+import com.dch.test.di.activity.ActivityModule;
+import com.dch.test.di.app.AppComponent;
+import com.dch.test.di.scope.FragmentScope;
+
 import dagger.Component;
 
 /**
@@ -9,11 +13,9 @@ import dagger.Component;
  * 描述：
  * 邮箱：daichuanhao@caijinquan.com
  */
-@ActivityScope
-@Component(dependencies = AppComponent.class, modules = {HomeModule.class, ActivityModule.class})
+@FragmentScope
+@Component(dependencies = AppComponent.class, modules = {HomePresenterModule.class, ActivityModule.class})
 public interface HomeComponent {
-
-    Fragment fragment();
 
     void inject(Fragment fragment);
 

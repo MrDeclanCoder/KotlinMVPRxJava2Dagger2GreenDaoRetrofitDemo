@@ -4,10 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.dch.test.di.ActivityComponent;
-import com.dch.test.di.ActivityModule;
-import com.dch.test.di.AppComponent;
-import com.dch.test.di.AppModule;
+import com.dch.test.di.activity.ActivityComponent;
+import com.dch.test.di.activity.ActivityModule;
+import com.dch.test.di.app.AppComponent;
+import com.dch.test.di.app.AppModule;
 import com.dch.test.di.DaggerActivityComponent;
 import com.dch.test.di.DaggerAppComponent;
 
