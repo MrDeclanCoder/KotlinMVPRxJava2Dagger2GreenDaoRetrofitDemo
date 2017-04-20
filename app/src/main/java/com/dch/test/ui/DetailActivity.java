@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.dch.test.R;
 import com.dch.test.base.BaseActivity;
+import com.dch.test.util.StatusBarUtils;
 
 import butterknife.BindView;
 
@@ -24,8 +25,9 @@ public class DetailActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        StatusBarUtils.setImage(this);
         String url = getIntent().getStringExtra("url");
-        Glide.with(this).load(url).into(iv_gank_detail);
+        Glide.with(this).load(url).placeholder(R.drawable.guide4).into(iv_gank_detail);
     }
 
     @Override
