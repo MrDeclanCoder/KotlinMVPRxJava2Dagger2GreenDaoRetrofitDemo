@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import okhttp3.Cache;
 import okhttp3.CacheControl;
 import okhttp3.Interceptor;
@@ -38,6 +40,7 @@ public class RetrofitManager {
     private OkHttpClient sOkHttpClient;
     private static RetrofitManager mRetrofitManager;
 
+    @Inject
     private RetrofitManager() {
         initRetrofit();
         initJacksonRetrofit();
