@@ -44,6 +44,7 @@ public abstract class BaseFragment extends Fragment {
         return rootView;
     }
 
+
     protected abstract View initRootView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
     @Override

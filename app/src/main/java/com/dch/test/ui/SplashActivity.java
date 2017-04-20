@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Handler;
 import android.transition.Explode;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,7 +20,9 @@ import butterknife.BindView;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 
 /**
  * 作者：Dch on 2017/4/10 18:37
@@ -35,10 +38,13 @@ public class SplashActivity extends BaseActivity {
     TextView textView2;
 
     private Handler handler;
-    Runnable runnable = () -> {
-        setupWindowAnimations();
-        startActivity(new Intent(SplashActivity.this, GuideActivity.class));
-        finish();
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            setupWindowAnimations();
+            startActivity(new Intent(SplashActivity.this, GuideActivity.class));
+            finish();
+        }
     };
 
     @Override
@@ -65,19 +71,18 @@ public class SplashActivity extends BaseActivity {
         animatorSet.play(alpha).with(scaleX).with(scaleY);
         animatorSet.start();
 
-        long count = 3;
+        final long count = 3;
         Observable.interval(1, 1, TimeUnit.SECONDS)
                 .take(count + 1)
-                .map((Long i) -> count - i)
-//                .map(new Function<Long, Long>() {
-//                    @Override
-//                    public Long apply(@NonNull Long i) throws Exception {
-//                        return count - i;
-//                    }
-//                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> {
+                .map(new Function<Long, Long>() {
+                    @Override
+                    public Long apply(@NonNull Long i) throws Exception {
+                        return count - i;
+                    }
                 })
+                .observeOn(AndroidSchedulers.mainThread())
+//                .doOnSubscribe(disposable -> {
+//                })
                 .subscribe(new Observer<Long>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -96,11 +101,14 @@ public class SplashActivity extends BaseActivity {
                     @Override
                     public void onComplete() {
                         textView2.setText("跳过");
-                        textView2.setOnClickListener(view -> {
-                            handler.removeCallbacks(runnable);
-                            setupWindowAnimations();
-                            startActivity(new Intent(SplashActivity.this, GuideActivity.class));
-                            finish();
+                        textView2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                handler.removeCallbacks(runnable);
+                                setupWindowAnimations();
+                                startActivity(new Intent(SplashActivity.this, GuideActivity.class));
+                                finish();
+                            }
                         });
                     }
                 });

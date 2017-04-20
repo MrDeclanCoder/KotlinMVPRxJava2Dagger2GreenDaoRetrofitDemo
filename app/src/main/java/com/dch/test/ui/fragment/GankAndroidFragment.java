@@ -33,6 +33,8 @@ import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -43,10 +45,12 @@ import butterknife.ButterKnife;
  */
 public class GankAndroidFragment extends BaseFragment implements AndroidContract.AndroidView, OnRefreshListener, OnLoadMoreListener {
     private boolean loadMore = false;
-    private AndroidPresenter presenter;
     private List<GankEntity.Data> mData = new ArrayList<>();
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private DataAdapter<GankEntity.Data> mDataAdapter;
+
+    @Inject
+    AndroidPresenter presenter;
 
     @BindView(R.id.recyclerview)
     LRecyclerView mRecyclerView;
@@ -59,8 +63,7 @@ public class GankAndroidFragment extends BaseFragment implements AndroidContract
     protected View initRootView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_tab1, null);
         ButterKnife.bind(this, rootView);
-        presenter = new AndroidPresenter(this, Injection.provideAndroidRepository(activity));
-//        presenter.start();
+//        presenter = new AndroidPresenter(this, Injection.provideAndroidRepository(activity));
         initView();
         return rootView;
     }
@@ -82,7 +85,6 @@ public class GankAndroidFragment extends BaseFragment implements AndroidContract
                 i.putExtra("url",mData.get(position).images[0]);
                 View sharedView = view.findViewById(R.id.iv_item_gank);
                 String transitionName = getString(R.string.transitionName);
-
                 ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, transitionName);
                 startActivity(i, transitionActivityOptions.toBundle());
             }

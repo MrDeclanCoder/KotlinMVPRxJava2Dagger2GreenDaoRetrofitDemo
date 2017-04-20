@@ -2,6 +2,8 @@ package com.dch.test.base;
 
 import android.support.multidex.MultiDexApplication;
 
+import com.dch.test.di.AppComponent;
+
 /**
  * 作者：${User} on 2017/4/10 16:41
  * 描述：
@@ -15,4 +17,6 @@ public class BaseApplication extends MultiDexApplication {
         super.onCreate();
         application = this;
     }
+
+
 }

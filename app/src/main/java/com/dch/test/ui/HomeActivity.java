@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.dch.test.R;
 import com.dch.test.base.BaseActivity;
 import com.dch.test.base.BaseFragment;
+import com.dch.test.contract.presenter.AndroidPresenter;
 import com.dch.test.ui.fragment.CsdnBlogFragment;
 import com.dch.test.ui.fragment.GankAndroidFragment;
 import com.dch.test.ui.fragment.GankMeiziFragment;
@@ -27,6 +28,8 @@ import com.dch.test.util.RxBus;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 

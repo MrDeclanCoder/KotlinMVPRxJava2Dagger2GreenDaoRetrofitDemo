@@ -39,7 +39,7 @@ public class RxBus<T> {
     }
 
     //主线程接收消息
-    public void registSubject(CallBack<T> callBack) {
+    public void registSubject(final CallBack<T> callBack) {
         flowable.observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<T>() {
                     @Override

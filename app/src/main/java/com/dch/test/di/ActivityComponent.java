@@ -2,6 +2,7 @@ package com.dch.test.di;
 
 import android.support.v7.app.AppCompatActivity;
 
+import com.dch.test.base.BaseActivity;
 import com.dch.test.ui.DetailActivity;
 import com.dch.test.ui.GuideActivity;
 import com.dch.test.ui.HomeActivity;
@@ -19,6 +20,8 @@ import dagger.Component;
 public interface ActivityComponent {
 
     AppCompatActivity activity();
+
+    void inject(BaseActivity baseActivity);
 
     void inject(HomeActivity homeActivity);
 

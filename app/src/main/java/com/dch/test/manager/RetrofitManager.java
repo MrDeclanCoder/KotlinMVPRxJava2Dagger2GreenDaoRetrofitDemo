@@ -41,7 +41,7 @@ public class RetrofitManager {
     private static RetrofitManager mRetrofitManager;
 
     @Inject
-    private RetrofitManager() {
+    public RetrofitManager() {
         initRetrofit();
         initJacksonRetrofit();
     }
