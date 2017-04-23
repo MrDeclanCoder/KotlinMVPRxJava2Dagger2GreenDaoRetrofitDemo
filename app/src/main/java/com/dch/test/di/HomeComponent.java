@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import com.dch.test.di.activity.ActivityModule;
 import com.dch.test.di.app.AppComponent;
 import com.dch.test.di.scope.FragmentScope;
+import com.dch.test.repository.ArticalRepository;
+import com.dch.test.repository.HomeRepositoryComponent;
 
 import dagger.Component;
 
@@ -14,7 +16,7 @@ import dagger.Component;
  * 邮箱：daichuanhao@caijinquan.com
  */
 @FragmentScope
-@Component(dependencies = AppComponent.class, modules = {HomePresenterModule.class, ActivityModule.class})
+@Component(dependencies = HomeRepositoryComponent.class, modules = {HomePresenterModule.class, ActivityModule.class})
 public interface HomeComponent {
 
     void inject(Fragment fragment);

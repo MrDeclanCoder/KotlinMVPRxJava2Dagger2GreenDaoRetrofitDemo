@@ -10,13 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.dch.test.Injection;
 import com.dch.test.R;
 import com.dch.test.base.BaseFragment;
 import com.dch.test.base.adapter.ListBaseAdapter;
 import com.dch.test.base.adapter.SuperViewHolder;
-import com.dch.test.contract.AndroidContract;
-import com.dch.test.contract.presenter.AndroidPresenter;
+import com.dch.test.contract.HomeContract;
+import com.dch.test.contract.presenter.HomePresenter;
 import com.dch.test.repository.entity.GankEntity;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
@@ -27,6 +26,8 @@ import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -35,13 +36,14 @@ import butterknife.ButterKnife;
  * 描述：
  * 邮箱：daichuanhao@caijinquan.com
  */
-public class GankMeiziFragment extends BaseFragment implements AndroidContract.AndroidView, OnRefreshListener, OnLoadMoreListener {
+public class GankMeiziFragment extends BaseFragment implements OnRefreshListener, OnLoadMoreListener {
 
     private boolean loadMore = false;
-    private AndroidPresenter presenter;
     private List<GankEntity.Data> mData = new ArrayList<>();
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private DataAdapter<GankEntity.Data> mDataAdapter;
+    private HomeContract.Presenter presenter;
+
     @BindView(R.id.recyclerview)
     LRecyclerView mRecyclerView;
 
@@ -53,8 +55,6 @@ public class GankMeiziFragment extends BaseFragment implements AndroidContract.A
     protected View initRootView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_tab1, null);
         ButterKnife.bind(this, rootView);
-        presenter = new AndroidPresenter(this, Injection.provideAndroidRepository(activity));
-        presenter.start();
         initView();
         return rootView;
     }
@@ -71,7 +71,7 @@ public class GankMeiziFragment extends BaseFragment implements AndroidContract.A
 
 
     @Override
-    public void setPresenter(AndroidPresenter presenter) {
+    public void setPresenter(HomeContract.Presenter presenter) {
         this.presenter = presenter;
     }
 
@@ -91,7 +91,7 @@ public class GankMeiziFragment extends BaseFragment implements AndroidContract.A
     }
 
     @Override
-    public void showAndroidDailyList(GankEntity gankEntity) {
+    public void showDailyList(GankEntity gankEntity) {
         if (loadMore) {
             mData = gankEntity.results;
             mDataAdapter.addAll(gankEntity.results);

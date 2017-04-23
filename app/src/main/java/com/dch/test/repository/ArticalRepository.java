@@ -3,8 +3,12 @@ package com.dch.test.repository;
 import android.support.annotation.NonNull;
 
 import com.dch.test.repository.entity.GankEntity;
+import com.dch.test.repository.remote.Local;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -12,16 +16,17 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * 作者：Dch on 2017/4/10 17:23
  * 描述：
- * 邮箱：daichuanhao@caijinquan.com
- */
+ * 邮箱：daichuanhao@caijinquan.com*/
+@Singleton
 public class ArticalRepository implements ArticalDataSource {
 
     private static ArticalRepository INSTANCE;
     private ArticalDataSource articalLocalDataSource;
     private ArticalDataSource articalRemoteDataSource;
 
-    private ArticalRepository(@NonNull ArticalDataSource articalLocalDataSource,
-                              @NonNull ArticalDataSource articalRemoteDataSource) {
+    @Inject
+    public ArticalRepository(@Local ArticalDataSource articalLocalDataSource,
+                              @Remote ArticalDataSource articalRemoteDataSource) {
         this.articalLocalDataSource = checkNotNull(articalLocalDataSource);
         this.articalRemoteDataSource = checkNotNull(articalRemoteDataSource);
     }
@@ -93,7 +98,7 @@ public class ArticalRepository implements ArticalDataSource {
         getAndroidDataFromRemote(callback);
     }
 
-    private void getAndroidDataFromRemote(GankCallback callback) {
+    private void getAndroidDataFromRemote(final GankCallback callback) {
         articalRemoteDataSource.getAndroidData(new GankCallback() {
             @Override
             public void onGankdataLoaded(GankEntity entity) {
@@ -107,7 +112,7 @@ public class ArticalRepository implements ArticalDataSource {
         });
     }
 
-    private void getMeiziDataFromRemote(GankCallback callback) {
+    private void getMeiziDataFromRemote(final GankCallback callback) {
         articalRemoteDataSource.getMeiziData(new GankCallback() {
             @Override
             public void onGankdataLoaded(GankEntity entity) {

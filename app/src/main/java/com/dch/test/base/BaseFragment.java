@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.dch.test.contract.HomeContract;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -16,7 +18,7 @@ import butterknife.Unbinder;
  * 描述：
  * 邮箱：daichuanhao@caijinquan.com
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements HomeContract.View{
 
     protected AppCompatActivity activity;
     protected View rootView;

@@ -8,13 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.dch.test.Injection;
 import com.dch.test.R;
 import com.dch.test.base.BaseFragment;
 import com.dch.test.base.adapter.ListBaseAdapter;
 import com.dch.test.base.adapter.SuperViewHolder;
-import com.dch.test.contract.CsdnBlogContract;
-import com.dch.test.contract.presenter.CsdnBlogPresenter;
+import com.dch.test.contract.HomeContract;
+import com.dch.test.repository.entity.GankEntity;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
@@ -24,6 +23,8 @@ import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -32,12 +33,13 @@ import butterknife.ButterKnife;
  * 描述：
  * 邮箱：daichuanhao@caijinquan.com
  */
-public class CsdnBlogFragment extends BaseFragment implements CsdnBlogContract.CsdnBlogView, OnRefreshListener, OnLoadMoreListener {
+public class CsdnBlogFragment extends BaseFragment implements OnRefreshListener, OnLoadMoreListener {
     private boolean loadMore = false;
-    private CsdnBlogPresenter presenter;
     private List<String> mData = new ArrayList<>();
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private DataAdapter<String> mDataAdapter;
+    private HomeContract.Presenter presenter;
+
     @BindView(R.id.recyclerview)
     LRecyclerView mRecyclerView;
 
@@ -49,8 +51,6 @@ public class CsdnBlogFragment extends BaseFragment implements CsdnBlogContract.C
     protected View initRootView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_tab1, null);
         ButterKnife.bind(this, rootView);
-        presenter = new CsdnBlogPresenter(this, Injection.provideArticalRepository(activity));
-        presenter.start();
         initView();
         return rootView;
     }
@@ -65,9 +65,8 @@ public class CsdnBlogFragment extends BaseFragment implements CsdnBlogContract.C
         mRecyclerView.setOnRefreshListener(this);
     }
 
-
     @Override
-    public void setPresenter(CsdnBlogPresenter presenter) {
+    public void setPresenter(HomeContract.Presenter presenter) {
         this.presenter = presenter;
     }
 
@@ -87,28 +86,31 @@ public class CsdnBlogFragment extends BaseFragment implements CsdnBlogContract.C
     }
 
     @Override
-    public void showArticalList(ArrayList<String> list) {
-        if (loadMore) {
-            mData = list;
-            mDataAdapter.addAll(mData);
-        } else {
-            mDataAdapter.clear();
-            mData.clear();
-            mData = list;
-            mDataAdapter.setDataList(mData);
-        }
+    public void showDailyList(GankEntity gankEntity) {
+//        if (loadMore) {
+//            mData = gankEntity.results;
+//            mDataAdapter.addAll(gankEntity.results);
+//        } else {
+//            mDataAdapter.clear();
+//            mData.clear();
+//            mData = gankEntity.results;
+//            mDataAdapter.setDataList(mData);
+//        }
         lRecyclerViewAdapter.notifyDataSetChanged();
         mRecyclerView.refreshComplete(mDataAdapter.getItemCount());
     }
 
     @Override
-    public void onRefresh() {
-        presenter.getArticalsData();
+    public void showError(Throwable throwable) {
     }
 
     @Override
+    public void onRefresh() {
+        loadMore = false;
+    }
+    @Override
     public void onLoadMore() {
-        presenter.getArticalsData();
+//        presenter.getArticalsData();
     }
 
     private class DataAdapter<String> extends ListBaseAdapter<String> {
