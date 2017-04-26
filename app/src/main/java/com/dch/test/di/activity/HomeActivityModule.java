@@ -13,11 +13,11 @@ import dagger.Provides;
  * 邮箱：daichuanhao@caijinquan.com
  */
 @Module
-public class ActivityModule {
+public class HomeActivityModule {
 
     private final AppCompatActivity activity;
 
-    public ActivityModule(AppCompatActivity activity){
+    public HomeActivityModule(AppCompatActivity activity){
         this.activity = activity;
     }
 

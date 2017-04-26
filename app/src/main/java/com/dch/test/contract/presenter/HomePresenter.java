@@ -19,19 +19,23 @@ public class HomePresenter implements HomeContract.Presenter {
     private final ArticalRepository mArticalRepository;
 
     @Inject
-    public HomePresenter(HomeContract.View view, ArticalRepository articalRepository) {
-        this.view = checkNotNull(view, "view不能为空");
-        mArticalRepository = checkNotNull(articalRepository, "androidRepository不能为空");
-        this.view.setPresenter(this);
+    public HomePresenter(HomeContract.View vieww, ArticalRepository articalRepository) {
+        view = vieww;
+        mArticalRepository = articalRepository;
+    }
+
+    @Inject
+    void setupListeners(){
+        view.setPresenter(this);
     }
 
     @Override
     public void start() {
-        getAndroidData();
+        getAndroidData(1,20);
     }
 
     @Override
-    public void getAndroidData() {
+    public void getAndroidData(int pageNum, int pageSize) {
         mArticalRepository.getAndroidData(new ArticalDataSource.GankCallback() {
             @Override
             public void onGankdataLoaded(GankEntity entity) {
@@ -42,6 +46,6 @@ public class HomePresenter implements HomeContract.Presenter {
             public void onDataNotAvailable(Throwable throwable) {
                 view.showError(throwable);
             }
-        });
+        },pageNum,pageSize);
     }
 }

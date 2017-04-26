@@ -20,7 +20,7 @@ abstract class ArticalRepositoryModule {
     @Singleton
     @Binds
     @Remote
-   abstract ArticalDataSource provideRemoteArticalDataSource(ArticalRemoteDataSource remoteDataSource);
+    abstract ArticalDataSource provideRemoteArticalDataSource(ArticalRemoteDataSource remoteDataSource);
 
     @Singleton
     @Binds

@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 
 import com.dch.test.repository.ArticalDataSource;
 
+import javax.inject.Inject;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -16,15 +18,8 @@ public class ArticalLocalDataSource implements ArticalDataSource {
 
     private static ArticalLocalDataSource INSTANCE;
 
-    public static ArticalLocalDataSource getInstance(@NonNull Context context) {
-        if (null == INSTANCE) {
-            INSTANCE = new ArticalLocalDataSource(context);
-        }
-        return INSTANCE;
-    }
-
-    private ArticalLocalDataSource(@NonNull Context context){
-        checkNotNull(context);
+    @Inject
+    public ArticalLocalDataSource () {
     }
 
     @Override
@@ -38,7 +33,7 @@ public class ArticalLocalDataSource implements ArticalDataSource {
     }
 
     @Override
-    public void getAndroidData(@NonNull GankCallback callback) {
+    public void getAndroidData(@NonNull GankCallback callback,int pageNum, int pageSize) {
 
     }
 }

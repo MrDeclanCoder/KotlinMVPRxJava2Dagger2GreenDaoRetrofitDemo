@@ -1,6 +1,6 @@
 package com.dch.test.manager;
 
-import com.dch.test.base.BaseApplication;
+import android.content.Context;
 
 /**
  * 作者：Dch on 2017/4/20 14:24
@@ -8,7 +8,7 @@ import com.dch.test.base.BaseApplication;
  * 邮箱：daichuanhao@caijinquan.com
  */
 public class SpfManager {
-    public SpfManager(BaseApplication baseApplication) {
+    public SpfManager(Context context) {
 
     }
 }

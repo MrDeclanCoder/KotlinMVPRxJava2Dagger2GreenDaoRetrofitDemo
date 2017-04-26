@@ -4,11 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.dch.test.di.activity.ActivityComponent;
-import com.dch.test.di.activity.ActivityModule;
-import com.dch.test.di.app.AppComponent;
-import com.dch.test.di.app.AppModule;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -35,7 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity{
 //        getActivityComponent().inject(this);
 //    }
 //
-//    public ActivityComponent getActivityComponent(){
+//    public HomeActivityComponent getActivityComponent(){
 //        return DaggerActivityComponent.builder()
 //                .appComponent(getAppComponent())
 //                .activityModule(getActivityModule())
@@ -48,8 +43,8 @@ public abstract class BaseActivity extends AppCompatActivity{
 //                .build();
 //    }
 //
-//    protected ActivityModule getActivityModule() {
-//        return new ActivityModule(this);
+//    protected HomeActivityModule getActivityModule() {
+//        return new HomeActivityModule(this);
 //    }
 
     protected abstract void initData();

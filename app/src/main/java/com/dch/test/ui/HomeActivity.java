@@ -22,10 +22,15 @@ import com.dch.test.base.BaseActivity;
 import com.dch.test.base.BaseApplication;
 import com.dch.test.base.BaseFragment;
 import com.dch.test.contract.HomeContract;
-import com.dch.test.di.HomePresenterModule;
-import com.dch.test.di.app.AppComponent;
 //import com.dch.test.di.app.AppModule;
 //import com.dch.test.di.app.DaggerAppComponent;
+import com.dch.test.contract.presenter.HomePresenter;
+import com.dch.test.di.activity.DaggerHomeActivityComponent;
+import com.dch.test.di.activity.HomeActivityComponent;
+import com.dch.test.di.activity.HomePresenterModule;
+import com.dch.test.di.app.AppComponent;
+import com.dch.test.di.app.DaggerAppComponent;
+import com.dch.test.repository.ArticalRepositoryComponent;
 import com.dch.test.ui.fragment.CsdnBlogFragment;
 import com.dch.test.ui.fragment.GankAndroidFragment;
 import com.dch.test.ui.fragment.GankMeiziFragment;
@@ -51,7 +56,7 @@ public class HomeActivity extends BaseActivity
     private int currentIndex = 0;
 
     @Inject
-    HomeContract.Presenter presenter;
+    HomePresenter presenter;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -131,28 +136,18 @@ public class HomeActivity extends BaseActivity
         mViewPager.setCurrentItem(0);
         RxBus.getInstance().post(titles[0]);
 
-//        initInject();
+        initInject();
     }
-//    public void initInject() {
-//        getActivityComponent().inject(this);
-//    }
-//
-//    public ActivityComponent getActivityComponent(){
-//        return DaggerActivityComponent.builder()
-//                .appComponent(getAppComponent())
-//                .homePresenterModule(getActivityModule())
-//                .build();
-//    }
+    public void initInject() {
+        DaggerHomeActivityComponent.builder()
+                .homePresenterModule(new HomePresenterModule(mFragmentList.get(currentIndex)))
+                .articalRepositoryComponent(((BaseApplication) getApplication()).getArticalRepositoryComponent())
+                .build().inject(this);
+    }
 
-//    public AppComponent getAppComponent() {
-//        return DaggerAppComponent.builder()
-//                .appModule(new AppModule((BaseApplication) getApplicationContext()))
-//                .build();
-//    }
-//
-//    protected HomePresenterModule getActivityModule() {
-//        return new HomePresenterModule(mFragmentList.get(currentIndex));
-//    }
+    protected HomePresenterModule getActivityModule() {
+        return new HomePresenterModule(mFragmentList.get(currentIndex));
+    }
     @Override
     protected int setLayoutId() {
         return R.layout.activity_home;

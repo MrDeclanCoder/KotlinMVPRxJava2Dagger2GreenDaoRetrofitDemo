@@ -112,13 +112,13 @@ public class GankMeiziFragment extends BaseFragment implements OnRefreshListener
     @Override
     public void onRefresh() {
         loadMore = false;
-        presenter.getAndroidData();
+        presenter.getAndroidData(1,20);
     }
 
     @Override
     public void onLoadMore() {
         loadMore = true;
-        presenter.getAndroidData();
+        presenter.getAndroidData(2,20);
     }
 
     private class DataAdapter<Data> extends ListBaseAdapter<GankEntity.Data> {

@@ -1,5 +1,6 @@
 package com.dch.test.repository.remote;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.dch.test.manager.RetrofitManager;
@@ -17,6 +18,9 @@ import org.reactivestreams.Subscription;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -28,25 +32,16 @@ import io.reactivex.schedulers.Schedulers;
  * 描述：
  * 邮箱：daichuanhao@caijinquan.com
  */
+@Singleton
 public class ArticalRemoteDataSource implements ArticalDataSource {
 
-    private static ArticalRemoteDataSource INSTANCE;
-
-    public static ArticalRemoteDataSource getInstance() {
-        if (null == INSTANCE) {
-            INSTANCE = new ArticalRemoteDataSource();
-        }
-        return INSTANCE;
+    @Inject
+    public ArticalRemoteDataSource(@NonNull Context context) {
     }
-
-    private ArticalRemoteDataSource() {
-    }
-
-
 
 
     @Override
-    public void getArticalsData(@NonNull LoadArticalCallback callback) {
+    public void getArticalsData(@NonNull final LoadArticalCallback callback) {
         RetrofitManager.getInstance().createCsdnApiService()
                 .getArticalList()
                 .subscribeOn(Schedulers.io())
@@ -79,7 +74,7 @@ public class ArticalRemoteDataSource implements ArticalDataSource {
     }
 
     @Override
-    public void getMeiziData(@NonNull GankCallback callback) {
+    public void getMeiziData(@NonNull final GankCallback callback) {
         RetrofitManager.getInstance()
                 .createGankApiService()
                 .getDailyMeiziData()
@@ -109,10 +104,10 @@ public class ArticalRemoteDataSource implements ArticalDataSource {
     }
 
     @Override
-    public void getAndroidData(@NonNull GankCallback callback) {
+    public void getAndroidData(@NonNull final GankCallback callback,int pageNum, int pageSize) {
         RetrofitManager.getInstance()
                 .createGankApiService()
-                .getDailyAndroidData("Android",20,1)
+                .getDailyAndroidData("Android", pageSize, pageNum)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<GankEntity>() {
@@ -123,17 +118,12 @@ public class ArticalRemoteDataSource implements ArticalDataSource {
 
                     @Override
                     public void onNext(GankEntity entity) {
-                        for (GankEntity.Data data : entity.results){
-                            System.out.println(data._id);
-                            System.out.println(data.createdAt);
-                            System.out.println(data.desc);
-                        }
                         callback.onGankdataLoaded(entity);
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        System.out.println("getAndroidData--"+t.getMessage());
+                        System.out.println("getAndroidData--" + t.getMessage());
                         callback.onDataNotAvailable(t);
                     }
 

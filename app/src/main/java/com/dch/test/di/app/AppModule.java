@@ -2,7 +2,6 @@ package com.dch.test.di.app;
 
 import android.content.Context;
 
-import com.dch.test.base.BaseApplication;
 import com.dch.test.manager.DBManager;
 import com.dch.test.manager.RetrofitManager;
 import com.dch.test.manager.SpfManager;
@@ -20,41 +19,36 @@ import dagger.Provides;
  * 邮箱：daichuanhao@caijinquan.com
  */
 @Module
-public class AppModule {
+public final class AppModule {
 
-    private BaseApplication baseApplication;
+    private final Context context;
 
-    public AppModule(BaseApplication baseApplication){
-        this.baseApplication = baseApplication;
+    public AppModule(Context context) {
+        this.context = context;
     }
 
     @Provides
-    @Singleton
-    Context provideApplicationContext(){
-        return baseApplication;
+    Context provideApplicationContext() {
+        return context;
     }
 
     @Provides
-    @Singleton
-    CsdnApiService provideCsdnApiService(RetrofitManager retrofitManager){
+    CsdnApiService provideCsdnApiService(RetrofitManager retrofitManager) {
         return retrofitManager.createCsdnApiService();
     }
 
     @Provides
-    @Singleton
-    GankApiService provideGankApiService(RetrofitManager retrofitManager){
+    GankApiService provideGankApiService(RetrofitManager retrofitManager) {
         return retrofitManager.createGankApiService();
     }
 
     @Provides
-    @Singleton
-    SpfManager provideSpfManager(){
-        return new SpfManager(baseApplication);
+    SpfManager provideSpfManager() {
+        return new SpfManager(context);
     }
 
     @Provides
-    @Singleton
-    DBManager provideDBManager(){
-        return new DBManager(baseApplication);
+    DBManager provideDBManager() {
+        return new DBManager(context);
     }
 }

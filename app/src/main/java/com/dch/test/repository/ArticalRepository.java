@@ -27,8 +27,8 @@ public class ArticalRepository implements ArticalDataSource {
     @Inject
     public ArticalRepository(@Local ArticalDataSource articalLocalDataSource,
                               @Remote ArticalDataSource articalRemoteDataSource) {
-        this.articalLocalDataSource = checkNotNull(articalLocalDataSource);
-        this.articalRemoteDataSource = checkNotNull(articalRemoteDataSource);
+        this.articalLocalDataSource = articalLocalDataSource;
+        this.articalRemoteDataSource = articalRemoteDataSource;
     }
 
     public static ArticalRepository getInstance(ArticalDataSource articalLocalDataSource, ArticalDataSource articalRemoteDataSource) {
@@ -79,7 +79,7 @@ public class ArticalRepository implements ArticalDataSource {
     }
 
     @Override
-    public void getAndroidData(@NonNull GankCallback callback) {
+    public void getAndroidData(@NonNull GankCallback callback,int pageNum, int pageSize) {
         checkNotNull(callback);
 
         //先从数据库判断缓存是否存在...
@@ -95,10 +95,10 @@ public class ArticalRepository implements ArticalDataSource {
             }
         });*/
         //数据库缓存没有或者过期则从远程(网络)获取
-        getAndroidDataFromRemote(callback);
+        getAndroidDataFromRemote(callback, pageNum, pageSize);
     }
 
-    private void getAndroidDataFromRemote(final GankCallback callback) {
+    private void getAndroidDataFromRemote(final GankCallback callback,int pageNum, int pageSize) {
         articalRemoteDataSource.getAndroidData(new GankCallback() {
             @Override
             public void onGankdataLoaded(GankEntity entity) {
@@ -109,7 +109,7 @@ public class ArticalRepository implements ArticalDataSource {
             public void onDataNotAvailable(Throwable throwable) {
                 callback.onDataNotAvailable(throwable);
             }
-        });
+        },pageNum,pageSize);
     }
 
     private void getMeiziDataFromRemote(final GankCallback callback) {

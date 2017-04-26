@@ -18,6 +18,6 @@ public interface HomeContract {
     }
 
     interface Presenter extends BasePresenter {
-        void getAndroidData();
+        void getAndroidData(int pageNum, int pageSize);
     }
 }
