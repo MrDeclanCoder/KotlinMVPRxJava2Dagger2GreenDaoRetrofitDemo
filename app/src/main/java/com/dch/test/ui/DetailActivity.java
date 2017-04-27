@@ -15,6 +15,7 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.dch.test.R;
@@ -29,19 +30,23 @@ import butterknife.BindView;
  * 邮箱：daichuanhao@caijinquan.com
  */
 public class DetailActivity extends BaseActivity {
+    private ObjectAnimator alphaAnimation;
+
     @BindView(R.id.iv_gank_detail)
     ImageView iv_gank_detail;
+    @BindView(R.id.tv_title_detail)
+    TextView tv_title_detail;
     @BindView(R.id.wb_detail)
     WebView mWebView;
     @BindView(R.id.toolbar_deitail)
     Toolbar toolbar_deitail;
     @BindView(R.id.pb_detail)
     ProgressBar pb_detail;
-    private ObjectAnimator alphaAnimation;
 
     @Override
     protected void initView() {
         setSupportActionBar(toolbar_deitail);
+        toolbar_deitail.setTitle("");
         ActionBar supportActionBar = getSupportActionBar();
         supportActionBar.setDisplayHomeAsUpEnabled(true);
         toolbar_deitail.setNavigationOnClickListener(new View.OnClickListener() {
@@ -50,7 +55,6 @@ public class DetailActivity extends BaseActivity {
                 onBackPressed();
             }
         });
-
         alphaAnimation = ObjectAnimator.ofFloat(pb_detail, "alpha", 1.0f, 0f);
         alphaAnimation.setDuration(1000);
         alphaAnimation.setInterpolator(new DecelerateInterpolator());
@@ -64,7 +68,6 @@ public class DetailActivity extends BaseActivity {
         Glide.with(this).load(imgurl).placeholder(R.drawable.guide4).into(iv_gank_detail);
         String url = getIntent().getStringExtra("url");
         mWebView.loadUrl(url);
-        toolbar_deitail.setTitle(mWebView.getTitle());
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -89,7 +92,7 @@ public class DetailActivity extends BaseActivity {
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
-                toolbar_deitail.setTitle(title);
+                tv_title_detail.setText(title);
             }
         });
     }
@@ -133,5 +136,11 @@ public class DetailActivity extends BaseActivity {
         mWebView.destroy();
         super.onBackPressed();
         finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        toolbar_deitail.setTitle("");
     }
 }

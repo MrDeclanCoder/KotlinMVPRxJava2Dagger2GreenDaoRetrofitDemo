@@ -55,7 +55,7 @@ public class GuideActivity extends BaseActivity {
     @TargetApi(21)
     private void setupWindowAnimations() {
         Fade fade = new Fade();
-        fade.setDuration(1000);
+        fade.setDuration(100);
         getWindow().setEnterTransition(fade);
     }
 
