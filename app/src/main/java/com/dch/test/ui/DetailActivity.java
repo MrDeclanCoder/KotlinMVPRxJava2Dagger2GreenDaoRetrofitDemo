@@ -1,15 +1,20 @@
 package com.dch.test.ui;
 
 import android.animation.ObjectAnimator;
+import android.graphics.Bitmap;
+import android.os.Build;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.dch.test.R;
@@ -42,13 +47,14 @@ public class DetailActivity extends BaseActivity {
         toolbar_deitail.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
 
-        alphaAnimation = ObjectAnimator.ofFloat(pb_detail,"alpha",1.0f,0f);
+        alphaAnimation = ObjectAnimator.ofFloat(pb_detail, "alpha", 1.0f, 0f);
         alphaAnimation.setDuration(1000);
         alphaAnimation.setInterpolator(new DecelerateInterpolator());
+        webViewSetting();
     }
 
 
@@ -59,16 +65,31 @@ public class DetailActivity extends BaseActivity {
         String url = getIntent().getStringExtra("url");
         mWebView.loadUrl(url);
         toolbar_deitail.setTitle(mWebView.getTitle());
-        mWebView.setWebChromeClient(new WebChromeClient(){
+        mWebView.setWebViewClient(new WebViewClient() {
             @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                super.onProgressChanged(view, newProgress);
-                if (newProgress>98){
-                    alphaAnimation.start();
-                    pb_detail.setVisibility(View.GONE);
-                } else {
-                    pb_detail.setVisibility(View.VISIBLE);
-                }
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                pb_detail.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                alphaAnimation.start();
+                pb_detail.setVisibility(View.GONE);
+            }
+        });
+        mWebView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                super.onReceivedTitle(view, title);
+                toolbar_deitail.setTitle(title);
             }
         });
     }
@@ -76,5 +97,41 @@ public class DetailActivity extends BaseActivity {
     @Override
     protected int setLayoutId() {
         return R.layout.activity_details;
+    }
+
+    private void webViewSetting() {
+        /* 设置支持Js,必须设置的,不然网页基本上不能看 */
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        /* 设置缓存模式,我这里使用的默认,不做多讲解 */
+        mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        /* 设置为true表示支持使用js打开新的窗口 */
+        mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        /* 大部分网页需要自己保存一些数据,这个时候就的设置下面这个属性 */
+        mWebView.getSettings().setDomStorageEnabled(true);
+        /* 设置为使用webview推荐的窗口 */
+        mWebView.getSettings().setUseWideViewPort(true);
+        /* 设   置网页自适应屏幕大小 ---这个属性应该是跟上面一个属性一起用 */
+        mWebView.getSettings().setLoadWithOverviewMode(true);
+        /* HTML5的地理位置服务,设置为true,启用地理定位 */
+        mWebView.getSettings().setGeolocationEnabled(true);
+        /* 设置是否允许webview使用缩放的功能,我这里设为false,不允许 */
+        mWebView.getSettings().setBuiltInZoomControls(false);
+        /* 提高网页渲染的优先级 */
+        mWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+        /* 设置显示水平滚动条,就是网页右边的滚动条.我这里设置的不显示 */
+        mWebView.setHorizontalScrollBarEnabled(false);
+        /* 指定垂直滚动条是否有叠加样式 */
+        mWebView.setVerticalScrollbarOverlay(true);
+        /* 设置滚动条的样式 */
+        mWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+    }
+
+    @Override
+    public void onBackPressed() {
+        NestedScrollView parent = (NestedScrollView) mWebView.getParent();
+        parent.removeAllViews();
+        mWebView.destroy();
+        super.onBackPressed();
+        finish();
     }
 }
