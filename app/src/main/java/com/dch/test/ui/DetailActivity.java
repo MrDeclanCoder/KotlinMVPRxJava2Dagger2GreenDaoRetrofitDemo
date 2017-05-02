@@ -135,7 +135,6 @@ public class DetailActivity extends BaseActivity {
         parent.removeAllViews();
         mWebView.destroy();
         super.onBackPressed();
-        finish();
     }
 
     @Override

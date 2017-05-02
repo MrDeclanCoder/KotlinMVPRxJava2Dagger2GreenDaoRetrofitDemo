@@ -99,14 +99,15 @@ public class GankAndroidFragment extends BaseFragment implements OnRefreshListen
                 Intent i = new Intent(activity, DetailActivity.class);
                 try {
                     i.putExtra("imgurl", mData.get(position).images[0]);
+                    i.putExtra("url", mData.get(position).url);
+                    View sharedView = view.findViewById(R.id.iv_item_gank);
+                    String transitionName = getString(R.string.transitionName);
+                    ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, transitionName);
+                    startActivity(i, transitionActivityOptions.toBundle());
                 } catch (Exception e) {
                     Snackbar.make(mRecyclerView, "未获取到图片url", Snackbar.LENGTH_SHORT).show();
                 }
-                i.putExtra("url", mData.get(position).url);
-                View sharedView = view.findViewById(R.id.iv_item_gank);
-                String transitionName = getString(R.string.transitionName);
-                ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, transitionName);
-                startActivity(i, transitionActivityOptions.toBundle());
+
             }
         });
     }
@@ -186,7 +187,7 @@ public class GankAndroidFragment extends BaseFragment implements OnRefreshListen
             textViewContent.setText(data.desc);
             try {
                 ImageView imageView = holder.getView(R.id.iv_item_gank);
-                Glide.with(activity).load(data.images[0]).fitCenter().placeholder(R.mipmap.ic_launcher).into(imageView);
+                Glide.with(activity).load(data.images[0]).fitCenter().placeholder(R.drawable.guide4).into(imageView);
             } catch (Exception e) {
                 e.printStackTrace();
             }
