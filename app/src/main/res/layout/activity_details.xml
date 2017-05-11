@@ -7,14 +7,15 @@
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsingtoolbarlayout"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            app:collapsedTitleGravity="center"
             app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
@@ -31,27 +32,16 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar_deitail"
                 android:layout_width="match_parent"
-                android:minHeight="?attr/actionBarSize"
-                android:layout_height="wrap_content"
+                android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay">
-
-                <TextView
-                    android:id="@+id/tv_title_detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:maxLength="10"
-                    android:ellipsize="end"
-                    android:layout_gravity="center"
-                    android:textSize="17sp"
-                    android:textColor="@color/white" />
-
-            </android.support.v7.widget.Toolbar>
+                app:layout_scrollFlags="scroll|enterAlways|exitUntilCollapsed"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:layout_collapseMode="none"
+                app:layout_scrollFlags="enterAlways">
 
                 <ProgressBar
                     android:id="@+id/pb_detail"
@@ -71,7 +61,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <WebView
+        <com.tencent.smtt.sdk.WebView
             android:id="@+id/wb_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

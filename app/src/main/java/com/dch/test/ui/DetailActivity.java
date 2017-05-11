@@ -2,25 +2,24 @@ package com.dch.test.ui;
 
 import android.animation.ObjectAnimator;
 import android.graphics.Bitmap;
-import android.os.Build;
+import android.graphics.Color;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.dch.test.R;
 import com.dch.test.base.BaseActivity;
-import com.dch.test.util.StatusBarUtils;
+import com.tencent.smtt.sdk.WebChromeClient;
+import com.tencent.smtt.sdk.WebSettings;
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
 
 import butterknife.BindView;
 
@@ -34,21 +33,24 @@ public class DetailActivity extends BaseActivity {
 
     @BindView(R.id.iv_gank_detail)
     ImageView iv_gank_detail;
-    @BindView(R.id.tv_title_detail)
-    TextView tv_title_detail;
     @BindView(R.id.wb_detail)
     WebView mWebView;
     @BindView(R.id.toolbar_deitail)
     Toolbar toolbar_deitail;
     @BindView(R.id.pb_detail)
     ProgressBar pb_detail;
+    @BindView(R.id.collapsingtoolbarlayout)
+    CollapsingToolbarLayout collapsingtoolbarlayout;
+    @BindView(R.id.appbar_detail)
+    AppBarLayout appbar_detail;
 
     @Override
     protected void initView() {
         setSupportActionBar(toolbar_deitail);
-        toolbar_deitail.setTitle("");
         ActionBar supportActionBar = getSupportActionBar();
         supportActionBar.setDisplayHomeAsUpEnabled(true);
+        collapsingtoolbarlayout.setCollapsedTitleTextColor(Color.parseColor("#ffffff"));
+        collapsingtoolbarlayout.setExpandedTitleColor(Color.parseColor("#00ffffff"));
         toolbar_deitail.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,13 +90,6 @@ public class DetailActivity extends BaseActivity {
                 pb_detail.setVisibility(View.GONE);
             }
         });
-        mWebView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onReceivedTitle(WebView view, String title) {
-                super.onReceivedTitle(view, title);
-                tv_title_detail.setText(title);
-            }
-        });
     }
 
     @Override
@@ -127,6 +122,13 @@ public class DetailActivity extends BaseActivity {
         mWebView.setVerticalScrollbarOverlay(true);
         /* 设置滚动条的样式 */
         mWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+        mWebView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onReceivedTitle(WebView webView, String s) {
+                super.onReceivedTitle(webView, s);
+                collapsingtoolbarlayout.setTitle(s);
+            }
+        });
     }
 
     @Override
@@ -140,6 +142,5 @@ public class DetailActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        toolbar_deitail.setTitle("");
     }
 }

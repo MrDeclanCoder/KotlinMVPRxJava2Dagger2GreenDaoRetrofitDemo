@@ -20,8 +20,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import qdx.bezierviewpager_compile.BezierRoundView;
-import qdx.bezierviewpager_compile.vPage.BezierViewPager;
+import github.chenupt.springindicator.SpringIndicator;
+import github.chenupt.springindicator.viewpager.ScrollerViewPager;
 
 /**
  * 作者：Dch on 2017/4/17 10:51
@@ -33,11 +33,11 @@ public class GuideActivity extends BaseActivity {
     private List<ImageView> imageViews = new ArrayList<>();
     private ObjectAnimator alpha;
 
-    @BindView(R.id.bezierroundview)
-    BezierRoundView bezierRoundView;
+    @BindView(R.id.indicator_view)
+    SpringIndicator indicator_view;
 
-    @BindView(R.id.vp_guide)
-    BezierViewPager viewPager;
+    @BindView(R.id.viewpager_guide)
+    ScrollerViewPager viewPager;
 
     @BindView(R.id.bt_gohome)
     Button button;
@@ -71,9 +71,28 @@ public class GuideActivity extends BaseActivity {
             imageView.setBackgroundResource(guideImgs[i]);
             imageViews.add(imageView);
         }
+//        PagerModelManager pagerModelManager = new PagerModelManager();
+//        pagerModelManager.
         viewPager.setAdapter(new GuideAdapter());
-        bezierRoundView.attach2ViewPage(viewPager);
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewPager.fixScrollSpeed();
+//        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//
+//            }
+//        });
+        indicator_view.setViewPager(viewPager);
+        indicator_view.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -87,8 +106,10 @@ public class GuideActivity extends BaseActivity {
                     }
                     alpha.start();
                     button.setVisibility(View.VISIBLE);
+                    indicator_view.setVisibility(View.GONE);
                 } else {
                     button.setVisibility(View.GONE);
+                    indicator_view.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -105,6 +126,10 @@ public class GuideActivity extends BaseActivity {
     }
 
     private class GuideAdapter extends PagerAdapter {
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return super.getPageTitle(position);
+        }
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {

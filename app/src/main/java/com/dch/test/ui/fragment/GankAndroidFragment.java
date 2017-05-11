@@ -89,7 +89,7 @@ public class GankAndroidFragment extends BaseFragment implements OnRefreshListen
         mDataAdapter.setDataList(mData);
         lRecyclerViewAdapter = new LRecyclerViewAdapter(mDataAdapter);
         mRecyclerView.setAdapter(lRecyclerViewAdapter);
-        mRecyclerView.setRefreshProgressStyle(ProgressStyle.CubeTransition);
+        mRecyclerView.setRefreshProgressStyle(ProgressStyle.SemiCircleSpin);
         mRecyclerView.setOnRefreshListener(this);
         mRecyclerView.setOnLoadMoreListener(this);
         mRecyclerView.forceToRefresh();

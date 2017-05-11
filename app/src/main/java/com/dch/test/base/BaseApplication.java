@@ -21,7 +21,7 @@ public class BaseApplication extends MultiDexApplication {
         super.onCreate();
         application = this;
         CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
+//        crashHandler.init(this);
         articalRepositoryComponent = DaggerArticalRepositoryComponent.builder()
                 .appModule(new AppModule((getApplicationContext())))
                 .build();
