@@ -126,6 +126,9 @@ public class DetailActivity extends BaseActivity {
             @Override
             public void onReceivedTitle(WebView webView, String s) {
                 super.onReceivedTitle(webView, s);
+                if (s.length() >15){
+                    s = s.substring(0,15)+"...";
+                }
                 collapsingtoolbarlayout.setTitle(s);
             }
         });
@@ -134,7 +137,9 @@ public class DetailActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         NestedScrollView parent = (NestedScrollView) mWebView.getParent();
-        parent.removeAllViews();
+        if(null != parent){
+            parent.removeAllViews();
+        }
         mWebView.destroy();
         super.onBackPressed();
     }

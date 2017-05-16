@@ -1,5 +1,6 @@
 package com.dch.test.ui;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -138,6 +139,7 @@ public class HomeActivity extends BaseActivity
 
         initInject();
     }
+
     public void initInject() {
         DaggerHomeActivityComponent.builder()
                 .homePresenterModule(new HomePresenterModule(mFragmentList.get(currentIndex)))
@@ -148,6 +150,7 @@ public class HomeActivity extends BaseActivity
     protected HomePresenterModule getActivityModule() {
         return new HomePresenterModule(mFragmentList.get(currentIndex));
     }
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_home;
@@ -196,7 +199,7 @@ public class HomeActivity extends BaseActivity
         } else if (id == R.id.nav_send) {
 
         }
-
+        startActivity(new Intent(this, LeadActivity.class));
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

@@ -106,6 +106,12 @@ public class GankAndroidFragment extends BaseFragment implements OnRefreshListen
                     startActivity(i, transitionActivityOptions.toBundle());
                 } catch (Exception e) {
                     Snackbar.make(mRecyclerView, "未获取到图片url", Snackbar.LENGTH_SHORT).show();
+                    i.putExtra("imgurl", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494938304958&di=854d61b39d45b938505f573f6be7322f&imgtype=0&src=http%3A%2F%2Ff5.topit.me%2F5%2Fff%2F7e%2F11774047714a97eff5o.jpg");
+                    i.putExtra("url", mData.get(position).url);
+                    View sharedView = view.findViewById(R.id.iv_item_gank);
+                    String transitionName = getString(R.string.transitionName);
+                    ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, transitionName);
+                    startActivity(i, transitionActivityOptions.toBundle());
                 }
 
             }
@@ -136,7 +142,7 @@ public class GankAndroidFragment extends BaseFragment implements OnRefreshListen
     @Override
     public void showDailyList(GankEntity gankEntity) {
         if (loadMore) {
-            mData = gankEntity.results;
+            mData.addAll(gankEntity.results);
             mDataAdapter.addAll(gankEntity.results);
         } else {
             mDataAdapter.clear();
