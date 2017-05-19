@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 25
@@ -82,4 +84,9 @@ dependencies {
     compile 'com.github.chenupt.android:multiplemodel:1.1.0@aar'
     compile 'org.greenrobot:greendao:3.2.2'
     compile 'com.github.mcxtzhang:PathAnimView:V1.0.0'
+
+    //kotlin
+    compile 'org.jetbrains.kotlin:kotlin-stdlib:1.1.1'
+    compile 'org.jetbrains.anko:anko-sdk25:0.10.0-beta-1'
+    compile 'org.jetbrains.anko:anko-appcompat-v7:0.10.0-beta-1'
 }
