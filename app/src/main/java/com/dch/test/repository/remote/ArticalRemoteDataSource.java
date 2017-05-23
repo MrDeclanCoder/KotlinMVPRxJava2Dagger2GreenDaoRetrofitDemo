@@ -123,7 +123,6 @@ public class ArticalRemoteDataSource implements ArticalDataSource {
 
                     @Override
                     public void onError(Throwable t) {
-                        System.out.println("getAndroidData--" + t.getMessage());
                         callback.onDataNotAvailable(t);
                     }
 

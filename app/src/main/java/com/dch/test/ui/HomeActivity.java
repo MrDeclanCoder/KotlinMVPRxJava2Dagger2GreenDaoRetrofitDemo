@@ -22,19 +22,13 @@ import com.dch.test.R;
 import com.dch.test.base.BaseActivity;
 import com.dch.test.base.BaseApplication;
 import com.dch.test.base.BaseFragment;
-import com.dch.test.contract.HomeContract;
-//import com.dch.test.di.app.AppModule;
-//import com.dch.test.di.app.DaggerAppComponent;
 import com.dch.test.contract.presenter.HomePresenter;
 import com.dch.test.di.activity.DaggerHomeActivityComponent;
-import com.dch.test.di.activity.HomeActivityComponent;
 import com.dch.test.di.activity.HomePresenterModule;
-import com.dch.test.di.app.AppComponent;
-import com.dch.test.di.app.DaggerAppComponent;
-import com.dch.test.repository.ArticalRepositoryComponent;
 import com.dch.test.ui.fragment.CsdnBlogFragment;
 import com.dch.test.ui.fragment.GankAndroidFragment;
 import com.dch.test.ui.fragment.GankMeiziFragment;
+import com.dch.test.util.ActivityUtils;
 import com.dch.test.util.RxBus;
 
 import java.util.ArrayList;
@@ -43,6 +37,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+
+//import com.dch.test.di.app.AppModule;
+//import com.dch.test.di.app.DaggerAppComponent;
 
 /**
  * 作者：MrCoder on 2017年4月10日 16:17:38
@@ -84,11 +81,11 @@ public class HomeActivity extends BaseActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "点击切换主题", Snackbar.LENGTH_LONG)
-                        .setAction("Action", new View.OnClickListener() {
+                Snackbar.make(view, "我的收藏", Snackbar.LENGTH_LONG)
+                        .setAction("前往", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Toast.makeText(HomeActivity.this, "切换成功", Toast.LENGTH_SHORT).show();
+                                ActivityUtils.startActivity(HomeActivity.this, KotlinScrollingActivity.class);
                             }
                         }).show();
             }
@@ -136,16 +133,9 @@ public class HomeActivity extends BaseActivity
         });
         mViewPager.setCurrentItem(0);
         RxBus.getInstance().post(titles[0]);
-
-        initInject();
     }
 
-    public void initInject() {
-        DaggerHomeActivityComponent.builder()
-                .homePresenterModule(new HomePresenterModule(mFragmentList.get(currentIndex)))
-                .articalRepositoryComponent(((BaseApplication) getApplication()).getArticalRepositoryComponent())
-                .build().inject(this);
-    }
+
 
     protected HomePresenterModule getActivityModule() {
         return new HomePresenterModule(mFragmentList.get(currentIndex));

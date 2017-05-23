@@ -50,6 +50,12 @@ android {
         //线程数
         threadCount = 8
     }
+
+    greendao {
+        schemaVersion 1
+        daoPackage 'greendao.gen'
+        targetGenDir 'src/main/java'
+    }
 }
 
 dependencies {
@@ -74,6 +80,7 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.github.jdsjlzx:LRecyclerView:1.4.1'
     compile 'com.github.qdxxxx:BezierViewPager:v1.0.5'
+    compile 'com.yanzhenjie:recyclerview-swipe:1.0.4'
     // dagger 2 的配置
     compile 'com.google.dagger:dagger:2.10'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
@@ -82,11 +89,12 @@ dependencies {
     compile 'com.google.dagger:dagger-android:2.10'
     compile 'com.github.chenupt.android:springindicator:1.0.2@aar'
     compile 'com.github.chenupt.android:multiplemodel:1.1.0@aar'
-    compile 'org.greenrobot:greendao:3.2.2'
     compile 'com.github.mcxtzhang:PathAnimView:V1.0.0'
-
     //kotlin
     compile 'org.jetbrains.kotlin:kotlin-stdlib:1.1.1'
     compile 'org.jetbrains.anko:anko-sdk25:0.10.0-beta-1'
     compile 'org.jetbrains.anko:anko-appcompat-v7:0.10.0-beta-1'
+    //GreenDao
+    compile 'org.greenrobot:greendao:3.2.2'
+    compile 'org.greenrobot:greendao-generator:3.2.2'
 }

@@ -41,4 +41,8 @@
         ...
     </style>
 
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">#ffffff</item>
+    </style>
+
 </resources>

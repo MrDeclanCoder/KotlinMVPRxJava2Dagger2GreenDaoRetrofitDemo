@@ -16,13 +16,18 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.dch.test.R;
+import com.dch.test.base.BaseApplication;
 import com.dch.test.base.BaseFragment;
 import com.dch.test.base.adapter.ListBaseAdapter;
 import com.dch.test.base.adapter.SuperViewHolder;
 import com.dch.test.contract.HomeContract;
 import com.dch.test.contract.presenter.HomePresenter;
+import com.dch.test.di.activity.DaggerHomeActivityComponent;
+import com.dch.test.di.activity.HomePresenterModule;
+import com.dch.test.repository.ArticalRepository;
 import com.dch.test.repository.entity.GankEntity;
 import com.dch.test.ui.DetailActivity;
+import com.dch.test.ui.HomeActivity;
 import com.dch.test.util.ToastUtils;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
@@ -78,8 +83,15 @@ public class GankAndroidFragment extends BaseFragment implements OnRefreshListen
     protected View initRootView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_tab1, null);
         ButterKnife.bind(this, rootView);
+        initInject();
         initView();
         return rootView;
+    }
+    public void initInject() {
+        DaggerHomeActivityComponent.builder()
+                .homePresenterModule(new HomePresenterModule(this))
+                .articalRepositoryComponent(((BaseApplication) activity.getApplication()).getArticalRepositoryComponent())
+                .build().inject((HomeActivity) getActivity());
     }
 
     @TargetApi(21)
@@ -89,7 +101,7 @@ public class GankAndroidFragment extends BaseFragment implements OnRefreshListen
         mDataAdapter.setDataList(mData);
         lRecyclerViewAdapter = new LRecyclerViewAdapter(mDataAdapter);
         mRecyclerView.setAdapter(lRecyclerViewAdapter);
-        mRecyclerView.setRefreshProgressStyle(ProgressStyle.SemiCircleSpin);
+        mRecyclerView.setRefreshProgressStyle(ProgressStyle.TriangleSkewSpin);
         mRecyclerView.setOnRefreshListener(this);
         mRecyclerView.setOnLoadMoreListener(this);
         mRecyclerView.forceToRefresh();
@@ -100,6 +112,9 @@ public class GankAndroidFragment extends BaseFragment implements OnRefreshListen
                 try {
                     i.putExtra("imgurl", mData.get(position).images[0]);
                     i.putExtra("url", mData.get(position).url);
+                    i.putExtra("id",mData.get(position)._id);
+                    i.putExtra("title",mData.get(position).type);
+                    i.putExtra("content",mData.get(position).desc);
                     View sharedView = view.findViewById(R.id.iv_item_gank);
                     String transitionName = getString(R.string.transitionName);
                     ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, transitionName);
@@ -108,6 +123,9 @@ public class GankAndroidFragment extends BaseFragment implements OnRefreshListen
                     Snackbar.make(mRecyclerView, "未获取到图片url", Snackbar.LENGTH_SHORT).show();
                     i.putExtra("imgurl", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494938304958&di=854d61b39d45b938505f573f6be7322f&imgtype=0&src=http%3A%2F%2Ff5.topit.me%2F5%2Fff%2F7e%2F11774047714a97eff5o.jpg");
                     i.putExtra("url", mData.get(position).url);
+                    i.putExtra("id",mData.get(position)._id);
+                    i.putExtra("title",mData.get(position).type);
+                    i.putExtra("content",mData.get(position).desc);
                     View sharedView = view.findViewById(R.id.iv_item_gank);
                     String transitionName = getString(R.string.transitionName);
                     ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, transitionName);
