@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.dch.test.R;
 import com.dch.test.base.BaseActivity;
+import com.dch.test.util.Config;
+import com.dch.test.util.SharePreferenceUtils;
 import com.dch.test.util.StatusBarUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -42,10 +44,20 @@ public class SplashActivity extends BaseActivity {
         @Override
         public void run() {
             setupWindowAnimations();
+            judgeTurn();
+        }
+    };
+
+    private void judgeTurn() {
+        if(SharePreferenceUtils.getPrefBoolean(getApplicationContext(), Config.APP_GUIDE,false)){
+            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+            finish();
+        } else {
+            SharePreferenceUtils.setPrefBoolean(getApplicationContext(),Config.APP_GUIDE,true);
             startActivity(new Intent(SplashActivity.this, GuideActivity.class));
             finish();
         }
-    };
+    }
 
     @Override
     protected void initData() {
@@ -106,8 +118,7 @@ public class SplashActivity extends BaseActivity {
                             public void onClick(View v) {
                                 handler.removeCallbacks(runnable);
                                 setupWindowAnimations();
-                                startActivity(new Intent(SplashActivity.this, GuideActivity.class));
-                                finish();
+                                judgeTurn();
                             }
                         });
                     }
@@ -121,7 +132,5 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        handler.removeCallbacks(runnable);
-        super.onBackPressed();
     }
 }
