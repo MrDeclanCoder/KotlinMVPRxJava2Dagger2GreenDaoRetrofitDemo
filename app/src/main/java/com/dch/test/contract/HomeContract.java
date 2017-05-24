@@ -11,13 +11,13 @@ import com.dch.test.repository.entity.GankEntity;
  */
 public interface HomeContract {
 
-    interface View extends BaseView<Presenter> {
+    interface View extends BaseView<HomePresenter> {
         void showDailyList(GankEntity entity);
 
         void showError(Throwable throwable);
     }
 
-    interface Presenter extends BasePresenter {
+    interface HomePresenter extends BasePresenter {
         void getAndroidData(int pageNum, int pageSize);
     }
 }

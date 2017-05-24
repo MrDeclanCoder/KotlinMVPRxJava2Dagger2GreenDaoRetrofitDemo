@@ -6,7 +6,7 @@ package com.dch.test.base;
  * 邮箱：daichuanhao@caijinquan.com
  */
 public interface BaseView<T> {
-    void setPresenter(T presenter);
+    void setHomePresenter(T homePresenter);
     void showLoading();
     void hideLoading();
     void showError(String error);

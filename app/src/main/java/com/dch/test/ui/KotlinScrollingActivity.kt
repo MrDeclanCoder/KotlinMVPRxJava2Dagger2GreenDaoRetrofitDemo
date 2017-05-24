@@ -15,6 +15,7 @@ import com.dch.test.base.BaseActivity
 import com.dch.test.base.BaseApplication
 import com.dch.test.entity.MyFavorite
 import kotlinx.android.synthetic.main.activity_kotlin_scrolling.*
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.find
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.onLongClick
@@ -61,9 +62,15 @@ class KotlinScrollingActivity : BaseActivity() {
             relativeLayout.onClick { _ ->
 
             }
-            relativeLayout.onLongClick { _ ->
-                true
-            }
+//            relativeLayout.onLongClick { View.OnLongClickListener() {
+//
+//                    override fun onLongClick(v: View?){
+//
+//
+//                    } = true
+//
+//                }
+//            }
 
         }
 

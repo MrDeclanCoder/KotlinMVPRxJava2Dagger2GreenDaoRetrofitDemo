@@ -44,7 +44,7 @@ public class GankMeiziFragment extends BaseFragment {
 
     private boolean loadMore = false;
     private List<GankEntity.Data> mData = new ArrayList<>();
-    private HomeContract.Presenter presenter;
+    private HomeContract.HomePresenter homePresenter;
 
     private MeizhiAdapter dataAdapter;
     @BindView(R.id.swipeMenuRecyclerView)
@@ -60,7 +60,7 @@ public class GankMeiziFragment extends BaseFragment {
         ButterKnife.bind(this, rootView);
         initView();
         initInject();
-        presenter.getAndroidData(1,20);
+        homePresenter.getAndroidData(1,20);
         return rootView;
     }
 
@@ -123,9 +123,8 @@ public class GankMeiziFragment extends BaseFragment {
     };
 
 
-    @Override
-    public void setPresenter(HomeContract.Presenter presenter) {
-        this.presenter = presenter;
+    public void setHomePresenter(HomeContract.HomePresenter homePresenter) {
+        this.homePresenter = homePresenter;
     }
 
     @Override

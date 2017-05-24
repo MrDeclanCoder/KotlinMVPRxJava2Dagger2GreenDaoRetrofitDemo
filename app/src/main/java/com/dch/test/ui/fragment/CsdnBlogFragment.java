@@ -23,8 +23,6 @@ import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -38,7 +36,7 @@ public class CsdnBlogFragment extends BaseFragment implements OnRefreshListener,
     private List<String> mData = new ArrayList<>();
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private DataAdapter<String> mDataAdapter;
-    private HomeContract.Presenter presenter;
+    private HomeContract.HomePresenter homePresenter;
 
     @BindView(R.id.recyclerview)
     LRecyclerView mRecyclerView;
@@ -65,9 +63,8 @@ public class CsdnBlogFragment extends BaseFragment implements OnRefreshListener,
         mRecyclerView.setOnRefreshListener(this);
     }
 
-    @Override
-    public void setPresenter(HomeContract.Presenter presenter) {
-        this.presenter = presenter;
+    public void setHomePresenter(HomeContract.HomePresenter homePresenter) {
+        this.homePresenter = homePresenter;
     }
 
     @Override
@@ -110,7 +107,7 @@ public class CsdnBlogFragment extends BaseFragment implements OnRefreshListener,
     }
     @Override
     public void onLoadMore() {
-//        presenter.getArticalsData();
+//        homePresenter.getArticalsData();
     }
 
     private class DataAdapter<String> extends ListBaseAdapter<String> {

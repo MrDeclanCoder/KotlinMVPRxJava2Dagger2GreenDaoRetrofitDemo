@@ -14,7 +14,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * 描述：
  * 邮箱：daichuanhao@caijinquan.com
  */
-public class HomePresenter implements HomeContract.Presenter {
+public class HomePresenter implements HomeContract.HomePresenter {
     private final HomeContract.View view;
     private final ArticalRepository mArticalRepository;
 
@@ -26,7 +26,7 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Inject
     void setupListeners(){
-        view.setPresenter(this);
+        view.setHomePresenter(this);
     }
 
     @Override

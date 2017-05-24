@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +50,7 @@ public class GankAndroidFragment extends BaseFragment implements OnRefreshListen
     private List<GankEntity.Data> mData = new ArrayList<>();
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private DataAdapter<GankEntity.Data> mDataAdapter;
-    private HomeContract.Presenter presenter;
+    private HomeContract.HomePresenter homePresenter;
 
     public static String[] titles = new String[]{
             "每周7件Tee不重样",
@@ -128,9 +127,8 @@ public class GankAndroidFragment extends BaseFragment implements OnRefreshListen
     }
 
 
-    @Override
-    public void setPresenter(HomeContract.Presenter presenter) {
-        this.presenter = presenter;
+    public void setHomePresenter(HomeContract.HomePresenter homePresenter) {
+        this.homePresenter = homePresenter;
     }
 
     @Override
@@ -170,13 +168,13 @@ public class GankAndroidFragment extends BaseFragment implements OnRefreshListen
     @Override
     public void onRefresh() {
         loadMore = false;
-        presenter.getAndroidData(1, 20);
+        homePresenter.getAndroidData(1, 20);
     }
 
     @Override
     public void onLoadMore() {
         loadMore = true;
-        presenter.getAndroidData(2, 20);
+        homePresenter.getAndroidData(2, 20);
     }
 
     private class DataAdapter<Data> extends ListBaseAdapter<GankEntity.Data> {
