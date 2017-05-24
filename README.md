@@ -1,4 +1,4 @@
-# MyCsdnSite
+# KotlinMVPRxJava2Dagger2GreenDaoRetrofitDemo
 Kotlin+RxJava2+Dagger2+RxCache+Retrofit+GoogleMVPMode+GreenDao
 
 An android app example that I ususlly exercise.
