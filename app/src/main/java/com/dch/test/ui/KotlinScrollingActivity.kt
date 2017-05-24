@@ -2,6 +2,7 @@ package com.dch.test.ui
 
 import android.content.Context
 import android.support.design.widget.Snackbar
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -36,7 +37,7 @@ class KotlinScrollingActivity : BaseActivity() {
             onBackPressed()
         }
         fab_kotlin_scroll.setOnClickListener { view ->
-            Snackbar.make(view, "fab被点击了----", Snackbar.LENGTH_SHORT).setAction("Action", null).show()
+            Snackbar.make(view, "I'm writing with the Kotlin language", Snackbar.LENGTH_SHORT).setAction("Action", null).show()
         }
     }
 
@@ -57,6 +58,8 @@ class KotlinScrollingActivity : BaseActivity() {
 
             }
             relativeLayout.onLongClick { _ -> true
+
+
             }
 
         }
