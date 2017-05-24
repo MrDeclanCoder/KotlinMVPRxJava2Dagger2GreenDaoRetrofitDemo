@@ -24,6 +24,7 @@ import com.dch.test.R;
 import com.dch.test.base.BaseActivity;
 import com.dch.test.base.BaseApplication;
 import com.dch.test.entity.MyFavorite;
+import com.dch.test.util.Config;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
@@ -43,7 +44,6 @@ import greendao.gen.MyFavoriteDao;
  */
 public class DetailActivity extends BaseActivity implements View.OnClickListener {
     private ObjectAnimator alphaAnimation;
-    private String id;
 
     @BindView(R.id.iv_gank_detail)
     ImageView iv_gank_detail;
@@ -60,10 +60,6 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     @BindView(R.id.floatingactionbutton_details)
     FloatingActionButton floatingactionbutton_details;
     private MyFavoriteDao myFavoriteDao;
-    private String imgurl;
-    private String url;
-    private String title;
-    private String content;
     private MyFavorite myFavorite;
     private ObjectAnimator scaleXAnim;
     private ObjectAnimator scaleYAnim;
@@ -102,13 +98,9 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initData() {
-        imgurl = getIntent().getStringExtra("imgurl");
-        title = getIntent().getStringExtra("title");
-        content = getIntent().getStringExtra("content");
-        Glide.with(this).load(imgurl).placeholder(R.drawable.guide4).into(iv_gank_detail);
-        url = getIntent().getStringExtra("url");
-        id = getIntent().getStringExtra("id");
-        mWebView.loadUrl(url);
+        myFavorite = getIntent().getParcelableExtra(Config.MYFAVOTITE);
+        Glide.with(this).load(myFavorite.getImgUrl()).placeholder(R.drawable.guide4).into(iv_gank_detail);
+        mWebView.loadUrl(myFavorite.getUrl());
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -131,16 +123,6 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         });
 
         myFavoriteDao = BaseApplication.application.getDaoSession().getMyFavoriteDao();
-        myFavorite = new MyFavorite();
-        myFavorite.setId(null);
-        myFavorite.setFavoriteId(id);
-        myFavorite.setTitle(title);
-        myFavorite.setContentDiscription(content);
-        myFavorite.setUrl(url);
-        myFavorite.setImgUrl(imgurl);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        myFavorite.setCollectTime(sdf.format(new Date()));
-
         if (judgeExitAndInsert()) {
            //已存在
             floatingactionbutton_details.setImageResource(android.R.drawable.btn_star_big_on);
@@ -232,11 +214,11 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
      */
     private boolean judgeExitAndInsert() {
         boolean isExit = false;
-        final List<MyFavorite> myFavorites = myFavoriteDao.queryBuilder().where(MyFavoriteDao.Properties.FavoriteId.eq(id)).list();
+        final List<MyFavorite> myFavorites = myFavoriteDao.queryBuilder().where(MyFavoriteDao.Properties.FavoriteId.eq(myFavorite.getFavoriteId())).list();
         if (null != myFavorites && myFavorites.size() > 0) {
             //判断是否存在
             for (MyFavorite favorite : myFavorites) {
-                if (favorite.getFavoriteId().equals(id)) {
+                if (favorite.getFavoriteId().equals(myFavorite.getFavoriteId())) {
                     isExit = true;
                 }
             }
@@ -246,6 +228,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
     private void insertToDB(final MyFavorite myFavorite) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this, R.style.CustomAlertDialog);
+        builder.setCancelable(true);
         builder.setTitle("收藏");
         builder.setMessage("确定加入收藏 ?");
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -253,6 +236,8 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
             public void onClick(DialogInterface dialog, int which) {
                 //确定加入收藏
                 try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    myFavorite.setCollectTime(sdf.format(new Date()));
                     myFavoriteDao.insert(myFavorite);
                     Snackbar.make(floatingactionbutton_details, "收藏成功", Snackbar.LENGTH_SHORT).show();
                     floatingactionbutton_details.setImageResource(android.R.drawable.btn_star_big_on);

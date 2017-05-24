@@ -7,4 +7,6 @@ package com.dch.test.util;
  */
 public class Config {
     public static String APP_GUIDE = "APP_GUIDE";
+
+    public static String MYFAVOTITE = "MYFAVOTITE";
 }

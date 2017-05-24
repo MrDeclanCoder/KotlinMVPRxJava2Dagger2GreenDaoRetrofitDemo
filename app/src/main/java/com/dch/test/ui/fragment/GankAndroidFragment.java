@@ -23,9 +23,11 @@ import com.dch.test.base.adapter.SuperViewHolder;
 import com.dch.test.contract.HomeContract;
 import com.dch.test.di.activity.DaggerHomeActivityComponent;
 import com.dch.test.di.activity.HomePresenterModule;
+import com.dch.test.entity.MyFavorite;
 import com.dch.test.repository.entity.GankEntity;
 import com.dch.test.ui.DetailActivity;
 import com.dch.test.ui.HomeActivity;
+import com.dch.test.util.Config;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
@@ -104,29 +106,23 @@ public class GankAndroidFragment extends BaseFragment implements OnRefreshListen
             @Override
             public void onItemClick(View view, int position) {
                 Intent i = new Intent(activity, DetailActivity.class);
+                MyFavorite favorite = new MyFavorite();
+                favorite.setTitle("Android");
+                favorite.setContentDiscription(mData.get(position).desc);
+                favorite.setUrl(mData.get(position).url);
+                favorite.setFavoriteId(mData.get(position)._id);
                 try {
-                    i.putExtra("imgurl", mData.get(position).images[0]);
-                    i.putExtra("url", mData.get(position).url);
-                    i.putExtra("id",mData.get(position)._id);
-                    i.putExtra("title",mData.get(position).type);
-                    i.putExtra("content",mData.get(position).desc);
-                    View sharedView = view.findViewById(R.id.iv_item_gank);
-                    String transitionName = getString(R.string.transitionName);
-                    ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, transitionName);
-                    startActivity(i, transitionActivityOptions.toBundle());
+                    favorite.setImgUrl(mData.get(position).images[0]);
                 } catch (Exception e) {
                     Snackbar.make(mRecyclerView, "未获取到图片url", Snackbar.LENGTH_SHORT).show();
-                    i.putExtra("imgurl", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494938304958&di=854d61b39d45b938505f573f6be7322f&imgtype=0&src=http%3A%2F%2Ff5.topit.me%2F5%2Fff%2F7e%2F11774047714a97eff5o.jpg");
-                    i.putExtra("url", mData.get(position).url);
-                    i.putExtra("id",mData.get(position)._id);
-                    i.putExtra("title",mData.get(position).type);
-                    i.putExtra("content",mData.get(position).desc);
+                    favorite.setImgUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494938304958&di=854d61b39d45b938505f573f6be7322f&imgtype=0&src=http%3A%2F%2Ff5.topit.me%2F5%2Fff%2F7e%2F11774047714a97eff5o.jpg");
+                }finally {
+                    i.putExtra(Config.MYFAVOTITE,favorite);
                     View sharedView = view.findViewById(R.id.iv_item_gank);
                     String transitionName = getString(R.string.transitionName);
                     ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, transitionName);
                     startActivity(i, transitionActivityOptions.toBundle());
                 }
-
             }
         });
     }
