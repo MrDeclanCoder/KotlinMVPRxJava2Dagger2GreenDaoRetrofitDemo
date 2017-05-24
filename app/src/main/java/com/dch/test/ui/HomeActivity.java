@@ -23,7 +23,6 @@ import com.dch.test.base.BaseActivity;
 import com.dch.test.base.BaseApplication;
 import com.dch.test.base.BaseFragment;
 import com.dch.test.contract.presenter.HomePresenter;
-import com.dch.test.di.activity.DaggerHomeActivityComponent;
 import com.dch.test.di.activity.HomePresenterModule;
 import com.dch.test.ui.fragment.CsdnBlogFragment;
 import com.dch.test.ui.fragment.GankAndroidFragment;

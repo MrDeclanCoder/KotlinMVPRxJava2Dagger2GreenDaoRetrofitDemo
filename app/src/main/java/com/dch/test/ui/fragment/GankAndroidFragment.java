@@ -21,14 +21,11 @@ import com.dch.test.base.BaseFragment;
 import com.dch.test.base.adapter.ListBaseAdapter;
 import com.dch.test.base.adapter.SuperViewHolder;
 import com.dch.test.contract.HomeContract;
-import com.dch.test.contract.presenter.HomePresenter;
 import com.dch.test.di.activity.DaggerHomeActivityComponent;
 import com.dch.test.di.activity.HomePresenterModule;
-import com.dch.test.repository.ArticalRepository;
 import com.dch.test.repository.entity.GankEntity;
 import com.dch.test.ui.DetailActivity;
 import com.dch.test.ui.HomeActivity;
-import com.dch.test.util.ToastUtils;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
@@ -38,8 +35,6 @@ import com.github.jdsjlzx.recyclerview.ProgressStyle;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

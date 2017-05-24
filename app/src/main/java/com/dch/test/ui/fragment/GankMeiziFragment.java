@@ -1,6 +1,5 @@
 package com.dch.test.ui.fragment;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,8 +16,6 @@ import com.dch.test.adapter.swipemenu.MenuVerticalAdapter;
 import com.dch.test.adapter.swipemenu.OnItemClickListener;
 import com.dch.test.base.BaseApplication;
 import com.dch.test.base.BaseFragment;
-import com.dch.test.base.adapter.ListBaseAdapter;
-import com.dch.test.base.adapter.SuperViewHolder;
 import com.dch.test.contract.HomeContract;
 import com.dch.test.di.activity.DaggerHomeActivityComponent;
 import com.dch.test.di.activity.HomePresenterModule;

@@ -2,7 +2,6 @@ package com.dch.test.ui
 
 import android.content.Context
 import android.support.design.widget.Snackbar
-import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -20,6 +19,11 @@ import org.jetbrains.anko.find
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.onLongClick
 
+/**
+ * 作者：Dch on 2017/5/23 11:09
+ * 描述：
+ * 邮箱：daichuanhao@caijinquan.com
+ */
 class KotlinScrollingActivity : BaseActivity() {
     var dataList: List<MyFavorite>? = null
     override fun initData() {
@@ -48,18 +52,17 @@ class KotlinScrollingActivity : BaseActivity() {
     override fun setLayoutId() = R.layout.activity_kotlin_scrolling
     class CollectAdapter(var items: List<MyFavorite>, var context: Context) : RecyclerView.Adapter<CollectHolder>() {
         override fun onBindViewHolder(holder: CollectHolder, position: Int) {
-            val myfavorite = items.get(position)
-            holder.tv_item_title_gank!!.text = "android"
-            holder.tv_item_content_gank!!.text = myfavorite.contentDiscription
-            holder.tv_item_time_gank!!.text = myfavorite.collectTime
+            val myfavorite = items[position]
+            holder.tv_item_title_gank.text = "Android"
+            holder.tv_item_content_gank.text = myfavorite.contentDiscription
+            holder.tv_item_time_gank.text = myfavorite.collectTime
             Glide.with(context).load(myfavorite.imgUrl).into(holder.iv_item_gank)
-            val relativeLayout = holder.tv_item_time_gank!!.parent as RelativeLayout
+            val relativeLayout = holder.tv_item_time_gank.parent as RelativeLayout
             relativeLayout.onClick { _ ->
 
             }
-            relativeLayout.onLongClick { _ -> true
-
-
+            relativeLayout.onLongClick { _ ->
+                true
             }
 
         }
@@ -71,10 +74,10 @@ class KotlinScrollingActivity : BaseActivity() {
     }
 
     class CollectHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tv_item_content_gank: TextView? = null
-        var tv_item_title_gank: TextView? = null
-        var tv_item_time_gank: TextView? = null
-        var iv_item_gank: ImageView? = null
+        val tv_item_content_gank: TextView
+        val tv_item_title_gank: TextView
+        val tv_item_time_gank: TextView
+        val iv_item_gank: ImageView
 
         init {
             super.itemView

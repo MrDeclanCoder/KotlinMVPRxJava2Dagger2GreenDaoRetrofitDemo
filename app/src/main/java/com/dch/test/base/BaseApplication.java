@@ -5,6 +5,7 @@ import android.support.multidex.MultiDexApplication;
 
 import com.dch.test.di.app.AppModule;
 import com.dch.test.repository.ArticalRepositoryComponent;
+//import com.dch.test.repository.DaggerArticalRepositoryComponent;
 import com.dch.test.repository.DaggerArticalRepositoryComponent;
 import com.dch.test.util.CrashHandler;
 
@@ -28,8 +29,10 @@ public class BaseApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         application = this;
+
 //        CrashHandler crashHandler = CrashHandler.getInstance();
 //        crashHandler.init(this);
+
         articalRepositoryComponent = DaggerArticalRepositoryComponent.builder()
                 .appModule(new AppModule((getApplicationContext())))
                 .build();

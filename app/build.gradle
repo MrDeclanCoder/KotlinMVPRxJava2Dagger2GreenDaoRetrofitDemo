@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 25
@@ -53,4 +55,17 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':common')
+    // dagger 2 的配置
+    compile 'com.google.dagger:dagger:2.10'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.10'
+    compile 'com.google.dagger:dagger-android-support:2.10'
+    compile 'com.google.dagger:dagger-android:2.10'
+    //kotlin
+    compile 'org.jetbrains.kotlin:kotlin-stdlib:1.1.1'
+    compile 'org.jetbrains.anko:anko-sdk25:0.10.0-beta-1'
+    compile 'org.jetbrains.anko:anko-appcompat-v7:0.10.0-beta-1'
+    //butterknife
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }
