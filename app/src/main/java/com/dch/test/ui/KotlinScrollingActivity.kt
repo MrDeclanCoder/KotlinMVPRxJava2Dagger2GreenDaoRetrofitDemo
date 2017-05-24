@@ -2,7 +2,6 @@ package com.dch.test.ui
 
 import android.content.Context
 import android.support.design.widget.Snackbar
-import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View

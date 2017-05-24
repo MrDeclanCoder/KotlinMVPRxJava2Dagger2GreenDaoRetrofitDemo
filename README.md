@@ -1,5 +1,5 @@
 # MyCsdnSite
-RxJava+Dagger2+RxCache+Retrofit+GoogleMVPMode
+Kotlin+RxJava2+Dagger2+RxCache+Retrofit+GoogleMVPMode+GreenDao
 
 An android app example that I ususlly exercise.
 
@@ -12,6 +12,8 @@ An android app example that I ususlly exercise.
 贝塞尔效果切页指示器
 
 ![](pic/pic4.jpg)
+
+/***** 未完待续  *****/
 
 
 
