@@ -1,12 +1,11 @@
 package com.dch.test.entity;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
+
+import java.io.Serializable;
 
 /**
  * 作者：Dch on 2017/5/22 17:02
@@ -14,7 +13,7 @@ import org.greenrobot.greendao.annotation.Index;
  * 邮箱：daichuanhao@caijinquan.com
  */
 @Entity
-public class MyFavorite implements Parcelable {
+public class MyFavorite implements Serializable {
 
     @Id(autoincrement = true)
     private Long id;
@@ -98,43 +97,5 @@ public class MyFavorite implements Parcelable {
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        MyFavorite favorite = new MyFavorite();
-        favorite.id = dest.readLong();
-        favorite.favoriteId = dest.readString();
-        favorite.title = dest.readString();
-        favorite.contentDiscription = dest.readString();
-        favorite.collectTime = dest.readString();
-        favorite.url = dest.readString();
-        favorite.imgUrl = dest.readString();
-    }
-
-    public static final Creator<MyFavorite> CREATOR = new Parcelable.Creator<MyFavorite>(){
-
-        @Override
-        public MyFavorite createFromParcel(Parcel source) {
-            MyFavorite favorite = new MyFavorite();
-            favorite.id = source.readLong();
-            favorite.favoriteId = source.readString();
-            favorite.title = source.readString();
-            favorite.contentDiscription = source.readString();
-            favorite.collectTime = source.readString();
-            favorite.url = source.readString();
-            favorite.imgUrl = source.readString();
-            return favorite;
-        }
-
-        @Override
-        public MyFavorite[] newArray(int size) {
-            return new MyFavorite[size];
-        }
-    };
 
 }

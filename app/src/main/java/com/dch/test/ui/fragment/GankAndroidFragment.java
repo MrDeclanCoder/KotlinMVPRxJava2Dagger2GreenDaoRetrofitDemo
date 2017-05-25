@@ -110,13 +110,16 @@ public class GankAndroidFragment extends BaseFragment implements OnRefreshListen
                 favorite.setContentDiscription(mData.get(position).desc);
                 favorite.setUrl(mData.get(position).url);
                 favorite.setFavoriteId(mData.get(position)._id);
+                favorite.setCollectTime("");
                 try {
                     favorite.setImgUrl(mData.get(position).images[0]);
                 } catch (Exception e) {
                     Snackbar.make(mRecyclerView, "未获取到图片url", Snackbar.LENGTH_SHORT).show();
                     favorite.setImgUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494938304958&di=854d61b39d45b938505f573f6be7322f&imgtype=0&src=http%3A%2F%2Ff5.topit.me%2F5%2Fff%2F7e%2F11774047714a97eff5o.jpg");
                 }finally {
-                    i.putExtra(Config.MYFAVOTITE,favorite);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Config.MYFAVOTITE,favorite);
+                    i.putExtras(bundle);
                     View sharedView = view.findViewById(R.id.iv_item_gank);
                     String transitionName = getString(R.string.transitionName);
                     ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, transitionName);

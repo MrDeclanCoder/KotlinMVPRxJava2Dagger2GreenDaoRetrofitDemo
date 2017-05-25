@@ -28,7 +28,7 @@ class KotlinScrollingActivity : BaseActivity() {
         val dataList = myFavoriteDao.loadAll()
         recyclerview_kotlin_scroll.layoutManager = LinearLayoutManager(act)
 
-        adapter = CollectAdapter(dataList) { view: View, myfavorite: MyFavorite ->
+        adapter = CollectAdapter(dataList) { view: View, myfavorite: MyFavorite, pos: Int ->
             Glide.with(act).load(myfavorite.imgUrl).into(view.iv_item_gank)
             view.onClick {
                 alert("注意", "跳转了")
@@ -38,21 +38,23 @@ class KotlinScrollingActivity : BaseActivity() {
                         dialog.dismiss()
                     }
                     noButton { dialog: DialogInterface -> dialog.dismiss() }
-                }
+                }.show()
             }
             view.onLongClick {
-                onLongClick(myfavorite, myFavoriteDao)
+                onLongClick(myfavorite, myFavoriteDao,adapter,dataList,pos)
             }
         }
 
         recyclerview_kotlin_scroll.adapter = adapter
     }
 
-    fun onLongClick(myfavorite: MyFavorite, myFavoriteDao: MyFavoriteDao): Boolean {
+    fun onLongClick(myfavorite: MyFavorite, myFavoriteDao: MyFavoriteDao, adapter: CollectAdapter?, dataList: MutableList<MyFavorite>, pos: Int): Boolean {
         alert("操作", "从收藏中移除？") {
             yesButton { dialog ->
                 try {
                     myFavoriteDao.delete(myfavorite)
+                    dataList.removeAt(pos)
+                    adapter?.notifyItemRemoved(pos)
                 } catch(e: Exception) {
                     alert("警告", "移除失败")
                 } finally {
@@ -62,7 +64,7 @@ class KotlinScrollingActivity : BaseActivity() {
             noButton { dialog ->
                 dialog.dismiss()
             }
-        }
+        }.show()
         return true
     }
 
@@ -82,26 +84,26 @@ class KotlinScrollingActivity : BaseActivity() {
     override fun setLayoutId() = R.layout.activity_kotlin_scrolling
 
 
-    class CollectAdapter(var items: List<MyFavorite>, val init: (View, MyFavorite) -> Unit) : RecyclerView.Adapter<CollectAdapter.CollectHolder>() {
+    class CollectAdapter(var items: List<MyFavorite>, val init: (View, MyFavorite,Int) -> Unit) : RecyclerView.Adapter<CollectAdapter.CollectHolder>() {
         override fun onBindViewHolder(holder: CollectHolder, position: Int) {
-            holder.bindFavorite(items[position])
+            holder.bindFavorite(items[position],position)
         }
 
         override fun getItemCount(): Int = items.size
 
         override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CollectHolder {
-            val view = View.inflate(parent?.context, R.layout.item_gank, parent)
+            val view = View.inflate(parent?.context, R.layout.item_gank, null)
             return CollectHolder(view, init)
         }
 
-        class CollectHolder(itemView: View, val init: (View, MyFavorite) -> Unit) : RecyclerView.ViewHolder(itemView) {
+        class CollectHolder(itemView: View, val init: (View, MyFavorite,Int) -> Unit) : RecyclerView.ViewHolder(itemView) {
 
-            fun bindFavorite(myfavorite: MyFavorite) {
+            fun bindFavorite(myfavorite: MyFavorite, position: Int) {
                 with(myfavorite) {
                     itemView.tv_item_title_gank.text = "Android"
                     itemView.tv_item_content_gank.text = myfavorite.contentDiscription
                     itemView.tv_item_time_gank.text = myfavorite.collectTime
-                    init(itemView, myfavorite)
+                    init(itemView, myfavorite,position)
                 }
             }
         }

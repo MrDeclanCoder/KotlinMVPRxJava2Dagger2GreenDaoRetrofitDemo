@@ -57,6 +57,10 @@ dependencies {
     compile 'com.github.chenupt.android:springindicator:1.0.2@aar'
     compile 'com.github.chenupt.android:multiplemodel:1.1.0@aar'
     compile 'com.github.mcxtzhang:PathAnimView:V1.0.0'
+    //kotlin
+    compile 'org.jetbrains.kotlin:kotlin-stdlib:1.1.2'
+    compile 'org.jetbrains.anko:anko-sdk25:0.10.0-beta-1'
+    compile 'org.jetbrains.anko:anko-appcompat-v7:0.10.0-beta-1'
 
     //GreenDao
     compile 'org.greenrobot:greendao:3.2.2'

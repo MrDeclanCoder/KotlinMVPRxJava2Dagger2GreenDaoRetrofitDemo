@@ -95,10 +95,9 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         animatorSet.setInterpolator(new DecelerateInterpolator());
     }
 
-
     @Override
     protected void initData() {
-        myFavorite = getIntent().getParcelableExtra(Config.MYFAVOTITE);
+        myFavorite = (MyFavorite)getIntent().getSerializableExtra(Config.MYFAVOTITE);
         Glide.with(this).load(myFavorite.getImgUrl()).placeholder(R.drawable.guide4).into(iv_gank_detail);
         mWebView.loadUrl(myFavorite.getUrl());
         mWebView.setWebViewClient(new WebViewClient() {
@@ -180,12 +179,16 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void onBackPressed() {
-        NestedScrollView parent = (NestedScrollView) mWebView.getParent();
-        if (null != parent) {
-            parent.removeAllViews();
+        if (mWebView.canGoBack()){
+            mWebView.goBack();
+        } else {
+            NestedScrollView parent = (NestedScrollView) mWebView.getParent();
+            if (null != parent) {
+                parent.removeAllViews();
+            }
+            mWebView.destroy();
+            super.onBackPressed();
         }
-        mWebView.destroy();
-        super.onBackPressed();
     }
 
     @Override
