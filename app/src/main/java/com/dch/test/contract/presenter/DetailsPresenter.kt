@@ -9,9 +9,9 @@ import com.dch.test.entity.MyFavorite
  * 描述：
  * 邮箱：daichuanhao@caijinquan.com
  */
-open class DetailsPresenter(detailsView: DetailsContract.DetailsView, val myFavoriteLocalDataSource: MyFavoriteLocalDataSource) : DetailsContract.Presenter {
+open class DetailsPresenter( detailsView: DetailsContract.DetailsView, val myFavoriteLocalDataSource: MyFavoriteLocalDataSource) : DetailsContract.Presenter {
 
-    val detailsView = detailsView
+    val detailsView = null
 
     override fun insertMyFavoriteToDb(myFavorite: MyFavorite) {
         myFavoriteLocalDataSource.insertMyFavorite(myFavorite, cb())
@@ -19,7 +19,6 @@ open class DetailsPresenter(detailsView: DetailsContract.DetailsView, val myFavo
 
     open class cb : MyFavoriteLocalDataSource.CallBack {
         override fun insertSuccess() {
-
         }
 
         override fun insertError(e: Exception) {

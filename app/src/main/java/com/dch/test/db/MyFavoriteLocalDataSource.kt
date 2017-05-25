@@ -10,7 +10,6 @@ import com.dch.test.entity.MyFavorite
  */
 object MyFavoriteLocalDataSource {
 
-
         fun insertMyFavorite(myFavorite: MyFavorite,callBack: CallBack) {
             try {
                 BaseApplication.application.daoSession.myFavoriteDao.insert(myFavorite)

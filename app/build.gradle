@@ -62,7 +62,7 @@ dependencies {
     compile 'com.google.dagger:dagger-android-support:2.10'
     compile 'com.google.dagger:dagger-android:2.10'
     //kotlin
-    compile 'org.jetbrains.kotlin:kotlin-stdlib:1.1.1'
+    compile 'org.jetbrains.kotlin:kotlin-stdlib:1.1.2'
     compile 'org.jetbrains.anko:anko-sdk25:0.10.0-beta-1'
     compile 'org.jetbrains.anko:anko-appcompat-v7:0.10.0-beta-1'
     //butterknife
