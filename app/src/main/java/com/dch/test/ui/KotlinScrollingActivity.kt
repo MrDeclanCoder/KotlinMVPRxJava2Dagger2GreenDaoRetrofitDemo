@@ -1,6 +1,7 @@
 package com.dch.test.ui
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -13,6 +14,12 @@ import com.dch.test.base.BaseApplication
 import com.dch.test.entity.MyFavorite
 import com.dch.test.util.StatusBarUtils
 import greendao.gen.MyFavoriteDao
+import io.reactivex.Flowable
+import io.reactivex.Observable
+import io.reactivex.ObservableEmitter
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_kotlin_scrolling.*
 import kotlinx.android.synthetic.main.item_gank.view.*
 import org.jetbrains.anko.*
@@ -29,16 +36,18 @@ class KotlinScrollingActivity : BaseActivity() {
         StatusBarUtils.setImage(act)
         setSupportActionBar(toolbar_kotlin_scroll)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        collapsingtoolbarlayout_kotlin_scroll.title = "Kotlin--我的收藏"
-        collapsingtoolbarlayout_kotlin_scroll.setExpandedTitleColor(resources.getColor(R.color.trans))
         collapsingtoolbarlayout_kotlin_scroll.setCollapsedTitleTextColor(android.R.color.white)
+        collapsingtoolbarlayout_kotlin_scroll.setExpandedTitleColor(resources.getColor(R.color.trans))
+        collapsingtoolbarlayout_kotlin_scroll.title = "Kotlin--我的收藏"
         toolbar_kotlin_scroll.setNavigationOnClickListener { _ ->
             onBackPressed()
         }
         fab_kotlin_scroll.setOnClickListener { view ->
             Snackbar.make(view, "I'm writing with the Kotlin language", Snackbar.LENGTH_SHORT).setAction("Action", null).show()
         }
-        alert { }
+        swiperefreshlayout_kotlin.setColorSchemeColors(R.color.red_normal, R.color.green_normal, R.color.purple_normal)
+        swiperefreshlayout_kotlin.setOnRefreshListener {
+        }
     }
 
     override fun setLayoutId() = R.layout.activity_kotlin_scrolling
@@ -54,14 +63,14 @@ class KotlinScrollingActivity : BaseActivity() {
                 alert("注意", "跳转了")
                 {
                     yesButton { dialog: DialogInterface ->
-                        toast("跳转")
+                        startActivity(Intent(act, DetailActivity::class.java))
                         dialog.dismiss()
                     }
                     noButton { dialog: DialogInterface -> dialog.dismiss() }
                 }.show()
             }
             view.onLongClick {
-                onLongClick(myfavorite, myFavoriteDao,adapter,dataList,pos)
+                onLongClick(myfavorite, myFavoriteDao, adapter, dataList, pos)
             }
         }
 
@@ -88,9 +97,9 @@ class KotlinScrollingActivity : BaseActivity() {
         return true
     }
 
-    class CollectAdapter(var items: List<MyFavorite>, val init: (View, MyFavorite,Int) -> Unit) : RecyclerView.Adapter<CollectAdapter.CollectHolder>() {
+    class CollectAdapter(var items: List<MyFavorite>, val init: (View, MyFavorite, Int) -> Unit) : RecyclerView.Adapter<CollectAdapter.CollectHolder>() {
         override fun onBindViewHolder(holder: CollectHolder, position: Int) {
-            holder.bindFavorite(items[position],position)
+            holder.bindFavorite(items[position], position)
         }
 
         override fun getItemCount(): Int = items.size
@@ -100,14 +109,14 @@ class KotlinScrollingActivity : BaseActivity() {
             return CollectHolder(view, init)
         }
 
-        class CollectHolder(itemView: View, val init: (View, MyFavorite,Int) -> Unit) : RecyclerView.ViewHolder(itemView) {
+        class CollectHolder(itemView: View, val init: (View, MyFavorite, Int) -> Unit) : RecyclerView.ViewHolder(itemView) {
 
             fun bindFavorite(myfavorite: MyFavorite, position: Int) {
                 with(myfavorite) {
                     itemView.tv_item_title_gank.text = "Android"
                     itemView.tv_item_content_gank.text = myfavorite.contentDiscription
                     itemView.tv_item_time_gank.text = myfavorite.collectTime
-                    init(itemView, myfavorite,position)
+                    init(itemView, myfavorite, position)
                 }
             }
         }

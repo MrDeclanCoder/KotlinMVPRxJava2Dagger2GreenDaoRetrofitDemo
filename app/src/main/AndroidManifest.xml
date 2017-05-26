@@ -45,7 +45,8 @@
         <activity
             android:name=".ui.KotlinScrollingActivity"
             android:label="@string/title_activity_kotlin_scrolling"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.KotlinWebDetailsActivity"></activity>
     </application>
 
 </manifest>
