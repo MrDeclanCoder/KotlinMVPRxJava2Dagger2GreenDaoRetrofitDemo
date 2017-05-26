@@ -21,4 +21,5 @@
     <color name="purple_pressed">#9F79EE</color>
 
     <color name="white_pressed">#FFCFCFCF</color>
+    <color name="trans">#00ffffff</color>
 </resources>

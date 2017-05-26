@@ -11,6 +11,7 @@ import com.dch.test.R
 import com.dch.test.base.BaseActivity
 import com.dch.test.base.BaseApplication
 import com.dch.test.entity.MyFavorite
+import com.dch.test.util.StatusBarUtils
 import greendao.gen.MyFavoriteDao
 import kotlinx.android.synthetic.main.activity_kotlin_scrolling.*
 import kotlinx.android.synthetic.main.item_gank.view.*
@@ -23,6 +24,25 @@ import org.jetbrains.anko.*
  */
 class KotlinScrollingActivity : BaseActivity() {
     var adapter: CollectAdapter? = null
+
+    override fun initView() {
+        StatusBarUtils.setImage(act)
+        setSupportActionBar(toolbar_kotlin_scroll)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        collapsingtoolbarlayout_kotlin_scroll.title = "Kotlin--我的收藏"
+        collapsingtoolbarlayout_kotlin_scroll.setExpandedTitleColor(resources.getColor(R.color.trans))
+        collapsingtoolbarlayout_kotlin_scroll.setCollapsedTitleTextColor(android.R.color.white)
+        toolbar_kotlin_scroll.setNavigationOnClickListener { _ ->
+            onBackPressed()
+        }
+        fab_kotlin_scroll.setOnClickListener { view ->
+            Snackbar.make(view, "I'm writing with the Kotlin language", Snackbar.LENGTH_SHORT).setAction("Action", null).show()
+        }
+        alert { }
+    }
+
+    override fun setLayoutId() = R.layout.activity_kotlin_scrolling
+
     override fun initData() {
         val myFavoriteDao = BaseApplication.application.daoSession.myFavoriteDao
         val dataList = myFavoriteDao.loadAll()
@@ -67,22 +87,6 @@ class KotlinScrollingActivity : BaseActivity() {
         }.show()
         return true
     }
-
-    override fun initView() {
-        setSupportActionBar(toolbar_kotlin_scroll)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        collapsingtoolbarlayout_kotlin_scroll.title = "Kotlin--我的收藏"
-        toolbar_kotlin_scroll.setNavigationOnClickListener { _ ->
-            onBackPressed()
-        }
-        fab_kotlin_scroll.setOnClickListener { view ->
-            Snackbar.make(view, "I'm writing with the Kotlin language", Snackbar.LENGTH_SHORT).setAction("Action", null).show()
-        }
-        alert { }
-    }
-
-    override fun setLayoutId() = R.layout.activity_kotlin_scrolling
-
 
     class CollectAdapter(var items: List<MyFavorite>, val init: (View, MyFavorite,Int) -> Unit) : RecyclerView.Adapter<CollectAdapter.CollectHolder>() {
         override fun onBindViewHolder(holder: CollectHolder, position: Int) {
