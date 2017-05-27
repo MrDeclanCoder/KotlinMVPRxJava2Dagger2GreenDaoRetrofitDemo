@@ -23,3 +23,34 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext{
+    buildToolsVersion = "25.0.2"
+    supportLibVersion = "25.3.1"
+    constraintVersion = "1.0.2"
+    multidexVersion = "1.0.1"
+
+    //greendao
+    greenDaoDBVersion = 1
+    greenDaoVersion = "3.2.2"
+
+    //kotlin
+    kotlinStdlibVersion = "1.1.2"
+    ankoSdkVersion = "0.10.0-beta-1"
+    ankoAppcompatVersion = "0.10.0-beta-1"
+
+    //retrofit2 + rxjava2
+    okhttpVersion = "3.6.0"
+    rxjava2Version = "2.0.8"
+    rxandroidVersion = "2.0.1"
+    retrofit2Version = "2.2.0"
+    retrofitAdapterVersion = "1.0.0"
+    jacksonConverterVersion = "2.2.0"
+
+    //dagger2
+    daggerVersion = "2.10"
+
+    //butterknife
+    buterknifeVersion = "8.5.1"
+
+}

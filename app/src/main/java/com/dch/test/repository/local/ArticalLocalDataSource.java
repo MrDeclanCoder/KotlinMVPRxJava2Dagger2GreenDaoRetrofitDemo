@@ -1,6 +1,5 @@
 package com.dch.test.repository.local;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.dch.test.repository.ArticalDataSource;
@@ -28,7 +27,7 @@ public class ArticalLocalDataSource implements ArticalDataSource {
     }
 
     @Override
-    public void getMeiziData(@NonNull GankCallback callback) {
+    public void getMeiziData(@NonNull GankCallback callback, int pageNum, int pageSize) {
 
     }
 

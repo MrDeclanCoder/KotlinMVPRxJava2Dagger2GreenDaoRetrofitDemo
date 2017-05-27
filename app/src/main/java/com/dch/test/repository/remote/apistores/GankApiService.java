@@ -19,8 +19,8 @@ public interface GankApiService {
     public String android_url = "http://gank.io/api/data/";
 
 
-    @GET("福利/10/2")
-    Flowable<GankEntity> getDailyMeiziData();
+    @GET("{type}/{count}/{pageIndex}")
+    Flowable<GankEntity> getDailyMeiziData(@Path("type") String type,@Path("count") int count,@Path("pageIndex") int pageIndex);
 
     @GET("{type}/{count}/{pageIndex}")
     Flowable<GankEntity> getDailyAndroidData(@Path("type") String type,@Path("count") int count,@Path("pageIndex") int pageIndex);

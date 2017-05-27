@@ -25,7 +25,7 @@ public interface ArticalDataSource {
 
     void getArticalsData(@NonNull LoadArticalCallback callback);
 
-    void getMeiziData(@NonNull GankCallback callback);
+    void getMeiziData(@NonNull GankCallback callback, int pageNum, int pageSize);
 
     void getAndroidData(@NonNull GankCallback callback,int pageNum, int pageSize);
 }

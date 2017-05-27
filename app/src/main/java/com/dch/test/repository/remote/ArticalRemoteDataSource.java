@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import com.dch.test.manager.RetrofitManager;
 import com.dch.test.repository.ArticalDataSource;
 import com.dch.test.repository.entity.GankEntity;
-import com.dch.test.repository.remote.apistores.GankApiService;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -74,10 +73,10 @@ public class ArticalRemoteDataSource implements ArticalDataSource {
     }
 
     @Override
-    public void getMeiziData(@NonNull final GankCallback callback) {
+    public void getMeiziData(@NonNull final GankCallback callback, int pageNum, int pageSize) {
         RetrofitManager.getInstance()
                 .createGankApiService()
-                .getDailyMeiziData()
+                .getDailyMeiziData("福利",pageSize,pageNum)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<GankEntity>() {

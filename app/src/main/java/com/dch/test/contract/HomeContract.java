@@ -19,5 +19,6 @@ public interface HomeContract {
 
     interface HomePresenter extends BasePresenter {
         void getAndroidData(int pageNum, int pageSize);
+        void getMeiziData(int pageNum, int pageSize);
     }
 }

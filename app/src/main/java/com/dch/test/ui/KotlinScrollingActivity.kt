@@ -2,6 +2,7 @@ package com.dch.test.ui
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -12,14 +13,11 @@ import com.dch.test.R
 import com.dch.test.base.BaseActivity
 import com.dch.test.base.BaseApplication
 import com.dch.test.entity.MyFavorite
+import com.dch.test.manager.RequestManager
+import com.dch.test.util.Config
 import com.dch.test.util.StatusBarUtils
 import greendao.gen.MyFavoriteDao
-import io.reactivex.Flowable
-import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
-import io.reactivex.Observer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Consumer
+import io.reactivex.subscribers.ResourceSubscriber
 import kotlinx.android.synthetic.main.activity_kotlin_scrolling.*
 import kotlinx.android.synthetic.main.item_gank.view.*
 import org.jetbrains.anko.*
@@ -31,12 +29,14 @@ import org.jetbrains.anko.*
  */
 class KotlinScrollingActivity : BaseActivity() {
     var adapter: CollectAdapter? = null
+    val myFavoriteDao = BaseApplication.application.daoSession.myFavoriteDao
+    var dataList = myFavoriteDao.loadAll()
 
     override fun initView() {
         StatusBarUtils.setImage(act)
         setSupportActionBar(toolbar_kotlin_scroll)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        collapsingtoolbarlayout_kotlin_scroll.setCollapsedTitleTextColor(android.R.color.white)
+        collapsingtoolbarlayout_kotlin_scroll.setCollapsedTitleTextColor(resources.getColor((R.color.white)))
         collapsingtoolbarlayout_kotlin_scroll.setExpandedTitleColor(resources.getColor(R.color.trans))
         collapsingtoolbarlayout_kotlin_scroll.title = "Kotlin--我的收藏"
         toolbar_kotlin_scroll.setNavigationOnClickListener { _ ->
@@ -47,14 +47,16 @@ class KotlinScrollingActivity : BaseActivity() {
         }
         swiperefreshlayout_kotlin.setColorSchemeColors(R.color.red_normal, R.color.green_normal, R.color.purple_normal)
         swiperefreshlayout_kotlin.setOnRefreshListener {
+            dataList = myFavoriteDao.loadAll()
+            adapter?.notifyDataSetChanged()
+            swiperefreshlayout_kotlin.isRefreshing = false
         }
     }
 
     override fun setLayoutId() = R.layout.activity_kotlin_scrolling
 
     override fun initData() {
-        val myFavoriteDao = BaseApplication.application.daoSession.myFavoriteDao
-        val dataList = myFavoriteDao.loadAll()
+
         recyclerview_kotlin_scroll.layoutManager = LinearLayoutManager(act)
 
         adapter = CollectAdapter(dataList) { view: View, myfavorite: MyFavorite, pos: Int ->
@@ -63,7 +65,25 @@ class KotlinScrollingActivity : BaseActivity() {
                 alert("注意", "跳转了")
                 {
                     yesButton { dialog: DialogInterface ->
-                        startActivity(Intent(act, DetailActivity::class.java))
+
+                        val subscriber = object : ResourceSubscriber<Int>() {
+                            override fun onNext(t: Int?) {
+                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                            }
+
+                            override fun onComplete() {
+                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                            }
+
+                            override fun onError(t: Throwable?) {
+                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                            }
+                        }
+                        val intent = Intent(act,DetailActivity::class.java)
+                        val bundle = Bundle()
+                        bundle.putSerializable(Config.MYFAVOTITE,myfavorite)
+                        intent.putExtras(bundle)
+                        startActivity(intent)
                         dialog.dismiss()
                     }
                     noButton { dialog: DialogInterface -> dialog.dismiss() }
@@ -75,10 +95,20 @@ class KotlinScrollingActivity : BaseActivity() {
         }
 
         recyclerview_kotlin_scroll.adapter = adapter
+
+
+        doAsync {
+            val url = "http://PHP.weather.sina.com.cn/iframe/index/w_cl.php?code=js&day=0&city=&dfc=1&charset=utf-8"
+            val url2 = "http://xiaohua.hao.360.cn/m/itxt?page=1&callback=jsonp7"
+            val data = RequestManager(url2).run()
+            uiThread {
+                //                longToast(data)
+            }
+        }
     }
 
     fun onLongClick(myfavorite: MyFavorite, myFavoriteDao: MyFavoriteDao, adapter: CollectAdapter?, dataList: MutableList<MyFavorite>, pos: Int): Boolean {
-        alert("操作", "从收藏中移除？") {
+        val build = alert("操作", "从收藏中移除？") {
             yesButton { dialog ->
                 try {
                     myFavoriteDao.delete(myfavorite)
@@ -93,7 +123,9 @@ class KotlinScrollingActivity : BaseActivity() {
             noButton { dialog ->
                 dialog.dismiss()
             }
-        }.show()
+        }.build()
+        build.setCancelable(false)
+        build.show()
         return true
     }
 

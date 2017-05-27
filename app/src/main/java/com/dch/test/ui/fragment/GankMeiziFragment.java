@@ -1,7 +1,10 @@
 package com.dch.test.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,6 +24,7 @@ import com.dch.test.di.activity.DaggerHomeActivityComponent;
 import com.dch.test.di.activity.HomePresenterModule;
 import com.dch.test.repository.entity.GankEntity;
 import com.dch.test.ui.HomeActivity;
+import com.dch.test.ui.KotlinPhotoViewActivity;
 import com.dch.test.util.ToastUtils;
 import com.yanzhenjie.recyclerview.swipe.Closeable;
 import com.yanzhenjie.recyclerview.swipe.OnSwipeMenuItemClickListener;
@@ -31,6 +35,7 @@ import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +55,10 @@ public class GankMeiziFragment extends BaseFragment {
     @BindView(R.id.swipeMenuRecyclerView)
     SwipeMenuRecyclerView swipeMenuRecyclerView;
 
+    @BindView(R.id.swiperefreshlayout_meizi)
+    SwipeRefreshLayout swiperefreshlayout;
+    private ArrayList<String> stringArrayList;
+
     public static GankMeiziFragment newInstance() {
         return new GankMeiziFragment();
     }
@@ -60,7 +69,7 @@ public class GankMeiziFragment extends BaseFragment {
         ButterKnife.bind(this, rootView);
         initView();
         initInject();
-        homePresenter.getAndroidData(1,20);
+        homePresenter.getMeiziData(1, 20);
         return rootView;
     }
 
@@ -72,7 +81,17 @@ public class GankMeiziFragment extends BaseFragment {
     }
 
     private void initView() {
-        swipeMenuRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        swiperefreshlayout.setColorSchemeColors(getResources().getColor(R.color.red_normal),
+                getResources().getColor(R.color.green_normal),
+                getResources().getColor(R.color.purple_normal));
+        swiperefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                int nextInt = new Random().nextInt(10);
+                homePresenter.getMeiziData(nextInt,20);
+            }
+        });
+        swipeMenuRecyclerView.setLayoutManager(new GridLayoutManager(activity, 2));
         SwipeMenuCreator swipeMenuCreator = new SwipeMenuCreator() {
 
             @Override
@@ -100,24 +119,30 @@ public class GankMeiziFragment extends BaseFragment {
         swipeMenuRecyclerView.setSwipeMenuCreator(swipeMenuCreator);
         swipeMenuRecyclerView.setSwipeMenuItemClickListener(menuItemClickListener);
     }
+
     /**
      * Item点击监听。
      */
     private OnItemClickListener onItemClickListener = new OnItemClickListener() {
         @Override
         public void onItemClick(int position) {
+
+            Intent intent = new Intent(getActivity(), KotlinPhotoViewActivity.class);
+            intent.putExtra("pos",position);
+            intent.putStringArrayListExtra("imglist",stringArrayList);
+            getActivity().startActivity(intent);
         }
     };
 
-    private OnSwipeMenuItemClickListener menuItemClickListener = new OnSwipeMenuItemClickListener(){
+    private OnSwipeMenuItemClickListener menuItemClickListener = new OnSwipeMenuItemClickListener() {
 
         @Override
         public void onItemClick(Closeable closeable, int adapterPosition, int menuPosition, int direction) {
             closeable.smoothCloseMenu();
-            if (direction == SwipeMenuRecyclerView.RIGHT_DIRECTION){
+            if (direction == SwipeMenuRecyclerView.RIGHT_DIRECTION) {
                 //右侧点击
                 //收藏操作逻辑
-                ToastUtils.showMessage("点击了 "+menuPosition);
+                ToastUtils.showMessage("点击了 " + menuPosition);
             }
         }
     };
@@ -150,8 +175,17 @@ public class GankMeiziFragment extends BaseFragment {
         } else {
             mData.clear();
             mData = gankEntity.results;
-            dataAdapter = new MeizhiAdapter();
-            swipeMenuRecyclerView.setAdapter(dataAdapter);
+            if (dataAdapter == null) {
+                dataAdapter = new MeizhiAdapter();
+                swipeMenuRecyclerView.setAdapter(dataAdapter);
+            } else {
+                dataAdapter.notifyDataSetChanged();
+            }
+            swiperefreshlayout.setRefreshing(false);
+            stringArrayList = new ArrayList<>();
+            for(GankEntity.Data entity: mData){
+                stringArrayList.add(entity.url);
+            }
         }
     }
 
@@ -159,21 +193,27 @@ public class GankMeiziFragment extends BaseFragment {
     public void showError(Throwable throwable) {
     }
 
-    private class MeizhiAdapter extends RecyclerView.Adapter<ViewHolder>{
+    private class MeizhiAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(View.inflate(activity,R.layout.item_gank,null));
+            return new ViewHolder(View.inflate(GankMeiziFragment.this.getActivity(), R.layout.item_meizi, null));
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(ViewHolder holder, final int position) {
             GankEntity.Data data = mData.get(position);
-            holder.tv_item_title_gank.setText(data.type);
-            holder.tv_item_time_gank.setText(data.createdAt.substring(0, 10));
-            holder.tv_item_content_gank.setText(data.desc);
             try {
-                Glide.with(activity).load(data.images[position]).fitCenter().placeholder(R.mipmap.ic_launcher).into(holder.iv_item_gank);
+                Glide.with(GankMeiziFragment.this.getActivity()).load(data.url).fitCenter().placeholder(R.drawable.guide4).into(holder.iv_item_gank);
+                holder.iv_item_gank.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), KotlinPhotoViewActivity.class);
+                        intent.putExtra("pos",position);
+                        intent.putStringArrayListExtra("imglist",stringArrayList);
+                        getActivity().startActivity(intent);
+                    }
+                });
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -185,19 +225,13 @@ public class GankMeiziFragment extends BaseFragment {
         }
     }
 
-    private class ViewHolder extends RecyclerView.ViewHolder{
+    private class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tv_item_title_gank;
-        TextView tv_item_time_gank;
-        TextView tv_item_content_gank;
         ImageView iv_item_gank;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tv_item_title_gank = (TextView) itemView.findViewById(R.id.tv_item_title_gank);
-            tv_item_time_gank = (TextView) itemView.findViewById(R.id.tv_item_time_gank);
-            tv_item_content_gank = (TextView) itemView.findViewById(R.id.tv_item_content_gank);
-            iv_item_gank = (ImageView) itemView.findViewById(R.id.iv_item_gank);
+            iv_item_gank = (ImageView) itemView.findViewById(R.id.item_meizi_iv);
         }
     }
 

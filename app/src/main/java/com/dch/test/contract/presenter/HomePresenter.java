@@ -48,4 +48,19 @@ public class HomePresenter implements HomeContract.HomePresenter {
             }
         },pageNum,pageSize);
     }
+
+    @Override
+    public void getMeiziData(int pageNum, int pageSize) {
+        mArticalRepository.getMeiziData(new ArticalDataSource.GankCallback() {
+            @Override
+            public void onGankdataLoaded(GankEntity entity) {
+                view.showDailyList(entity);
+            }
+
+            @Override
+            public void onDataNotAvailable(Throwable throwable) {
+                view.showError(throwable);
+            }
+        },pageNum,pageSize);
+    }
 }

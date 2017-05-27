@@ -5,7 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion rootProject.buildToolsVersion
     defaultConfig {
         applicationId "com.dch.test"
         minSdkVersion 16
@@ -55,16 +55,16 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':common')
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     // dagger 2 的配置
-    compile 'com.google.dagger:dagger:2.10'
-    compile 'com.google.dagger:dagger-android-support:2.10'
-    compile 'com.google.dagger:dagger-android:2.10'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
-    annotationProcessor 'com.google.dagger:dagger-android-processor:2.10'
+    compile 'com.google.dagger:dagger:' + rootProject.daggerVersion
+    compile 'com.google.dagger:dagger-android-support:' + rootProject.daggerVersion
+    compile 'com.google.dagger:dagger-android:' + rootProject.daggerVersion
+    annotationProcessor 'com.google.dagger:dagger-compiler:' + rootProject.daggerVersion
+    annotationProcessor 'com.google.dagger:dagger-android-processor:' + rootProject.daggerVersion
 
     //butterknife
-    compile 'com.jakewharton:butterknife:8.5.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile 'com.jakewharton:butterknife:' + rootProject.buterknifeVersion
+    annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.buterknifeVersion
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }

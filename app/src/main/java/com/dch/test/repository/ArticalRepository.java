@@ -59,7 +59,7 @@ public class ArticalRepository implements ArticalDataSource {
     }
 
     @Override
-    public void getMeiziData(@NonNull GankCallback callback) {
+    public void getMeiziData(@NonNull GankCallback callback, int pageNum, int pageSize) {
         checkNotNull(callback);
 
         //先从数据库判断缓存是否存在...
@@ -75,7 +75,7 @@ public class ArticalRepository implements ArticalDataSource {
             }
         });*/
         //数据库缓存没有或者过期则从远程(网络)获取
-        getMeiziDataFromRemote(callback);
+        getMeiziDataFromRemote(callback,pageNum,pageSize);
     }
 
     @Override
@@ -112,7 +112,7 @@ public class ArticalRepository implements ArticalDataSource {
         },pageNum,pageSize);
     }
 
-    private void getMeiziDataFromRemote(final GankCallback callback) {
+    private void getMeiziDataFromRemote(final GankCallback callback, int pageNum, int pageSize) {
         articalRemoteDataSource.getMeiziData(new GankCallback() {
             @Override
             public void onGankdataLoaded(GankEntity entity) {
@@ -123,7 +123,7 @@ public class ArticalRepository implements ArticalDataSource {
             public void onDataNotAvailable(Throwable throwable) {
                 callback.onDataNotAvailable(throwable);
             }
-        });
+        }, pageNum, pageSize);
     }
 
     private void getArticalDataFromRemote(final LoadArticalCallback callback) {
