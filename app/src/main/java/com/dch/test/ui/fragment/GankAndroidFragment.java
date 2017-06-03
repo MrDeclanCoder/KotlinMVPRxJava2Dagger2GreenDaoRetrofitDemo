@@ -4,6 +4,9 @@ import android.annotation.TargetApi;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.dch.test.R;
@@ -127,6 +131,20 @@ public class GankAndroidFragment extends BaseFragment implements OnRefreshListen
                 }
             }
         });
+
+//
+//        PackageManager packageManager = activity.getPackageManager();
+//        try {
+//            Drawable applicationIcon = packageManager.getApplicationIcon("com.zchz.app");
+//            Toast toast = new Toast(activity);
+//            ImageView imageView = new ImageView(activity);
+//            imageView.setImageDrawable(applicationIcon);
+//            toast.setView(imageView);
+//            toast.setDuration(Toast.LENGTH_LONG);
+//            toast.show();
+//        } catch (PackageManager.NameNotFoundException e) {
+//            e.printStackTrace();
+//        }
     }
 
 

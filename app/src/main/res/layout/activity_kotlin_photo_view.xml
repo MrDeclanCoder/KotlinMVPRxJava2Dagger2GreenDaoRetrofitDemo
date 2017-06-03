@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black_overlay"
+    android:background="@android:color/black"
+    android:orientation="vertical">
 
-    tools:context="com.dch.test.ui.KotlinPhotoViewActivity">
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager_photoview"
+    <ImageView
+        android:id="@+id/blurView_photo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        />
+        android:layout_height="match_parent"
+        android:background="#3f000000"
+        android:scaleType="centerCrop" />
 
-</android.support.constraint.ConstraintLayout>
+    <com.view.jameson.library.SpeedRecyclerView
+        android:id="@+id/recyclerView_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+</RelativeLayout>

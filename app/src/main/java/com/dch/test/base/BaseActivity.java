@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.dch.test.R;
+import com.dch.test.util.StatusBarUtils;
 import com.gyf.barlibrary.ImmersionBar;
 
 import butterknife.ButterKnife;

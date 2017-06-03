@@ -99,9 +99,9 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     protected void initData() {
         myFavorite = (MyFavorite)getIntent().getSerializableExtra(Config.MYFAVOTITE);
         if (myFavorite.getImgUrl().endsWith("gif") || myFavorite.getImgUrl().endsWith("GIF")){
-            Glide.with(this).load(myFavorite.getImgUrl()).asGif().placeholder(R.drawable.guide4).into(iv_gank_detail);
+            Glide.with(this).load(myFavorite.getImgUrl()).asGif().placeholder(R.drawable.guide4).centerCrop().into(iv_gank_detail);
         } else {
-            Glide.with(this).load(myFavorite.getImgUrl()).asBitmap().placeholder(R.drawable.guide4).into(iv_gank_detail);
+            Glide.with(this).load(myFavorite.getImgUrl()).asBitmap().placeholder(R.drawable.guide4).centerCrop().into(iv_gank_detail);
         }
 
         mWebView.loadUrl(myFavorite.getUrl());

@@ -48,7 +48,7 @@ public class StatusBarUtils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //5.0及以上，不设置透明状态栏，设置会有半透明阴影
             activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //是activity_main。xml中的图片可以沉浸到状态栏上
+            //使activity_main。xml中的图片可以沉浸到状态栏上
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             //设置状态栏颜色透明。
             activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
@@ -66,7 +66,7 @@ public class StatusBarUtils {
         //获取到activity_main.xml文件
         ViewGroup rootView = (ViewGroup) ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
 
-        //如果不是设置参数，会使内容显示到状态栏上
+        //如果不设置参数，会使内容显示到状态栏上
         rootView.setFitsSystemWindows(true);
     }
 

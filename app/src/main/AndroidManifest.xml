@@ -48,7 +48,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.KotlinWebDetailsActivity" />
         <activity android:name=".ui.KotlinPhotoViewActivity"
-            android:theme="@style/FullscreenTheme"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             />
     </application>
 

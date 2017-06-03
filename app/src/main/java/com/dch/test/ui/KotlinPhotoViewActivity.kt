@@ -1,21 +1,21 @@
 package com.dch.test.ui
 
-import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.Gravity
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.dch.test.R
 import com.dch.test.base.BaseActivity
 import com.dch.test.util.StatusBarUtils
+import com.view.jameson.library.CardScaleHelper
+import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_kotlin_photo_view.*
 import org.jetbrains.anko.act
 import org.jetbrains.anko.matchParent
-import org.jetbrains.anko.onClick
 import org.jetbrains.anko.wrapContent
+import java.util.*
 
 /**
  * 作者：Dch on 2017/5/23 11:09
@@ -23,8 +23,10 @@ import org.jetbrains.anko.wrapContent
  * 邮箱：daichuanhao@caijinquan.com
  */
 class KotlinPhotoViewActivity : BaseActivity() {
+    val mCardScaleHelper = CardScaleHelper()
+
     override fun initData() {
-        val aaaa : Any ? =null
+        val aaaa: Any? = null
     }
 
     override fun initView() {
@@ -35,38 +37,46 @@ class KotlinPhotoViewActivity : BaseActivity() {
         layoutParams.height = wrapContent
 
         val imglist = intent.getStringArrayListExtra("imglist")
-        val pos = intent.getIntExtra("pos",1)
-        val imageViewList = ArrayList<ImageView>()
-        imglist.forEach { imageViewList.add(ImageView(act)) }
-        viewpager_photoview.adapter = PhotoAdapter(imglist,imageViewList,{ pos ->
-            showImg(pos,imageViewList[pos], layoutParams, imglist)
-        })
-        viewpager_photoview.setCurrentItem(pos,false)
+        val pos = intent.getIntExtra("pos", 1)
+
+        val linearLayoutManager = LinearLayoutManager(act, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView_photo.layoutManager = linearLayoutManager
+        recyclerView_photo.adapter = CardAdapter(imglist) { imageView: ImageView, url: String -> showImage(imageView, url) }
+        //recyclerview绑定scale效果
+        mCardScaleHelper.currentItemPos = pos
+        mCardScaleHelper.attachToRecyclerView(recyclerView_photo)
+
+        initBlurBackground(imglist)
+    }
+
+    fun showImage(imageView: ImageView, url: String) {
+        Glide.with(act).load(url).centerCrop().into(imageView)
     }
 
     override fun setLayoutId() = R.layout.activity_kotlin_photo_view
 
-    fun showImg(position: Int, imageView: ImageView, layoutParams: ViewPager.LayoutParams, imglist: ArrayList<String>): Unit {
-        imageView.layoutParams = layoutParams
-        Glide.with(act).load(imglist[position]).asBitmap().into(imageView)
-        imageView.onClick { act.finish() }
+    fun initBlurBackground(imglist: ArrayList<String>) {
+        recyclerView_photo.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    notifyBackgroundChange(imglist)
+                }
+            }
+        })
+        notifyBackgroundChange(imglist)
     }
 
-    class PhotoAdapter(val imglist: ArrayList<String>, val imageViewlist: ArrayList<ImageView>, val showImg: (pos:Int) -> Unit) : PagerAdapter() {
-
-        override fun instantiateItem(container: ViewGroup?, position: Int): Any {
-            container?.addView(imageViewlist[position])
-            showImg(position)
-            return imageViewlist[position]
-        }
-
-        override fun destroyItem(container: ViewGroup?, position: Int, `object`: Any?) {
-            container?.removeView(imageViewlist[position])
-        }
-
-        override fun isViewFromObject(view: View?, `object`: Any?) = true
-
-        override fun getCount() = imglist.size
+    fun notifyBackgroundChange(imglist: ArrayList<String>) {
+//        if (lastPosition == mCardScaleHelper.currentItemPos) return
+//        val lastPosition = mCardScaleHelper.currentItemPos
+        val url = imglist[mCardScaleHelper.currentItemPos]
+        Glide.with(act).load(url).crossFade(500).bitmapTransform(BlurTransformation(act,23,4)).into(blurView_photo)
+//        val blurRunnabl = Runnable {
+//
+//        }
+//        blurView_photo.postDelayed(blurRunnabl,300)
 
     }
+
 }

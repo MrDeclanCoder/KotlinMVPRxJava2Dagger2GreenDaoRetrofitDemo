@@ -204,7 +204,7 @@ public class GankMeiziFragment extends BaseFragment {
         public void onBindViewHolder(ViewHolder holder, final int position) {
             GankEntity.Data data = mData.get(position);
             try {
-                Glide.with(GankMeiziFragment.this.getActivity()).load(data.url).fitCenter().placeholder(R.drawable.guide4).into(holder.iv_item_gank);
+                Glide.with(GankMeiziFragment.this.getActivity()).load(data.url).centerCrop().placeholder(R.drawable.guide4).into(holder.iv_item_gank);
                 holder.iv_item_gank.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

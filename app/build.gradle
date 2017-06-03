@@ -55,16 +55,14 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':common')
-
+    compile project(':library')
     // dagger 2 的配置
     compile 'com.google.dagger:dagger:' + rootProject.daggerVersion
     compile 'com.google.dagger:dagger-android-support:' + rootProject.daggerVersion
     compile 'com.google.dagger:dagger-android:' + rootProject.daggerVersion
     annotationProcessor 'com.google.dagger:dagger-compiler:' + rootProject.daggerVersion
     annotationProcessor 'com.google.dagger:dagger-android-processor:' + rootProject.daggerVersion
-
     //butterknife
     compile 'com.jakewharton:butterknife:' + rootProject.buterknifeVersion
     annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.buterknifeVersion
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
