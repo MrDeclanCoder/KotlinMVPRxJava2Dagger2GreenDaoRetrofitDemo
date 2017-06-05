@@ -46,7 +46,7 @@ class KotlinPhotoViewActivity : BaseActivity() {
         mCardScaleHelper.currentItemPos = pos
         mCardScaleHelper.attachToRecyclerView(recyclerView_photo)
 
-        initBlurBackground(imglist)
+        initBlurBackground(imglist,pos)
     }
 
     fun showImage(imageView: ImageView, url: String) {
@@ -55,7 +55,7 @@ class KotlinPhotoViewActivity : BaseActivity() {
 
     override fun setLayoutId() = R.layout.activity_kotlin_photo_view
 
-    fun initBlurBackground(imglist: ArrayList<String>) {
+    fun initBlurBackground(imglist: ArrayList<String>, pos: Int) {
         recyclerView_photo.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -64,7 +64,7 @@ class KotlinPhotoViewActivity : BaseActivity() {
                 }
             }
         })
-        notifyBackgroundChange(imglist)
+        Glide.with(act).load(imglist[pos]).crossFade(500).bitmapTransform(BlurTransformation(act,23,4)).into(blurView_photo)
     }
 
     fun notifyBackgroundChange(imglist: ArrayList<String>) {
