@@ -53,7 +53,9 @@
         <activity
             android:name=".ui.KotlinSettingsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".ui.GameActivity"></activity>
+        <activity
+            android:name=".ui.GameActivity"
+            android:theme="@style/ActivityBaseTheme" />
     </application>
 
 </manifest>

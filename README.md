@@ -13,6 +13,8 @@ An android app example that I ususlly exercise.
 
 ![](pic/pic4.jpg)
 
+![](pic/2.gif)
+
 /***** 未完待续  *****/
 
 

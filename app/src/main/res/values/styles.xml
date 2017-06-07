@@ -45,4 +45,9 @@
         <item name="android:background">#ffffff</item>
     </style>
 
+    <style name="ActivityBaseTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+
+
+    </style>
+
 </resources>
