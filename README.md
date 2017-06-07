@@ -1,7 +1,7 @@
 # KotlinMVPRxJava2Dagger2GreenDaoRetrofitDemo
 Kotlin+RxJava2+Dagger2+RxCache+Retrofit+GoogleMVPMode+GreenDao
 
-An android app example that I ususlly exercise.
+An android app example that I  exercise.
 
 # 欢迎页
 利用RxJava2实现右上角倒计时功能.
@@ -13,7 +13,8 @@ An android app example that I ususlly exercise.
 
 ![](pic/pic4.jpg)
 
-
+#自定义view 五子棋
+![](pic/222.gif)
 
 /***** 未完待续  *****/
 
