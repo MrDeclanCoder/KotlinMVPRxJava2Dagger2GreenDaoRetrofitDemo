@@ -71,4 +71,6 @@ dependencies {
     compile 'com.github.chrisbanes.photoview:library:1.2.4'
     //glide高斯模糊
     compile 'jp.wasabeef:glide-transformations:2.0.1'
+    //flyview
+    compile 'com.ufreedom.uikit:FloatingViewLib:1.0.2'
 }

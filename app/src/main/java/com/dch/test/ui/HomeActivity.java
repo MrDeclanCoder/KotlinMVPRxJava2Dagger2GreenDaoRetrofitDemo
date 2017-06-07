@@ -177,19 +177,18 @@ public class HomeActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-        } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_floating) {
+            startActivity(new Intent(this, KotlinSettingsActivity.class));
+        } else if (id == R.id.nav_tool) {
+            startActivity(new Intent(this, KotlinSettingsActivity.class));
+        } else if (id == R.id.nav_path) {
+            startActivity(new Intent(this, LeadActivity.class));
+        } else if (id == R.id.nav_favorite) {
+            startActivity(new Intent(this, KotlinScrollingActivity.class));
+        } else if (id == R.id.nav_wuziqi) {
+            startActivity(new Intent(this, GameActivity.class));
         }
-        startActivity(new Intent(this, LeadActivity.class));
-        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 

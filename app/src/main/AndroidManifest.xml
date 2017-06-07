@@ -47,9 +47,13 @@
             android:label="@string/title_activity_kotlin_scrolling"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.KotlinWebDetailsActivity" />
-        <activity android:name=".ui.KotlinPhotoViewActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            />
+        <activity
+            android:name=".ui.KotlinPhotoViewActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".ui.KotlinSettingsActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".ui.GameActivity"></activity>
     </application>
 
 </manifest>

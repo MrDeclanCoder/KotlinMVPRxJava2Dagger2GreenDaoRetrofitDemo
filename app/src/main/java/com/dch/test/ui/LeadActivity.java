@@ -38,7 +38,7 @@ public class LeadActivity extends BaseActivity {
         Path path = new Path();
         path.moveTo(0,0);
         path.addCircle(40,40,30, Path.Direction.CW);
-        pathAnimView1.setSourcePath(PathParserUtils.getPathFromArrayFloatList(StoreHousePath.getPath("DAICHUANHAO")));
+        pathAnimView1.setSourcePath(PathParserUtils.getPathFromArrayFloatList(StoreHousePath.getPath("pathview")));
         pathAnimView1.startAnim();
 
     }
