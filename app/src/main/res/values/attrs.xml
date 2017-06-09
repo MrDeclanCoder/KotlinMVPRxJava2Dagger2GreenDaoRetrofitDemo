@@ -9,11 +9,24 @@
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 
+
+    <declare-styleable name="CustomVolumControlBar">
+        <attr name="firstcolor" format="color" />
+        <attr name="secondcolor" format="color" />
+        <attr name="splitsize" format="integer" />
+        <attr name="centerimg" format="reference" />
+        <attr name="dotcount" format="integer" />
+        <attr name="circlewidth" format="dimension" />
+        <attr name="centerangel" format="integer" />
+
+    </declare-styleable>
+
     <array name="indicator_colors">
         <item>@color/indicator_1</item>
         <item>@color/indicator_2</item>
         <item>@color/indicator_3</item>
         <item>@color/indicator_4</item>
     </array>
+
 
 </resources>
