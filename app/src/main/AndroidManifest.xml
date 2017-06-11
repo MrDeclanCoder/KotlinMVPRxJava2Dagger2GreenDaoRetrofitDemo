@@ -56,6 +56,9 @@
         <activity
             android:name=".ui.GameActivity"
             android:theme="@style/ActivityBaseTheme" />
+        <activity
+            android:name=".ui.CustomLeftDrawerActivity"
+            android:theme="@style/ActivityBaseTheme" />
     </application>
 
 </manifest>

@@ -177,7 +177,7 @@ public class HomeActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-
+            startActivity(new Intent(this,CustomLeftDrawerActivity.class));
         } else if (id == R.id.nav_floating) {
             startActivity(new Intent(this, KotlinSettingsActivity.class));
         } else if (id == R.id.nav_tool) {
