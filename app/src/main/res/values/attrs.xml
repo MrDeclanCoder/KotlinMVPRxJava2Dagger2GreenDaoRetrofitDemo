@@ -29,4 +29,16 @@
     </array>
 
 
+    <declare-styleable name="CustomProgressBar">
+        <attr name="maxProress" format="integer"/>
+        <attr name="currentProgress" format="integer"/>
+        <attr name="circleWidth" format="dimension"/>
+        <attr name="backgroundWidth" format="dimension"/>
+        <attr name="circleColor" format="color"/>
+        <attr name="backgroundColor" format="color"/>
+        <attr name="textColor" format="color"/>
+        <attr name="textSize" format="dimension"/>
+    </declare-styleable>
+
+
 </resources>

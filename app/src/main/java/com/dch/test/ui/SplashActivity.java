@@ -4,9 +4,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.Handler;
 import android.transition.Explode;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +13,7 @@ import com.dch.test.base.BaseActivity;
 import com.dch.test.util.Config;
 import com.dch.test.util.SharePreferenceUtils;
 import com.dch.test.util.StatusBarUtils;
+import com.dch.test.widget.CustomProgressBar;
 
 import java.util.concurrent.TimeUnit;
 
@@ -25,6 +24,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
+import jameson.io.library.util.LogUtils;
 
 /**
  * 作者：Dch on 2017/4/10 18:37
@@ -39,21 +39,15 @@ public class SplashActivity extends BaseActivity {
     @BindView(R.id.textView2)
     TextView textView2;
 
-    private Handler handler;
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            setupWindowAnimations();
-            judgeTurn();
-        }
-    };
+    @BindView(R.id.customprogressbar)
+    CustomProgressBar mProgressBar;
 
     private void judgeTurn() {
-        if(SharePreferenceUtils.getPrefBoolean(getApplicationContext(), Config.APP_GUIDE,false)){
+        if (SharePreferenceUtils.getPrefBoolean(getApplicationContext(), Config.APP_GUIDE, false)) {
             startActivity(new Intent(SplashActivity.this, HomeActivity.class));
             finish();
         } else {
-            SharePreferenceUtils.setPrefBoolean(getApplicationContext(),Config.APP_GUIDE,true);
+            SharePreferenceUtils.setPrefBoolean(getApplicationContext(), Config.APP_GUIDE, true);
             startActivity(new Intent(SplashActivity.this, GuideActivity.class));
             finish();
         }
@@ -73,9 +67,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void initView() {
         StatusBarUtils.setImage(this);
-        handler = new Handler();
-        handler.postDelayed(runnable, 8500);
-        ObjectAnimator alpha = ObjectAnimator.ofFloat(imageView_splash, "alpha", 1f, 0.5f);
+        final ObjectAnimator alpha = ObjectAnimator.ofFloat(imageView_splash, "alpha", 1f, 0.5f);
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(imageView_splash, "scaleX", 1f, 1.1f);
         ObjectAnimator scaleY = ObjectAnimator.ofFloat(imageView_splash, "scaleY", 1f, 1.1f);
         AnimatorSet animatorSet = new AnimatorSet();
@@ -83,18 +75,9 @@ public class SplashActivity extends BaseActivity {
         animatorSet.play(alpha).with(scaleX).with(scaleY);
         animatorSet.start();
 
-        final long count = 3;
-        Observable.interval(1, 1, TimeUnit.SECONDS)
-                .take(count + 1)
-                .map(new Function<Long, Long>() {
-                    @Override
-                    public Long apply(@NonNull Long i) throws Exception {
-                        return count - i;
-                    }
-                })
+        Observable.interval(400,30, TimeUnit.MILLISECONDS)
+                .take(100)
                 .observeOn(AndroidSchedulers.mainThread())
-//                .doOnSubscribe(disposable -> {
-//                })
                 .subscribe(new Observer<Long>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -102,7 +85,7 @@ public class SplashActivity extends BaseActivity {
 
                     @Override
                     public void onNext(Long aLong) {
-                        textView2.setText(String.valueOf(aLong));
+                        mProgressBar.start();
                     }
 
                     @Override
@@ -112,15 +95,8 @@ public class SplashActivity extends BaseActivity {
 
                     @Override
                     public void onComplete() {
-                        textView2.setText("跳过");
-                        textView2.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                handler.removeCallbacks(runnable);
-                                setupWindowAnimations();
-                                judgeTurn();
-                            }
-                        });
+                        setupWindowAnimations();
+                        judgeTurn();
                     }
                 });
     }

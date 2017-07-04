@@ -53,4 +53,7 @@ ext{
     //butterknife
     buterknifeVersion = "8.5.1"
 
+    //eventbus
+    eventbusVersion = "3.0.0"
+
 }

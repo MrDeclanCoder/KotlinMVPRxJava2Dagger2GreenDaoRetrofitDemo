@@ -28,7 +28,9 @@ import com.dch.test.di.activity.DaggerHomeActivityComponent;
 import com.dch.test.di.activity.HomePresenterModule;
 import com.dch.test.entity.MyFavorite;
 import com.dch.test.repository.entity.GankEntity;
+import com.dch.test.ui.CloseFabEvent;
 import com.dch.test.ui.DetailActivity;
+import com.dch.test.ui.FabCloseEvent;
 import com.dch.test.ui.HomeActivity;
 import com.dch.test.util.Config;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
@@ -37,6 +39,8 @@ import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,6 +112,9 @@ public class GankAndroidFragment extends BaseFragment implements OnRefreshListen
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                FabCloseEvent fabCloseEvent = new FabCloseEvent();
+                fabCloseEvent.status = 1;
+                EventBus.getDefault().post(fabCloseEvent);
                 Intent i = new Intent(activity, DetailActivity.class);
                 MyFavorite favorite = new MyFavorite();
                 favorite.setTitle("Android");

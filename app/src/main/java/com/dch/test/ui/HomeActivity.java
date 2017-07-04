@@ -1,6 +1,8 @@
 package com.dch.test.ui;
 
+import android.animation.Animator;
 import android.content.Intent;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -16,6 +18,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.dch.test.R;
@@ -29,6 +33,10 @@ import com.dch.test.ui.fragment.GankAndroidFragment;
 import com.dch.test.ui.fragment.GankMeiziFragment;
 import com.dch.test.util.ActivityUtils;
 import com.dch.test.util.RxBus;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +59,7 @@ public class HomeActivity extends BaseActivity
     private List<BaseFragment> mFragmentList = new ArrayList<>();
     private String[] titles = {"Android", "妹纸", "博客"};
     private int currentIndex = 0;
+    private boolean SHOWING = false;
 
     @Inject
     HomePresenter presenter;
@@ -68,8 +77,23 @@ public class HomeActivity extends BaseActivity
     @BindView(R.id.vp_home)
     ViewPager mViewPager;
 
+    @BindView(R.id.framelayout_test_home)
+    FrameLayout framelayout_test_home;
+
     @Override
     protected void initData() {
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(FabCloseEvent event){
+        if (1 == event.status){
+            //close
+            if (SHOWING){
+                SHOWING = !SHOWING;
+                hideFabLayout();
+            }
+        }
 
     }
 
@@ -80,13 +104,7 @@ public class HomeActivity extends BaseActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "我的收藏", Snackbar.LENGTH_LONG)
-                        .setAction("前往", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                ActivityUtils.startActivity(HomeActivity.this, KotlinScrollingActivity.class);
-                            }
-                        }).show();
+                fabClick();
             }
         });
 
@@ -134,6 +152,71 @@ public class HomeActivity extends BaseActivity
         RxBus.getInstance().post(titles[0]);
     }
 
+    private void fabClick() {
+    /* Snackbar.make(view, "我的收藏", Snackbar.LENGTH_LONG)
+             .setAction("前往", new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                     ActivityUtils.startActivity(HomeActivity.this, KotlinScrollingActivity.class);
+                 }
+             }).show();*/
+
+        if (!SHOWING) {
+            //显示
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                //揭示动画
+                Animator animatorShow = ViewAnimationUtils.createCircularReveal(framelayout_test_home,
+                        framelayout_test_home.getWidth(),
+                        framelayout_test_home.getHeight(),
+                        0,
+                        (float) Math.hypot(framelayout_test_home.getWidth(), framelayout_test_home.getHeight()));
+                framelayout_test_home.setVisibility(View.VISIBLE);
+                if (framelayout_test_home.getVisibility() == View.VISIBLE) {
+                    animatorShow.setDuration(300);
+                    animatorShow.start();
+                }
+            } else {
+                framelayout_test_home.setVisibility(View.VISIBLE);
+            }
+        } else {
+            //隐藏
+            hideFabLayout();
+        }
+
+        SHOWING = !SHOWING;
+    }
+
+    private void hideFabLayout() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Animator animatorHide = ViewAnimationUtils.createCircularReveal(framelayout_test_home, framelayout_test_home.getWidth(), framelayout_test_home.getHeight(),
+                    (float) Math.hypot(framelayout_test_home.getWidth(), framelayout_test_home.getHeight()), 0);
+            animatorHide.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    framelayout_test_home.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+            animatorHide.setDuration(300);
+            animatorHide.start();
+        } else {
+            framelayout_test_home.setVisibility(View.GONE);
+        }
+    }
 
 
     protected HomePresenterModule getActivityModule() {
@@ -177,7 +260,7 @@ public class HomeActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            startActivity(new Intent(this,CustomLeftDrawerActivity.class));
+            startActivity(new Intent(this, CustomLeftDrawerActivity.class));
         } else if (id == R.id.nav_floating) {
             startActivity(new Intent(this, KotlinSettingsActivity.class));
         } else if (id == R.id.nav_tool) {
@@ -213,5 +296,17 @@ public class HomeActivity extends BaseActivity
         public CharSequence getPageTitle(int position) {
             return titles[position];
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -7,16 +7,13 @@
 
     <ImageView
         android:id="@+id/imageview_splash"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/guide4"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/timg3"
          />
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/textView2"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -29,4 +26,18 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.034" />
-</android.support.constraint.ConstraintLayout>
+
+    <com.dch.test.widget.CustomProgressBar
+        android:id="@+id/customprogressbar"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:backgroundWidth="50dp"
+        app:currentProgress="100"
+        app:backgroundColor="@color/black_overlay"
+        app:circleColor="@color/colorAccent"
+        app:textColor="@color/white"
+        />
+</RelativeLayout>

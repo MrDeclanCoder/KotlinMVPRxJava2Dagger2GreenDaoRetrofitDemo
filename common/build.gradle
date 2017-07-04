@@ -73,4 +73,6 @@ dependencies {
     compile 'jp.wasabeef:glide-transformations:2.0.1'
     //flyview
     compile 'com.ufreedom.uikit:FloatingViewLib:1.0.2'
+    //eventbus
+    compile 'org.greenrobot:eventbus:' + rootProject.eventbusVersion
 }

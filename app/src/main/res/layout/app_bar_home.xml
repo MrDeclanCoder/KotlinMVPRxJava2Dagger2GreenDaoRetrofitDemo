@@ -48,8 +48,32 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_info" />
+        app:layout_anchor="@id/vp_home"
+        app:layout_anchorGravity="bottom|end"
+        app:layout_behavior="com.dch.test.util.FloatingCustomBehavior"
+        app:borderWidth="0dp"
+        app:srcCompat="@mipmap/ic_action_add" />
+
+
+    <FrameLayout
+        android:id="@+id/framelayout_test_home"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="30dp"
+        app:layout_anchor="@id/fab"
+        app:layout_anchorGravity="bottom|end"
+        android:background="@drawable/coner_framelayout_bg"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="还没想好放什么"/>
+
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>
