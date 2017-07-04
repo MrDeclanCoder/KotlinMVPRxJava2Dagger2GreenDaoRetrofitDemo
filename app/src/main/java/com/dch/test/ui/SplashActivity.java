@@ -75,30 +75,38 @@ public class SplashActivity extends BaseActivity {
         animatorSet.play(alpha).with(scaleX).with(scaleY);
         animatorSet.start();
 
+        final Observer<Long> observer = new Observer<Long>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+            }
+
+            @Override
+            public void onNext(Long aLong) {
+                mProgressBar.start();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+                setupWindowAnimations();
+                judgeTurn();
+            }
+        };
         Observable.interval(400,30, TimeUnit.MILLISECONDS)
                 .take(100)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Long>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                    }
+                .subscribe(observer);
+        mProgressBar.setOnClickListener(new CustomProgressBar.OnClickListener() {
+            @Override
+            public void onClick() {
+                observer.onComplete();
+            }
+        });
 
-                    @Override
-                    public void onNext(Long aLong) {
-                        mProgressBar.start();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        setupWindowAnimations();
-                        judgeTurn();
-                    }
-                });
     }
 
     @Override
