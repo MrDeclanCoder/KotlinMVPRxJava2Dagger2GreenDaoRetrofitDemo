@@ -3,6 +3,7 @@ package com.dch.test.ui;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.transition.Explode;
 import android.widget.ImageView;
@@ -44,11 +45,11 @@ public class SplashActivity extends BaseActivity {
 
     private void judgeTurn() {
         if (SharePreferenceUtils.getPrefBoolean(getApplicationContext(), Config.APP_GUIDE, false)) {
-            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+            startActivity(new Intent(SplashActivity.this, HomeActivity.class), ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
             finish();
         } else {
             SharePreferenceUtils.setPrefBoolean(getApplicationContext(), Config.APP_GUIDE, true);
-            startActivity(new Intent(SplashActivity.this, GuideActivity.class));
+            startActivity(new Intent(SplashActivity.this, GuideActivity.class),ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
             finish();
         }
     }
@@ -92,7 +93,6 @@ public class SplashActivity extends BaseActivity {
 
             @Override
             public void onComplete() {
-                setupWindowAnimations();
                 judgeTurn();
             }
         };
