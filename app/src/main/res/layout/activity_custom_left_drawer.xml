@@ -1,25 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.dch.test.widget.LeftDrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/drawer_content"
+    <TextView
+        android:id="@+id/tv_music_play"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="播放"
+        android:textColor="@color/colorAccent" />
+
+    <TextView
+        android:id="@+id/tv_music_stop"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="停止"
+        android:textColor="@color/colorAccent" />
+
+    <TextView
+        android:id="@+id/tv_music_select"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="当前状态"
+        android:textColor="@color/colorAccent" />
+
+    <com.dch.test.widget.LeftDrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/white"
-        >
+        android:layout_height="match_parent">
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/drawer_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/drawer_menu"
-        android:layout_width="200dp"
-        android:layout_height="match_parent"
-        android:background="@color/cardview_dark_background"
-        >
 
-    </FrameLayout>
+        </LinearLayout>
 
-</com.dch.test.widget.LeftDrawerLayout>
+        <FrameLayout
+            android:id="@+id/drawer_menu"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:background="@color/cardview_dark_background">
+
+        </FrameLayout>
+
+    </com.dch.test.widget.LeftDrawerLayout>
+</LinearLayout>

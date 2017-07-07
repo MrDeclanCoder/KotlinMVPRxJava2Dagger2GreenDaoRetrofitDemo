@@ -14,6 +14,10 @@
             android:id="@+id/nav_path"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="pathview" />
+        <item
+            android:id="@+id/nav_music"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="music" />
     </group>
 
     <item android:title="其他">

@@ -263,6 +263,8 @@ public class HomeActivity extends BaseActivity
             startActivity(new Intent(this, CustomLeftDrawerActivity.class));
         } else if (id == R.id.nav_floating) {
             startActivity(new Intent(this, KotlinSettingsActivity.class));
+        } else if (id == R.id.nav_music) {
+            startActivity(new Intent(this, CustomLeftDrawerActivity.class));
         } else if (id == R.id.nav_tool) {
             startActivity(new Intent(this, KotlinSettingsActivity.class));
         } else if (id == R.id.nav_path) {
