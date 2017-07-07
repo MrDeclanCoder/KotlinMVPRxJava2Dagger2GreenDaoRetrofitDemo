@@ -3,6 +3,8 @@ package com.dch.test.ui;
 import android.animation.Animator;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -15,6 +17,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.transition.Explode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,6 +47,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 //import com.dch.test.di.app.AppModule;
 //import com.dch.test.di.app.DaggerAppComponent;
@@ -79,6 +83,22 @@ public class HomeActivity extends BaseActivity
 
     @BindView(R.id.framelayout_test_home)
     FrameLayout framelayout_test_home;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //初始化
+//        ImmersionBar.with(this)
+//                .statusBarColor(R.color.colorPrimary)     //状态栏颜色，不写默认透明色
+//                .statusBarColorTransform(R.color.colorPrimary)  //状态栏变色后的颜色
+//                .init();
+        getWindow().setEnterTransition(new Explode());
+        setContentView(setLayoutId());
+        unbinder = ButterKnife.bind(this);
+//        initInject();
+        initView();
+        initData();
+    }
 
     @Override
     protected void initData() {

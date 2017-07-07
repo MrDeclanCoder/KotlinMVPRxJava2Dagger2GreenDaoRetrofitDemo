@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.034" />
 
-    <com.dch.test.widget.CustomProgressBar
+    <com.dch.test.widget.CountDownProgressBar
         android:id="@+id/customprogressbar"
         android:layout_alignParentRight="true"
         android:layout_marginRight="16dp"

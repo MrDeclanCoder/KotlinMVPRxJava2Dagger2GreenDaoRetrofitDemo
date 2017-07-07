@@ -30,7 +30,6 @@ public abstract class BaseActivity extends AppCompatActivity{
 //                .statusBarColor(R.color.colorPrimary)     //状态栏颜色，不写默认透明色
 //                .statusBarColorTransform(R.color.colorPrimary)  //状态栏变色后的颜色
 //                .init();
-        getWindow().setEnterTransition(new Slide());
         setContentView(setLayoutId());
         unbinder = ButterKnife.bind(this);
 //        initInject();

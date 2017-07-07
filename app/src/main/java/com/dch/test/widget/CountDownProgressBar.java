@@ -19,11 +19,11 @@ import com.dch.test.R;
  * 描述：
  * 邮箱：daichuanhao@caijinquan.com
  */
-public class CustomProgressBar extends View {
+public class CountDownProgressBar extends View {
     private String content = "跳过";
     private int mMaxProgress = 100;
     private int mCircleWidth = 3;
-    private int mTextSize = 45;
+    private int mTextSize = 40;
     private int mBackgroundWidth = 100;
     private int mCircleColor = 0xff0000;
     private int mTextColor = 0xf0ffff;
@@ -39,48 +39,49 @@ public class CustomProgressBar extends View {
     private Rect mTextRect;
     private float mTextY;
 
-    public CustomProgressBar(Context context) {
+    public CountDownProgressBar(Context context) {
         this(context, null);
     }
 
-    public CustomProgressBar(Context context, @Nullable AttributeSet attrs) {
+    public CountDownProgressBar(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CustomProgressBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CountDownProgressBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initAttrs(context, attrs, defStyleAttr);
+        setClickable(true);
     }
 
     private void initAttrs(Context context, AttributeSet attrs, int defStyleAttr) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CustomProgressBar, defStyleAttr, 0);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CountDownProgressBar, defStyleAttr, 0);
         int indexCount = typedArray.getIndexCount();
         for (int i = 0; i < indexCount; i++) {
             int attr = typedArray.getIndex(i);
             switch (attr) {
-                case R.styleable.CustomProgressBar_maxProress:
+                case R.styleable.CountDownProgressBar_maxProress:
                     mMaxProgress = typedArray.getInt(attr, 100);
                     break;
-                case R.styleable.CustomProgressBar_circleColor:
+                case R.styleable.CountDownProgressBar_circleColor:
                     mCircleColor = typedArray.getColor(attr, 0xff0000);
                     break;
-                case R.styleable.CustomProgressBar_textColor:
+                case R.styleable.CountDownProgressBar_textColor:
                     mTextColor = typedArray.getColor(attr, 0xff0000);
                     break;
-                case R.styleable.CustomProgressBar_circleWidth:
+                case R.styleable.CountDownProgressBar_circleWidth:
                     mCircleWidth = typedArray.getDimensionPixelSize(attr, 3);
                     break;
-                case R.styleable.CustomProgressBar_backgroundWidth:
+                case R.styleable.CountDownProgressBar_backgroundWidth:
                     mBackgroundWidth = typedArray.getDimensionPixelSize(attr, 10);
                     break;
-                case R.styleable.CustomProgressBar_currentProgress:
+                case R.styleable.CountDownProgressBar_currentProgress:
                     mCurrentProgress = typedArray.getInt(attr, 0);
                     break;
-                case R.styleable.CustomProgressBar_backgroundColor:
+                case R.styleable.CountDownProgressBar_backgroundColor:
                     mBackgroundColor = typedArray.getColor(attr, 0xcfcfcf);
                     break;
-                case R.styleable.CustomProgressBar_textSize:
-                    mTextSize = typedArray.getDimensionPixelSize(attr, 45);
+                case R.styleable.CountDownProgressBar_textSize:
+                    mTextSize = typedArray.getDimensionPixelSize(attr, 40);
                     break;
             }
         }

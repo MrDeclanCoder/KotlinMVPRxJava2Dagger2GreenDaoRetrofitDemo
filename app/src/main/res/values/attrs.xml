@@ -29,7 +29,7 @@
     </array>
 
 
-    <declare-styleable name="CustomProgressBar">
+    <declare-styleable name="CountDownProgressBar">
         <attr name="maxProress" format="integer"/>
         <attr name="currentProgress" format="integer"/>
         <attr name="circleWidth" format="dimension"/>

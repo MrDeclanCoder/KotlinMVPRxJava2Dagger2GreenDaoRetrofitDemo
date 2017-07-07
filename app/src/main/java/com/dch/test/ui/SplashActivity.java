@@ -14,7 +14,7 @@ import com.dch.test.base.BaseActivity;
 import com.dch.test.util.Config;
 import com.dch.test.util.SharePreferenceUtils;
 import com.dch.test.util.StatusBarUtils;
-import com.dch.test.widget.CustomProgressBar;
+import com.dch.test.widget.CountDownProgressBar;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,10 +22,7 @@ import butterknife.BindView;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
-import jameson.io.library.util.LogUtils;
 
 /**
  * 作者：Dch on 2017/4/10 18:37
@@ -41,7 +38,7 @@ public class SplashActivity extends BaseActivity {
     TextView textView2;
 
     @BindView(R.id.customprogressbar)
-    CustomProgressBar mProgressBar;
+    CountDownProgressBar mProgressBar;
 
     private void judgeTurn() {
         if (SharePreferenceUtils.getPrefBoolean(getApplicationContext(), Config.APP_GUIDE, false)) {
@@ -77,13 +74,20 @@ public class SplashActivity extends BaseActivity {
         animatorSet.start();
 
         final Observer<Long> observer = new Observer<Long>() {
+            private Disposable disposable;
+
             @Override
             public void onSubscribe(Disposable d) {
+                disposable = d;
             }
 
             @Override
             public void onNext(Long aLong) {
-                mProgressBar.start();
+                if (mProgressBar != null) {
+                    mProgressBar.start();
+                } else {
+                    disposable.dispose();
+                }
             }
 
             @Override
@@ -93,17 +97,21 @@ public class SplashActivity extends BaseActivity {
 
             @Override
             public void onComplete() {
-                judgeTurn();
+                if (mProgressBar != null) {
+                    judgeTurn();
+                } else {
+                    disposable.dispose();
+                }
             }
         };
-        Observable.interval(400,30, TimeUnit.MILLISECONDS)
+        Observable<Long> longObservable = Observable.interval(400, 30, TimeUnit.MILLISECONDS)
                 .take(100)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
-        mProgressBar.setOnClickListener(new CustomProgressBar.OnClickListener() {
+                .observeOn(AndroidSchedulers.mainThread());
+        longObservable.subscribe(observer);
+        mProgressBar.setOnClickListener(new CountDownProgressBar.OnClickListener() {
             @Override
             public void onClick() {
-                observer.onComplete();
+                judgeTurn();
             }
         });
 
