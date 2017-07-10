@@ -23,14 +23,14 @@ public class WaterRefreshView extends ScrollView {
     private WaterView mWaterView;
     private LinearLayout mContainer;
     private View headerView;
-    private final int MIN_DRAG_HEIGHT = 70;
-    private final int RELEASE_REFRESH_HEIGHT = 200;
+    private final int MIN_DRAG_HEIGHT = 230;
+    private final int RELEASE_REFRESH_HEIGHT = 350;
     private int mCurrentState = STATE_DEFAULT;
     private static final int STATE_DEFAULT = 0X001;
     private static final int STATE_MOVE = 0X002;
     private static final int STATE_RELEASE = 0X003;
     private static final int STATE_REFRESH = 0X004;
-    private static final float RATIO_MOVE = 1f;
+    private static final float RATIO_MOVE = 1.6f;
 
     public WaterRefreshView(Context context) {
         this(context, null);
@@ -88,7 +88,7 @@ public class WaterRefreshView extends ScrollView {
                 break;
             case MotionEvent.ACTION_MOVE:
                 deltY = ev.getY() - downY;
-                if (getScrollY() == 0 && mCurrentState != STATE_REFRESH) {
+                if (getScrollY() == 0 && mCurrentState != STATE_REFRESH && deltY>0) {
                     calculatorDeltY(deltY/RATIO_MOVE);
                     return true;
                 } else {
@@ -128,7 +128,12 @@ public class WaterRefreshView extends ScrollView {
         if (deltY > MIN_DRAG_HEIGHT && deltY < RELEASE_REFRESH_HEIGHT) {
             Log.d("aaa","calculatorDeltY: "+(deltY - MIN_DRAG_HEIGHT));
             setMoveState(deltY);
+        } else {
+            setReleaseToRefreshState();
         }
+    }
+
+    private void setReleaseToRefreshState() {
     }
 
     public void setMoveState(float deltY){

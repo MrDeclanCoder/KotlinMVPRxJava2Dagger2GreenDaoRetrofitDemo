@@ -32,7 +32,7 @@ public class WaterView extends View {
     private static final int STATE_GATHER = 0X003;//汇合
     private int mWaterCenterX = 0, mWaterCenterY = 0;
     private int mCircleCenterX = 0, mCircleCenterY = 0;
-    private static final int DEFAULT_MIN_CHANGE_STATE_HEIGHT = 20;
+//    private static final int DEFAULT_MIN_CHANGE_STATE_HEIGHT = 20;
     private static final int DEFAULT_MAX_CHANGE_STATE_HEIGHT = 200;
     private Path mBezierPath;
     private ValueAnimator mGatherAnimator;
@@ -66,11 +66,11 @@ public class WaterView extends View {
         mWaterPaint.setColor(defaultWaterColor);
 
         mBezierPath = new Path();
-        this.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        this.addOnLayoutChangeListener(new OnLayoutChangeListener() {
             @Override
-            public void onGlobalLayout() {
-                mWaterCenterX = getWidth() / 2;
-                mWaterCenterY = getHeight() / 2;
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                mWaterCenterX = right / 2;
+                mWaterCenterY = bottom *2/ 3;
                 mCircleCenterX = mWaterCenterX;
                 mCircleCenterY = mWaterCenterY;
                 invalidate();
@@ -126,13 +126,13 @@ public class WaterView extends View {
             mMoveY = 120;
         }
         mState = STATE_DRAG;
-        mLittleCircleRadius = (defaultCircleRadius) * ((DEFAULT_MAX_CHANGE_STATE_HEIGHT - mMoveY - DEFAULT_MIN_CHANGE_STATE_HEIGHT)) / DEFAULT_MAX_CHANGE_STATE_HEIGHT;
-        if (moveY > DEFAULT_MIN_CHANGE_STATE_HEIGHT) {
-            mCircleCenterY = mWaterCenterY - moveY + DEFAULT_MIN_CHANGE_STATE_HEIGHT;
+        mLittleCircleRadius = (defaultCircleRadius) * ((DEFAULT_MAX_CHANGE_STATE_HEIGHT - mMoveY)) / DEFAULT_MAX_CHANGE_STATE_HEIGHT;
+//        if (moveY > DEFAULT_MIN_CHANGE_STATE_HEIGHT) {
+            mCircleCenterY = mWaterCenterY - moveY ;
             Log.d("aaa","setMoveState: "+mCircleCenterY);
-        } else {
-            mCircleCenterY = mWaterCenterY;
-        }
+//        } else {
+//            mCircleCenterY = mWaterCenterY;
+//        }
         invalidate();
     }
 
