@@ -19,7 +19,7 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
-    signingConfigs{
+    signingConfigs {
         release {
             keyAlias properties['KEY_ALIAS']
             keyPassword properties['KEY_PASSWORD']

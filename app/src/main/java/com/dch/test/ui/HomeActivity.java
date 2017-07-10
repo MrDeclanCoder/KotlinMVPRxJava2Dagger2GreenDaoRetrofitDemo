@@ -101,6 +101,10 @@ public class HomeActivity extends BaseActivity
     }
 
     @Override
+    public void baseOnCreate() {
+    }
+
+    @Override
     protected void initData() {
 
     }
@@ -286,7 +290,7 @@ public class HomeActivity extends BaseActivity
         } else if (id == R.id.nav_music) {
             startActivity(new Intent(this, CustomLeftDrawerActivity.class));
         } else if (id == R.id.nav_tool) {
-            startActivity(new Intent(this, KotlinSettingsActivity.class));
+            startActivity(new Intent(this, TestViewActivity.class));
         } else if (id == R.id.nav_path) {
             startActivity(new Intent(this, LeadActivity.class));
         } else if (id == R.id.nav_favorite) {

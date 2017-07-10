@@ -59,7 +59,10 @@
         <activity
             android:name=".ui.CustomLeftDrawerActivity"
             android:theme="@style/ActivityBaseTheme" />
+
         <service android:name=".remote.MusicService" />
+
+        <activity android:name=".ui.TestViewActivity"></activity>
     </application>
 
 </manifest>
