@@ -68,18 +68,14 @@ public class WaterView extends View {
             }
         });
 
-        mGatherAnimator = ValueAnimator.ofInt(mMoveY, 0);
-        mGatherAnimator.setDuration(400);
+        mGatherAnimator = ValueAnimator.ofInt(mMoveY, 50);
+        mGatherAnimator.setDuration(500);
         mGatherAnimator.setInterpolator(new DecelerateInterpolator());
         mGatherAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 int animatedValue = (int) animation.getAnimatedValue();
                 setMoveState(animatedValue);
-                if (0 == animatedValue) {
-                    mState = STATE_DEFAULT;
-
-                }
             }
         });
     }
@@ -88,10 +84,10 @@ public class WaterView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-
-        //画小水滴
-        canvas.drawCircle(mWaterCenterX, mWaterCenterY, mLittleCircleRadius, mWaterPaint);
-
+        if (mState != STATE_GATHER) {
+            //画小水滴
+            canvas.drawCircle(mWaterCenterX, mWaterCenterY, mLittleCircleRadius, mWaterPaint);
+        }
         if (mState == STATE_DRAG) {
             //画移动水滴
             canvas.drawCircle(mCircleCenterX, mCircleCenterY, defaultCircleRadius, mWaterPaint);

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 
 import com.dch.test.R;
@@ -24,13 +25,14 @@ public class WaterRefreshView extends ScrollView {
     private LinearLayout mContainer;
     private View headerView;
     private final int MIN_DRAG_HEIGHT = 130;
-    private final int RELEASE_REFRESH_HEIGHT = 350;
+    private final int RELEASE_REFRESH_HEIGHT = 250;
     private int mCurrentState = STATE_DEFAULT;
     private static final int STATE_DEFAULT = 0X001;
     private static final int STATE_MOVE = 0X002;
     private static final int STATE_RELEASE = 0X003;
     private static final int STATE_REFRESH = 0X004;
     private static final float RATIO_MOVE = 2.6f;
+    private ProgressBar mPorgressBar;
 
     public WaterRefreshView(Context context) {
         this(context, null);
@@ -62,6 +64,8 @@ public class WaterRefreshView extends ScrollView {
         headerView = LayoutInflater.from(context).inflate(R.layout.refresh_header_waterview, null);
         mContainer.addView(headerView, 0);
         mWaterView = (WaterView) headerView.findViewById(R.id.waterview_head);
+        mPorgressBar = ((ProgressBar) headerView.findViewById(R.id.pb_refresh_water_head));
+        mPorgressBar.setVisibility(GONE);
         headerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -98,7 +102,9 @@ public class WaterRefreshView extends ScrollView {
                 if (getScrollY() == 0 && deltY > RELEASE_REFRESH_HEIGHT) {
                     if (mCurrentState != STATE_REFRESH) {
                         mWaterView.setGatherState();
-                        postDelayed(new RefreshRunnable(), 300);
+                        postDelayed(new RefreshRunnable(), 2000);
+                    } else {
+                        resetHeaderState();
                     }
                     deltY = 0;
                     return true;
@@ -117,8 +123,11 @@ public class WaterRefreshView extends ScrollView {
             if (listener != null) {
                 mCurrentState = STATE_REFRESH;
                 listener.onRefresh();
-                resetHeaderState();
+
             }
+            mPorgressBar.setVisibility(VISIBLE);
+            mWaterView.setVisibility(GONE);
+//            resetHeaderState();
         }
     }
 
