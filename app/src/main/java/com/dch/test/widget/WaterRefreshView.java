@@ -23,14 +23,14 @@ public class WaterRefreshView extends ScrollView {
     private WaterView mWaterView;
     private LinearLayout mContainer;
     private View headerView;
-    private final int MIN_DRAG_HEIGHT = 230;
+    private final int MIN_DRAG_HEIGHT = 130;
     private final int RELEASE_REFRESH_HEIGHT = 350;
     private int mCurrentState = STATE_DEFAULT;
     private static final int STATE_DEFAULT = 0X001;
     private static final int STATE_MOVE = 0X002;
     private static final int STATE_RELEASE = 0X003;
     private static final int STATE_REFRESH = 0X004;
-    private static final float RATIO_MOVE = 1.6f;
+    private static final float RATIO_MOVE = 2.6f;
 
     public WaterRefreshView(Context context) {
         this(context, null);
@@ -97,11 +97,8 @@ public class WaterRefreshView extends ScrollView {
             case MotionEvent.ACTION_UP:
                 if (getScrollY() == 0 && deltY > RELEASE_REFRESH_HEIGHT) {
                     if (mCurrentState != STATE_REFRESH) {
-                        mCurrentState = STATE_REFRESH;
                         mWaterView.setGatherState();
-//                        if (listener != null) {
-//                            postDelayed(new RefreshRunnable(), 400);
-//                        }
+                        postDelayed(new RefreshRunnable(), 300);
                     }
                     deltY = 0;
                     return true;
@@ -118,7 +115,9 @@ public class WaterRefreshView extends ScrollView {
         @Override
         public void run() {
             if (listener != null) {
+                mCurrentState = STATE_REFRESH;
                 listener.onRefresh();
+                resetHeaderState();
             }
         }
     }

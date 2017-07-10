@@ -50,15 +50,6 @@ public class WaterView extends View {
         init(context, attrs);
     }
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-//        mWaterCenterX = w / 2;
-//        mWaterCenterY = h / 2;
-//        mCircleCenterX = mWaterCenterX;
-//        mCircleCenterY = mWaterCenterY;
-    }
-
     private void init(Context context, AttributeSet attrs) {
         mWaterPaint = new Paint();
         mWaterPaint.setStyle(Paint.Style.FILL);
@@ -70,7 +61,7 @@ public class WaterView extends View {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                 mWaterCenterX = right / 2;
-                mWaterCenterY = bottom *2/ 3;
+                mWaterCenterY = bottom *4/ 5;
                 mCircleCenterX = mWaterCenterX;
                 mCircleCenterY = mWaterCenterY;
                 invalidate();
@@ -148,7 +139,7 @@ public class WaterView extends View {
         mState = STATE_DEFAULT;
         mMoveY = 0;
         mWaterCenterX = getWidth() / 2;
-        mWaterCenterY = getHeight() / 2;
+        mWaterCenterY = getHeight() * 4/ 5;
         mCircleCenterX = mWaterCenterX;
         mCircleCenterY = mWaterCenterY;
         invalidate();
