@@ -115,7 +115,6 @@ public class WaterRefreshView extends ScrollView {
                     return true;
                 } else {
                     deltY = 0;
-                    resetHeaderState();
                     return super.onTouchEvent(ev);
                 }
         }
