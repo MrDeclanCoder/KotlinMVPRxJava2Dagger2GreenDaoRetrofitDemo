@@ -84,9 +84,9 @@ public class WaterView extends View {
 //            calculateBezier();
             mBezierPath.reset();
             mBezierPath.moveTo(mWaterCenterX - mLittleCircleRadius, mWaterCenterY);
-            mBezierPath.quadTo(mWaterCenterX, mWaterCenterY - mMoveY / 2, mWaterCenterX - defaultCircleRadius, mCircleCenterY);
+            mBezierPath.quadTo(mWaterCenterX-10, mWaterCenterY - mMoveY / 2, mWaterCenterX - defaultCircleRadius, mCircleCenterY);
             mBezierPath.lineTo(mWaterCenterX + defaultCircleRadius, mCircleCenterY);
-            mBezierPath.quadTo(mWaterCenterX, mWaterCenterY - mMoveY / 2, mWaterCenterX + mLittleCircleRadius, mWaterCenterY);
+            mBezierPath.quadTo(mWaterCenterX+10, mWaterCenterY - mMoveY / 2, mWaterCenterX + mLittleCircleRadius, mWaterCenterY);
             mBezierPath.close();
             canvas.drawPath(mBezierPath, mWaterPaint);
         }
@@ -102,7 +102,7 @@ public class WaterView extends View {
             mMoveY = 120;
         }
         mState = STATE_DRAG;
-        mLittleCircleRadius = (defaultCircleRadius) * ((DEFAULT_MAX_CHANGE_STATE_HEIGHT - mMoveY)) / DEFAULT_MAX_CHANGE_STATE_HEIGHT;
+        mLittleCircleRadius = (defaultCircleRadius) * ((DEFAULT_MAX_CHANGE_STATE_HEIGHT - mMoveY))*8/10 / DEFAULT_MAX_CHANGE_STATE_HEIGHT;
         mCircleCenterY = mWaterCenterY - moveY;
         invalidate();
     }

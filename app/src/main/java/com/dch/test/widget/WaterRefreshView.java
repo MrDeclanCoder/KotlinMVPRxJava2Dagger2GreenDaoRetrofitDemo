@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 
 import com.dch.test.R;
+import com.dch.test.util.UIUtils;
 
 /**
  * 作者：MrCoder on 2017/7/10 14:25
@@ -26,8 +27,8 @@ public class WaterRefreshView extends ScrollView {
     private WaterView mWaterView;
     private LinearLayout mContainer;
     private View headerView;
-    private final int MIN_DRAG_HEIGHT = 130;
-    private final int RELEASE_REFRESH_HEIGHT = 270;
+    private int MIN_DRAG_HEIGHT ;
+    private int RELEASE_REFRESH_HEIGHT ;
     private int mCurrentState = STATE_DEFAULT;
     private static final int STATE_DEFAULT = 0X001;
     private static final int STATE_MOVE = 0X002;
@@ -59,6 +60,8 @@ public class WaterRefreshView extends ScrollView {
     }
 
     private void init(Context context) {
+        RELEASE_REFRESH_HEIGHT = UIUtils.dip2px(100,context);
+        MIN_DRAG_HEIGHT = UIUtils.dip2px(37,context);
         mContainer = new LinearLayout(context);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mContainer.setLayoutParams(layoutParams);
@@ -107,8 +110,6 @@ public class WaterRefreshView extends ScrollView {
                 if (getScrollY() == 0 && deltY > RELEASE_REFRESH_HEIGHT) {
                     if (mCurrentState != STATE_REFRESH) {
                         setRefreshState();
-                    } else {
-                        resetHeaderState();
                     }
                     deltY = 0;
                     return true;
@@ -185,7 +186,6 @@ public class WaterRefreshView extends ScrollView {
     }
 
     public void refreshFailed() {
-
         resetHeaderState();
     }
 
