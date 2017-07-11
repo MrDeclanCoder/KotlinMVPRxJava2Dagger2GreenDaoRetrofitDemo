@@ -1,5 +1,6 @@
 package com.dch.test.widget;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -10,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 
 /**
@@ -32,7 +32,7 @@ public class WaterView extends View {
     private static final int STATE_GATHER = 0X003;//汇合
     private int mWaterCenterX = 0, mWaterCenterY = 0;
     private int mCircleCenterX = 0, mCircleCenterY = 0;
-//    private static final int DEFAULT_MIN_CHANGE_STATE_HEIGHT = 20;
+    //    private static final int DEFAULT_MIN_CHANGE_STATE_HEIGHT = 20;
     private static final int DEFAULT_MAX_CHANGE_STATE_HEIGHT = 200;
     private Path mBezierPath;
     private ValueAnimator mGatherAnimator;
@@ -61,21 +61,10 @@ public class WaterView extends View {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                 mWaterCenterX = right / 2;
-                mWaterCenterY = bottom *4/ 5;
+                mWaterCenterY = bottom * 4 / 5;
                 mCircleCenterX = mWaterCenterX;
                 mCircleCenterY = mWaterCenterY;
                 invalidate();
-            }
-        });
-
-        mGatherAnimator = ValueAnimator.ofInt(mMoveY, 50);
-        mGatherAnimator.setDuration(500);
-        mGatherAnimator.setInterpolator(new DecelerateInterpolator());
-        mGatherAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                int animatedValue = (int) animation.getAnimatedValue();
-                setMoveState(animatedValue);
             }
         });
     }
@@ -114,12 +103,7 @@ public class WaterView extends View {
         }
         mState = STATE_DRAG;
         mLittleCircleRadius = (defaultCircleRadius) * ((DEFAULT_MAX_CHANGE_STATE_HEIGHT - mMoveY)) / DEFAULT_MAX_CHANGE_STATE_HEIGHT;
-//        if (moveY > DEFAULT_MIN_CHANGE_STATE_HEIGHT) {
-            mCircleCenterY = mWaterCenterY - moveY ;
-            Log.d("aaa","setMoveState: "+mCircleCenterY);
-//        } else {
-//            mCircleCenterY = mWaterCenterY;
-//        }
+        mCircleCenterY = mWaterCenterY - moveY;
         invalidate();
     }
 
@@ -127,15 +111,50 @@ public class WaterView extends View {
         //移动距离超出最大值, 可以下拉刷新了,即隐藏水滴
         if (mState != STATE_GATHER) {
             mState = STATE_GATHER;
+            mGatherAnimator = ValueAnimator.ofInt(mMoveY, 0);
+            mGatherAnimator.setDuration(2500);
+            mGatherAnimator.setRepeatMode(ValueAnimator.REVERSE);
+            mGatherAnimator.setInterpolator(new DecelerateInterpolator());
+            mGatherAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    int animatedValue = (int) animation.getAnimatedValue();
+                    Log.d("mGatherAnimator",animatedValue+"");
+                    setMoveState(animatedValue);
+                }
+            });
             mGatherAnimator.start();
+
+        mGatherAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                resetState();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
         }
     }
 
     public void resetState() {
         mState = STATE_DEFAULT;
         mMoveY = 0;
+        mLittleCircleRadius = defaultCircleRadius;
         mWaterCenterX = getWidth() / 2;
-        mWaterCenterY = getHeight() * 4/ 5;
+        mWaterCenterY = getHeight() * 4 / 5;
         mCircleCenterX = mWaterCenterX;
         mCircleCenterY = mWaterCenterY;
         invalidate();

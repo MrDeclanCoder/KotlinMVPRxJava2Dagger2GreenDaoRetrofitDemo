@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="#bbb"
-    android:layout_height="200dp">
+    android:layout_height="100dp">
 
     <com.dch.test.widget.WaterView
         android:id="@+id/waterview_head"
@@ -12,8 +12,8 @@
     <ProgressBar
         android:id="@+id/pb_refresh_water_head"
         android:layout_alignParentBottom="true"
-        android:layout_width="50dp"
+        android:layout_width="100dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="25dp"
-        android:layout_height="50dp" />
+        android:padding="30dp"
+        android:layout_height="100dp" />
 </RelativeLayout>

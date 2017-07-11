@@ -1,5 +1,6 @@
 package com.dch.test.ui;
 
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.SeekBar;
@@ -14,7 +15,17 @@ public class TestViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_view);
-        WaterRefreshView waterRefreshView = (WaterRefreshView) findViewById(R.id.waterrefreshview);
-
+        final WaterRefreshView waterRefreshView = (WaterRefreshView) findViewById(R.id.waterrefreshview);
+        waterRefreshView.setOnRefreshListener(new WaterRefreshView.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        waterRefreshView.refreshSuccess();
+                    }
+                },2000);
+            }
+        });
     }
 }

@@ -1,5 +1,6 @@
 package com.dch.test.widget;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -25,7 +27,7 @@ public class WaterRefreshView extends ScrollView {
     private LinearLayout mContainer;
     private View headerView;
     private final int MIN_DRAG_HEIGHT = 130;
-    private final int RELEASE_REFRESH_HEIGHT = 250;
+    private final int RELEASE_REFRESH_HEIGHT = 270;
     private int mCurrentState = STATE_DEFAULT;
     private static final int STATE_DEFAULT = 0X001;
     private static final int STATE_MOVE = 0X002;
@@ -73,6 +75,8 @@ public class WaterRefreshView extends ScrollView {
                 headerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
+
+
     }
 
     private void updateMargin(int topMargin) {
@@ -92,8 +96,9 @@ public class WaterRefreshView extends ScrollView {
                 break;
             case MotionEvent.ACTION_MOVE:
                 deltY = ev.getY() - downY;
-                if (getScrollY() == 0 && mCurrentState != STATE_REFRESH && deltY>0) {
-                    calculatorDeltY(deltY/RATIO_MOVE);
+                if (getScrollY() == 0 && mCurrentState != STATE_REFRESH && deltY > 0) {
+                    deltY = deltY/RATIO_MOVE;
+                    calculatorDeltY(deltY);
                     return true;
                 } else {
                     return super.onTouchEvent(ev);
@@ -101,14 +106,14 @@ public class WaterRefreshView extends ScrollView {
             case MotionEvent.ACTION_UP:
                 if (getScrollY() == 0 && deltY > RELEASE_REFRESH_HEIGHT) {
                     if (mCurrentState != STATE_REFRESH) {
-                        mWaterView.setGatherState();
-                        postDelayed(new RefreshRunnable(), 2000);
+                        setRefreshState();
                     } else {
                         resetHeaderState();
                     }
                     deltY = 0;
                     return true;
                 } else {
+                    deltY = 0;
                     resetHeaderState();
                     return super.onTouchEvent(ev);
                 }
@@ -123,33 +128,56 @@ public class WaterRefreshView extends ScrollView {
             if (listener != null) {
                 mCurrentState = STATE_REFRESH;
                 listener.onRefresh();
-
+                mPorgressBar.setVisibility(VISIBLE);
+                mWaterView.setVisibility(GONE);
+            } else {
+                refreshSuccess();
             }
-            mPorgressBar.setVisibility(VISIBLE);
-            mWaterView.setVisibility(GONE);
-//            resetHeaderState();
         }
     }
 
     private void calculatorDeltY(float deltY) {
         updateHeaderMargin(deltY);
         if (deltY > MIN_DRAG_HEIGHT && deltY < RELEASE_REFRESH_HEIGHT) {
-            Log.d("aaa","calculatorDeltY: "+(deltY - MIN_DRAG_HEIGHT));
+            Log.d("aaa", "calculatorDeltY: " + (deltY - MIN_DRAG_HEIGHT));
             setMoveState(deltY);
-        } else {
+        } else if (deltY >= RELEASE_REFRESH_HEIGHT) {
             setReleaseToRefreshState();
         }
     }
 
     private void setReleaseToRefreshState() {
+        mWaterView.setGatherState();
+
     }
 
-    public void setMoveState(float deltY){
+    private void setRefreshState(){
+        postDelayed(new RefreshRunnable(), 500);
+        if (deltY > RELEASE_REFRESH_HEIGHT) {
+            scrollHeader(-((int) deltY - headerView.getHeight()), 0);
+        }
+    }
+
+    private void scrollHeader(int start, int end) {
+        ValueAnimator valueAnimator = ValueAnimator.ofInt(start, end);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int animatedValue = (int) animation.getAnimatedValue();
+                updateMargin(animatedValue);
+            }
+        });
+        valueAnimator.setDuration(500);
+        valueAnimator.setInterpolator(new DecelerateInterpolator());
+        valueAnimator.start();
+    }
+
+    public void setMoveState(float deltY) {
         mWaterView.setMoveState((int) (deltY - MIN_DRAG_HEIGHT));
     }
 
     private void updateHeaderMargin(float deltY) {
-        updateMargin(headerView.getHeight() - (int)deltY);
+        updateMargin(headerView.getHeight() - (int) deltY);
     }
 
     public void refreshSuccess() {
@@ -164,8 +192,13 @@ public class WaterRefreshView extends ScrollView {
     private void resetHeaderState() {
         if (mWaterView != null) {
             mWaterView.resetState();
+            mWaterView.setVisibility(VISIBLE);
+            mPorgressBar.setVisibility(GONE);
         }
-        updateMargin(headerView.getHeight());
+        mCurrentState = STATE_DEFAULT;
+        LinearLayout.LayoutParams headerViewLayoutParams = (LinearLayout.LayoutParams) headerView.getLayoutParams();
+        int topMargin = headerViewLayoutParams.topMargin;
+        scrollHeader(-(topMargin), headerView.getHeight());
     }
 
     OnRefreshListener listener;
