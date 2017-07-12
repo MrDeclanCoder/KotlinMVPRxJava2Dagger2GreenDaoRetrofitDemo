@@ -13,9 +13,10 @@ import android.view.animation.LinearInterpolator;
 import com.dch.test.R;
 
 /**
- * Created by dch on 2017/7/11.
+ * 作者：MrCoder on 2017/7/11 18:09
+ * 描述：
+ * 邮箱：daichuanhao@caijinquan.com
  */
-
 public class ChrysanthemumLoadingView extends View {
     private int mWidth;
     private int mHeight;
@@ -84,14 +85,11 @@ public class ChrysanthemumLoadingView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
         for (int i = 0; i < 12; i++) {
             mPaint.setAlpha(((i + 1 + control) % 12 * 255) / 12);
             canvas.drawLine(mCenterX, mCenterY - mSegmentLength, mCenterX, mCenterY - mSegmentLength*2, mPaint);
             canvas.rotate(30, mCenterX, mCenterY);
         }
-
-
     }
 
     @Override
