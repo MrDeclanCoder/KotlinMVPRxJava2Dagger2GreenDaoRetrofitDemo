@@ -2,13 +2,15 @@ package com.dch.test.widget;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+
+import com.dch.test.R;
 
 /**
  * Created by dch on 2017/7/11.
@@ -20,9 +22,13 @@ public class ChrysanthemumLoadingView extends View {
     private int mCenterX;
     private int mCenterY;
     private Paint mPaint;
-    private int mSegmentWidth = 20;
-    private int mRadius = 40;
-    private int[] colors = {0x9999999, 0x888888, 0x777777, 0x666666, 0x555555, 0x4444444};
+    private final int mDefaultColor = 0xff999999;
+    private final int mDefaultSegmentWidth = 10;
+    private final int mDefaultSegmentLength = 20;
+    private int mSegmentWidth = mDefaultSegmentWidth;
+    private int mSegmentColor = mDefaultColor;
+    private int mSegmentLength = mDefaultSegmentLength;
+
     private int control = 1;
 
     public ChrysanthemumLoadingView(Context context) {
@@ -39,13 +45,30 @@ public class ChrysanthemumLoadingView extends View {
     }
 
     private void init(Context context, AttributeSet attrs) {
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ChrysanthemumLoadingView);
+        int indexCount = typedArray.getIndexCount();
+        for (int i = 0; i < indexCount; i++) {
+            int attr = typedArray.getIndex(i);
+            switch (attr){
+                case R.styleable.ChrysanthemumLoadingView_pathColor:
+                    mSegmentColor = typedArray.getColor(attr,mDefaultColor);
+                    break;
+                case R.styleable.ChrysanthemumLoadingView_segmentLength:
+                    mSegmentLength = typedArray.getDimensionPixelSize(attr,mDefaultSegmentLength);
+                    break;
+                case R.styleable.ChrysanthemumLoadingView_segmentWidth:
+                    mSegmentWidth = typedArray.getDimensionPixelSize(attr,mDefaultSegmentWidth);
+                    break;
+            }
+        }
+        typedArray.recycle();
+
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setColor(Color.parseColor("#999999"));
-        mPaint.setStrokeWidth(10);
-
+        mPaint.setColor(mSegmentColor);
+        mPaint.setStrokeWidth(mSegmentWidth);
 
     }
 
@@ -64,7 +87,7 @@ public class ChrysanthemumLoadingView extends View {
 
         for (int i = 0; i < 12; i++) {
             mPaint.setAlpha(((i + 1 + control) % 12 * 255) / 12);
-            canvas.drawLine(0 + mCenterX, mCenterY - 40, 0 + mCenterX, mCenterY - 80, mPaint);
+            canvas.drawLine(mCenterX, mCenterY - mSegmentLength, mCenterX, mCenterY - mSegmentLength*2, mPaint);
             canvas.rotate(30, mCenterX, mCenterY);
         }
 

@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="#bbb"
-    android:layout_height="100dp">
+    android:layout_height="100dp"
+    android:background="#bbb">
 
     <com.dch.test.widget.WaterView
         android:id="@+id/waterview_head"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="100dp" />
-    <ProgressBar
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true" />
+
+    <com.dch.test.widget.ChrysanthemumLoadingView
         android:id="@+id/pb_refresh_water_head"
-        android:layout_alignParentBottom="true"
         android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_centerHorizontal="true"
-        android:padding="30dp"
-        android:layout_height="100dp" />
+        app:pathColor="#555555"
+        app:segmentLength="7sp"
+        app:segmentWidth="3sp" />
 </RelativeLayout>
