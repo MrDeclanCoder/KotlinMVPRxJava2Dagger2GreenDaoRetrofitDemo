@@ -3,6 +3,9 @@ Kotlin+RxJava2+Dagger2+RxCache+Retrofit+GoogleMVPMode+GreenDao
 
 An android app example that I  exercise.
 
+在这个app中,你可以看到一些最新的android技术文章,可以进行收藏,然后进入我的收藏中查看已收藏的文章.
+在敲累的时候你还可以进入妹纸模块,查看养眼的妹纸图...
+
 # 欢迎页
 利用RxJava2实现右上角倒计时功能.
 ps:倒计时已更新,自定义ProgressBar
