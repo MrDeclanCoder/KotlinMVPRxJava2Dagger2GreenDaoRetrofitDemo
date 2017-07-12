@@ -29,6 +29,7 @@ ps:倒计时已更新,自定义ProgressBar
 ![](pic/pic4.jpg)
 
 #仿IOS菊花loading效果
+具体实现请查看: [csdn博客](http://blog.csdn.net/coderder/article/details/75009723)
 
 ![](pic/loadingview.gif)
 
