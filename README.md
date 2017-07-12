@@ -16,6 +16,10 @@ ps:倒计时已更新,自定义ProgressBar
 
 ![](pic/111.gif)
 
+#揭示动画
+
+![](pic/revealanimator.gif)
+
 # 引导页
 贝塞尔效果切页指示器
 
