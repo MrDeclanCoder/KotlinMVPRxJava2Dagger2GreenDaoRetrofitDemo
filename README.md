@@ -7,6 +7,8 @@ An android app example that I  exercise.
 在敲累的时候你还可以进入妹纸模块,查看养眼的妹纸图...
 这个项目还在完善中,存在一些bug, 还请指出,见谅!
 
+体验app: [点我!](https://github.com/MrDeclanCoder/KotlinMVPRxJava2Dagger2GreenDaoRetrofitDemo/blob/master/apkfile/zuiyue%E6%9C%80%E9%98%85-release.apk)
+
 # 欢迎页
 利用RxJava2实现右上角倒计时功能.
 ps:倒计时已更新,自定义ProgressBar
