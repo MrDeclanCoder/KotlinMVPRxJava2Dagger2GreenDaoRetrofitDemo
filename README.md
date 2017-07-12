@@ -9,7 +9,7 @@ ps:倒计时已更新,自定义ProgressBar
 
 ![](pic/countdown.gif)
 
-老版本中:
+老版本中倒计时:
 
 ![](pic/111.gif)
 
