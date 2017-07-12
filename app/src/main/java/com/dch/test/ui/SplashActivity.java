@@ -55,13 +55,6 @@ public class SplashActivity extends BaseActivity {
     protected void initData() {
     }
 
-    @TargetApi(21)
-    private void setupWindowAnimations() {
-        Explode explode = new Explode();
-        explode.setDuration(1000);
-        getWindow().setExitTransition(explode);
-    }
-
     @Override
     protected void initView() {
         StatusBarUtils.setImage(this);
