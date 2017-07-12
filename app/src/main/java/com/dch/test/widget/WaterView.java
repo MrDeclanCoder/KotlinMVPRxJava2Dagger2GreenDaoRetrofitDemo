@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 
 /**
  * 作者：MrCoder on 2017/7/10 14:30
@@ -24,7 +25,9 @@ public class WaterView extends View {
     private Paint mWaterPaint;
     private int defaultWaterColor = Color.RED;
     private int defaultCircleRadius = 40;
+    private int mLittleCircleRadiusForGather = 0;
     private int mBigCircleRadius = 40;
+    private int mBigCircleRadiusForGather = 0;
     private int mLittleCircleRadius = 40;
     private int mMoveY = 0;
     private int mState = STATE_DEFAULT;//水滴的状态
@@ -86,10 +89,10 @@ public class WaterView extends View {
             canvas.drawCircle(mWaterCenterX, mWaterCenterY, mLittleCircleRadius, mWaterPaint);
             //画贝塞尔曲线
             mBezierPath.reset();
-            mBezierPath.moveTo(mWaterCenterX - mBigCircleRadius, mCircleCenterY);
-            mBezierPath.quadTo(mWaterCenterX - 10, mCircleCenterY + mMoveY / 2, mWaterCenterX - mLittleCircleRadius, mWaterCenterY);
+            mBezierPath.moveTo(mCircleCenterX - mBigCircleRadius, mCircleCenterY);
+            mBezierPath.quadTo(mWaterCenterX - 5, mCircleCenterY + mMoveY / 2, mWaterCenterX - mLittleCircleRadius, mWaterCenterY);
             mBezierPath.lineTo(mWaterCenterX + mLittleCircleRadius, mWaterCenterY);
-            mBezierPath.quadTo(mWaterCenterX + 10, mCircleCenterY + mMoveY / 2, mWaterCenterX + mBigCircleRadius, mCircleCenterY);
+            mBezierPath.quadTo(mWaterCenterX + 5, mCircleCenterY + mMoveY / 2, mWaterCenterX + mBigCircleRadius, mCircleCenterY);
             mBezierPath.close();
             canvas.drawPath(mBezierPath, mWaterPaint);
         }
@@ -99,9 +102,9 @@ public class WaterView extends View {
             //画贝塞尔曲线
             mBezierPath.reset();
             mBezierPath.moveTo(mWaterCenterX - mLittleCircleRadius, mWaterCenterY);
-            mBezierPath.quadTo(mWaterCenterX - 10, mWaterCenterY - mMoveY / 2, mWaterCenterX - mBigCircleRadius, mCircleCenterY);
+            mBezierPath.quadTo(mWaterCenterX - 5, mWaterCenterY - mMoveY / 2, mWaterCenterX - mBigCircleRadius, mCircleCenterY);
             mBezierPath.lineTo(mWaterCenterX + mBigCircleRadius, mCircleCenterY);
-            mBezierPath.quadTo(mWaterCenterX + 10, mWaterCenterY - mMoveY / 2, mWaterCenterX + mLittleCircleRadius, mWaterCenterY);
+            mBezierPath.quadTo(mWaterCenterX + 5, mWaterCenterY - mMoveY / 2, mWaterCenterX + mLittleCircleRadius, mWaterCenterY);
             mBezierPath.close();
             canvas.drawPath(mBezierPath, mWaterPaint);
         }
@@ -113,17 +116,17 @@ public class WaterView extends View {
             throw new RuntimeException("WaterView移动y值必须大于0");
         }
         this.mMoveY = moveY / 2;
-        if (mMoveY > 120) {
-            mMoveY = 120;
-        }
+//        if (mMoveY > 120) {
+//            mMoveY = 120;
+//        }
         mState = STATE_DRAG;
-        mLittleCircleRadius = (defaultCircleRadius) * ((DEFAULT_MAX_CHANGE_STATE_HEIGHT - mMoveY)) * 7 / 10 / DEFAULT_MAX_CHANGE_STATE_HEIGHT;
+        mLittleCircleRadius = (defaultCircleRadius) * ((DEFAULT_MAX_CHANGE_STATE_HEIGHT - mMoveY)) * 9 / 10 / DEFAULT_MAX_CHANGE_STATE_HEIGHT;
+        mLittleCircleRadiusForGather = mLittleCircleRadius;
         mBigCircleRadius = (defaultCircleRadius) * ((DEFAULT_MAX_CHANGE_STATE_HEIGHT - mMoveY*2/5)) / DEFAULT_MAX_CHANGE_STATE_HEIGHT;
-        if (mState != STATE_GATHER){
+        mBigCircleRadiusForGather = mBigCircleRadius;
+
             mCircleCenterY = mWaterCenterY - moveY;
-        } else {
-            mWaterCenterY = mDefaultY - moveY;
-        }
+
         invalidate();
     }
 
@@ -131,28 +134,27 @@ public class WaterView extends View {
         if (moveY < 0) {
             throw new RuntimeException("WaterView移动y值必须大于0");
         }
-        this.mMoveY = moveY / 2;
-        if (mMoveY > 120) {
-            mMoveY = 120;
-        }
-        mLittleCircleRadius = (defaultCircleRadius) * ((DEFAULT_MAX_CHANGE_STATE_HEIGHT - mMoveY)) * 7 / 10 / DEFAULT_MAX_CHANGE_STATE_HEIGHT;
-        mBigCircleRadius = (defaultCircleRadius) * ((DEFAULT_MAX_CHANGE_STATE_HEIGHT - mMoveY*2/5)) / DEFAULT_MAX_CHANGE_STATE_HEIGHT;
-        if (mState != STATE_GATHER){
-            mCircleCenterY = mWaterCenterY - moveY;
-        } else {
+//        this.mMoveY = moveY / 2;
+//        if (mMoveY > 120) {
+//            mMoveY = 120;
+//        }
+        if (moveY>0){
+            mLittleCircleRadius = mLittleCircleRadiusForGather+(defaultCircleRadius-mLittleCircleRadiusForGather)*moveY/mMoveY/2;
+            mBigCircleRadius = mBigCircleRadiusForGather +moveY/mMoveY*(defaultCircleRadius-mBigCircleRadiusForGather)/2;
             mWaterCenterY = mDefaultY - moveY;
+            invalidate();
         }
-        invalidate();
+
     }
 
     public void setGatherState() {
         //移动距离超出最大值, 可以下拉刷新了,即隐藏水滴
         if (mState != STATE_GATHER) {
             mState = STATE_GATHER;
-            mGatherAnimator = ValueAnimator.ofInt(0,mMoveY);
-            mGatherAnimator.setDuration(300);
+            mGatherAnimator = ValueAnimator.ofInt(0,mMoveY*2);
+            mGatherAnimator.setDuration(3000);
             mGatherAnimator.setRepeatMode(ValueAnimator.REVERSE);
-            mGatherAnimator.setInterpolator(new DecelerateInterpolator());
+            mGatherAnimator.setInterpolator(new LinearInterpolator());
             mGatherAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
@@ -195,6 +197,8 @@ public class WaterView extends View {
         mWaterCenterY = getHeight() * 4 / 5;
         mCircleCenterX = mWaterCenterX;
         mCircleCenterY = mWaterCenterY;
+        mBigCircleRadiusForGather = 0;
+        mLittleCircleRadiusForGather =  0;
         invalidate();
     }
 
