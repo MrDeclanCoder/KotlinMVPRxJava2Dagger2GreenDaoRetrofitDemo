@@ -8,6 +8,7 @@ An android app example that I  exercise.
 ps:倒计时已更新,自定义ProgressBar
 ![](pc/countdown.gif)
 
+老版本中:
 ![](pc/111.gif)
 
 # 引导页
