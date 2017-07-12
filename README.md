@@ -28,6 +28,10 @@ ps:倒计时已更新,自定义ProgressBar
 
 ![](pic/pic4.jpg)
 
+#仿IOS菊花loading效果
+
+![](pic/loadingview.gif)
+
 #自定义view 五子棋(ps:gif录制有丢帧现象,具体效果还要安装试看)
 
 ![](pic/222.gif)

@@ -30,11 +30,5 @@ public class TestViewActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.tv_test_toast).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtils.showMessage("我是测试TextView");
-            }
-        });
     }
 }

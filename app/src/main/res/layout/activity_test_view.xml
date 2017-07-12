@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -14,11 +15,41 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_test_toast"
-                android:layout_width="wrap_content"
+            <com.dch.test.widget.ChrysanthemumLoadingView
+                android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:text="testtest" />
+                android:layout_centerHorizontal="true"
+                app:pathColor="#000000"
+                app:segmentLength="7sp"
+                app:segmentWidth="3sp" />
+            <com.dch.test.widget.ChrysanthemumLoadingView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                app:pathColor="#ff0000"
+                app:segmentLength="7sp"
+                app:segmentWidth="3sp" />
+            <com.dch.test.widget.ChrysanthemumLoadingView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                app:pathColor="#555555"
+                app:segmentLength="15sp"
+                app:segmentWidth="5sp" />
+            <com.dch.test.widget.ChrysanthemumLoadingView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                app:pathColor="#555555"
+                app:segmentLength="7sp"
+                app:segmentWidth="1sp" />
+            <com.dch.test.widget.ChrysanthemumLoadingView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                app:pathColor="#555555"
+                app:segmentLength="7sp"
+                app:segmentWidth="3sp" />
 
             <TextView
                 android:layout_width="wrap_content"
