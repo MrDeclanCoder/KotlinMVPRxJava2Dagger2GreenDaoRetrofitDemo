@@ -4,9 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+    <com.dch.test.widget.SwipeEditLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        />
     <com.dch.test.widget.WaterRefreshView
         android:id="@+id/waterrefreshview"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -15,13 +19,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.dch.test.widget.ChrysanthemumLoadingView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_centerHorizontal="true"
-                app:pathColor="#000000"
-                app:segmentLength="7sp"
-                app:segmentWidth="3sp" />
             <com.dch.test.widget.ChrysanthemumLoadingView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
