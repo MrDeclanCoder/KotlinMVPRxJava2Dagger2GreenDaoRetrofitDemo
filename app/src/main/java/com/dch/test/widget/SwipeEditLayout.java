@@ -1,17 +1,14 @@
 package com.dch.test.widget;
 
-import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,7 +23,7 @@ public class SwipeEditLayout extends RelativeLayout {
     private final String TAG = "SwipeEditLayout";
 
     private TextView mTextView;
-    private Button mButton;
+    private TextView mEditView;
     private int mLayoutWidth;
     private int mLayoutHeight;
     private ObjectAnimator translationX;
@@ -50,27 +47,21 @@ public class SwipeEditLayout extends RelativeLayout {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        mButton = new Button(context);
-        mButton.setText("button");
-        mButton.setBackgroundColor(getResources().getColor(R.color.red_normal));
-        LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-        LayoutParams buttonlayoutParams = new RelativeLayout.LayoutParams(300, RelativeLayout.LayoutParams.MATCH_PARENT);
-        buttonlayoutParams.addRule(ALIGN_PARENT_RIGHT);
-        mButton.setOnClickListener(new OnClickListener() {
+        View editLayout = LayoutInflater.from(context).inflate(R.layout.edit_layout, null);
+        mEditView = (TextView) editLayout.findViewById(R.id.bt_edit_layout);
+        mEditView.setText("button");
+        mEditView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG,"点击了");
                 if (listener != null) {
                     listener.onMenuClick(v);
                 }
             }
         });
-        mTextView = new TextView(context);
-        mTextView.setBackgroundColor(getResources().getColor(R.color.black_overlay));
+        mTextView = (TextView) editLayout.findViewById(R.id.tv_edit_layout);
         mTextView.setText("我是内容");
-        mTextView.setGravity(Gravity.CENTER);
-        addView(mTextView, 0, layoutParams);
-//        addView(mButton,1,buttonlayoutParams);
-
+        addView(editLayout);
 
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -104,19 +95,21 @@ public class SwipeEditLayout extends RelativeLayout {
                 mDeltX = event.getX() - mDownX;
                 Log.d(TAG, String.valueOf(mDeltX));
                 if (mDeltX < 0) {
-                    if (!isLeft) {
+//                    if (!isLeft) {
+                    if (mTextView.getLeft()>-mLayoutHeight){
                         if (Math.abs(mDeltX) < mLayoutHeight) {
-                            Log.d(TAG, String.valueOf(mLayoutWidth));
                             mTextView.layout((int) mDeltX, 0, mLayoutWidth - (int) Math.abs(mDeltX), mLayoutHeight);
                         } else {
-                            Log.d(TAG, String.valueOf(mLayoutHeight));
                             mTextView.layout(-mLayoutHeight, 0, mLayoutWidth - mLayoutHeight, mLayoutHeight);
                         }
                         postInvalidate();
                     }
+
+//                    }
                 }
                 if (mDeltX > 0) {
-                    if (isLeft) {
+//                    if (isLeft) {
+                    if (mTextView.getLeft()<0){
                         if (mDeltX < mLayoutHeight) {
                             mTextView.layout((int) mDeltX - mLayoutHeight, 0, mLayoutWidth + (int) Math.abs(mDeltX) - mLayoutHeight, mLayoutHeight);
                         } else if (mDeltX >= mLayoutHeight) {
@@ -124,30 +117,15 @@ public class SwipeEditLayout extends RelativeLayout {
                         }
                         postInvalidate();
                     }
+//                    }
                 }
                 break;
 
             case MotionEvent.ACTION_UP:
                 if (mDeltX < 0) {
-                    if (!isLeft) {
-                        isLeft = !isLeft;
-//                        if (Math.abs(mDeltX) < mLayoutHeight) {
                             mTextView.layout(-mLayoutHeight, 0, mLayoutWidth-mLayoutHeight, mLayoutHeight);
-//                        } else {
-//                            mTextView.layout(0, 0, mLayoutWidth, mLayoutHeight);
-//                        }
-                    }
                 } else if (mDeltX > 0) {
-                    if (isLeft){
-                        isLeft = !isLeft;
                         mTextView.layout(0, 0, mLayoutWidth, mLayoutHeight);
-//                        if (Math.abs(mDeltX) > (mLayoutHeight / 4)) {
-//
-//                        } else {
-//                            mTextView.layout(-mLayoutHeight, 0, mLayoutWidth - mLayoutHeight, mLayoutHeight);
-//                        }
-                    }
-
                 }
                 mDeltX = 0;
                 break;
