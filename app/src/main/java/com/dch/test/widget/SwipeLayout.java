@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dch.test.R;
@@ -24,7 +25,7 @@ public class SwipeLayout extends ViewGroup {
     private final String TAG = "SwipeLayout";
 
     private TextView mTextView;
-    private TextView mEditView;
+    private ImageView mEditView;
     private int mLayoutWidth;
     private ViewDragHelper viewDragHelper;
     private boolean IS_OPEN = false;
@@ -50,8 +51,8 @@ public class SwipeLayout extends ViewGroup {
                 if (left>0){
                     left = 0;
                 }
-                if (left<-300){
-                    left = -300;
+                if (left<-200){
+                    left = -200;
                 }
                 return left;
             }
@@ -68,13 +69,24 @@ public class SwipeLayout extends ViewGroup {
 
             @Override
             public void onViewReleased(View releasedChild, float xvel, float yvel) {
-                if (mTextView.getLeft()>-150){
-                    viewDragHelper.smoothSlideViewTo(mTextView,0,0);
-                    IS_OPEN = false;
+                if (IS_OPEN){
+                    if (mTextView.getLeft()>-170){
+                        viewDragHelper.smoothSlideViewTo(mTextView,0,0);
+                        IS_OPEN = false;
+                    } else {
+                        viewDragHelper.smoothSlideViewTo(mTextView,-200,0);
+                        IS_OPEN = true;
+                    }
                 } else {
-                    viewDragHelper.smoothSlideViewTo(mTextView,-300,0);
-                    IS_OPEN = true;
+                    if (mTextView.getLeft()>-30){
+                        viewDragHelper.smoothSlideViewTo(mTextView,0,0);
+                        IS_OPEN = false;
+                    } else {
+                        viewDragHelper.smoothSlideViewTo(mTextView,-200,0);
+                        IS_OPEN = true;
+                    }
                 }
+
                 invalidate();
             }
 
@@ -85,7 +97,7 @@ public class SwipeLayout extends ViewGroup {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        mEditView = (TextView) findViewById(R.id.tv_edit_layout);
+        mEditView = (ImageView) findViewById(R.id.tv_edit_layout);
         mEditView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,13 +130,14 @@ public class SwipeLayout extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int measuredWidth = MeasureSpec.getSize(widthMeasureSpec);
-        setMeasuredDimension(measuredWidth + 300,MeasureSpec.getSize(heightMeasureSpec));
+        setMeasuredDimension(measuredWidth + 200,MeasureSpec.getSize(heightMeasureSpec));
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        mTextView.layout(0,0,mLayoutWidth,300);
-        mEditView.layout(mLayoutWidth-300,0,mLayoutWidth,300);
+        mEditView.layout(mLayoutWidth-200,0,mLayoutWidth,180);
+        mTextView.layout(0,0,mLayoutWidth,180);
+        mEditView.setPadding(30,30,30,30);
     }
 
     @Override
@@ -150,6 +163,6 @@ public class SwipeLayout extends ViewGroup {
     public OnMenuClickListener listener;
 
     public void setOnMenuClickListener(OnMenuClickListener clickListener) {
-        this.listener = listener;
+        this.listener = clickListener;
     }
 }

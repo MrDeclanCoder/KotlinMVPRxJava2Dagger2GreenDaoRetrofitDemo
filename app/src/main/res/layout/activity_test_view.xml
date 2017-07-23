@@ -7,26 +7,29 @@
     <com.dch.test.widget.SwipeLayout
         android:id="@+id/swipe_edit_layout"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="60dp"
         >
-        <TextView
+        <ImageView
             android:id="@+id/tv_edit_layout"
-            android:layout_alignParentRight="true"
             android:layout_width="100dp"
-            android:background="@color/red_normal"
             android:layout_height="100dp"
+            android:text="刪除"
+            android:src="@drawable/delete"
+            android:background="@color/red_normal"
+            android:gravity="center"
+            android:padding="10dp"
+            />
+        <TextView
+            android:id="@+id/tv_edit_text_layout"
+            android:layout_alignParentRight="true"
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:layout_height="match_parent"
             android:text="我是內容"
             android:gravity="center"
             />
 
-        <TextView
-            android:id="@+id/tv_edit_text_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:text="刪除"
-            android:gravity="center"
-            />
+
 
         </com.dch.test.widget.SwipeLayout>
     <com.dch.test.widget.WaterRefreshView
