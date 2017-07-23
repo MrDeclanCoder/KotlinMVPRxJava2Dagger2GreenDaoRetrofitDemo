@@ -8,6 +8,7 @@ import android.widget.SeekBar;
 
 import com.dch.test.R;
 import com.dch.test.util.ToastUtils;
+import com.dch.test.widget.SwipeLayout;
 import com.dch.test.widget.WaterRefreshView;
 import com.dch.test.widget.WaterView;
 
@@ -27,6 +28,13 @@ public class TestViewActivity extends AppCompatActivity {
                         waterRefreshView.refreshSuccess();
                     }
                 },2000);
+            }
+        });
+        SwipeLayout swipeLayout = (SwipeLayout) findViewById(R.id.swipe_edit_layout);
+        swipeLayout.setOnMenuClickListener(new SwipeLayout.OnMenuClickListener() {
+            @Override
+            public void onMenuClick(View v) {
+                ToastUtils.showMessage("刪除！！！");
             }
         });
 
