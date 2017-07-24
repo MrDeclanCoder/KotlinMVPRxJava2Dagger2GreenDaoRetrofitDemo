@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/jrtt">
+
+    <target
+        android:animation="@animator/jrtt_path_one"
+        android:name="path1"/>
+
+    <target
+        android:animation="@animator/jrtt_path_two"
+        android:name="path2"/>
+
+    <target
+        android:animation="@animator/jrtt_path_three"
+        android:name="path3"/>
+
+</animated-vector>

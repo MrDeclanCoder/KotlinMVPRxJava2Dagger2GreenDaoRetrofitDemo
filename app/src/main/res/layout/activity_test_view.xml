@@ -4,39 +4,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <com.dch.test.widget.SwipeLayout
         android:id="@+id/swipe_edit_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        app:menuItemCount="1"
+        app:menuItemWidth="60dp"
         >
         <ImageView
             android:id="@+id/tv_edit_layout"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:text="刪除"
-            android:src="@drawable/delete"
             android:background="@color/red_normal"
             android:gravity="center"
             android:padding="10dp"
-            />
+            android:src="@drawable/delete"
+            android:text="删除" />
         <TextView
             android:id="@+id/tv_edit_text_layout"
-            android:layout_alignParentRight="true"
             android:layout_width="match_parent"
-            android:background="@color/white"
             android:layout_height="match_parent"
-            android:text="我是內容"
+            android:layout_alignParentRight="true"
+            android:background="@color/white"
             android:gravity="center"
-            />
+            android:text="我是内容" />
 
+    </com.dch.test.widget.SwipeLayout>
+    <ImageView
+        android:id="@+id/iv_test_view_vector_jrtt"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="20dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/jrtt_vector"
+        />
 
-
-        </com.dch.test.widget.SwipeLayout>
     <com.dch.test.widget.WaterRefreshView
         android:id="@+id/waterrefreshview"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,6 +58,7 @@
                 app:pathColor="#ff0000"
                 app:segmentLength="7sp"
                 app:segmentWidth="3sp" />
+
             <com.dch.test.widget.ChrysanthemumLoadingView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -57,6 +66,7 @@
                 app:pathColor="#555555"
                 app:segmentLength="15sp"
                 app:segmentWidth="5sp" />
+
             <com.dch.test.widget.ChrysanthemumLoadingView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -64,6 +74,7 @@
                 app:pathColor="#555555"
                 app:segmentLength="7sp"
                 app:segmentWidth="1sp" />
+
             <com.dch.test.widget.ChrysanthemumLoadingView
                 android:layout_width="100dp"
                 android:layout_height="100dp"

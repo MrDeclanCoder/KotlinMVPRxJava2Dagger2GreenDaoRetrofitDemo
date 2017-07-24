@@ -139,10 +139,10 @@ public class WaterView extends View {
 //            mMoveY = 120;
 //        }
         if (moveY>0){
-            mLittleCircleRadius = mLittleCircleRadiusForGather+(defaultCircleRadius-mLittleCircleRadiusForGather)*moveY/mMoveY/2;
-            mBigCircleRadius = mBigCircleRadiusForGather +moveY/mMoveY*(defaultCircleRadius-mBigCircleRadiusForGather)/2;
-            mWaterCenterY = mDefaultY - moveY;
-            invalidate();
+//            mLittleCircleRadius = mLittleCircleRadiusForGather+(defaultCircleRadius-mLittleCircleRadiusForGather)*moveY/mMoveY/2;
+//            mBigCircleRadius = mBigCircleRadiusForGather +moveY/mMoveY*(defaultCircleRadius-mBigCircleRadiusForGather)/2;
+//            mWaterCenterY = mDefaultY - moveY;
+//            invalidate();
         }
 
     }

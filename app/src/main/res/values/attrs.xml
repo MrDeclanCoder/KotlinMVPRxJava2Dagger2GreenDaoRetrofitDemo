@@ -45,4 +45,10 @@
         <attr name="segmentLength" format="dimension"/>
         <attr name="segmentWidth" format="dimension"/>
     </declare-styleable>
+    
+    <declare-styleable name="SwipeLayout">
+        <attr name="menuItemWidth" format="dimension"/>
+        <attr name="menuItemCount" format="integer"/>
+
+    </declare-styleable>
 </resources>

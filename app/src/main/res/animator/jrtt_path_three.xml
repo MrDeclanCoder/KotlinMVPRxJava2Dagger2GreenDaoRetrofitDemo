@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:ordering="sequentially">
+
+    <objectAnimator
+        android:duration="400"
+        android:interpolator="@android:interpolator/decelerate_cubic"
+        android:propertyName="pathData"
+        android:valueFrom="
+            M20,120
+            L180,120
+            M20,150
+            L180,150
+            M20,180
+            L180,180"
+        android:valueTo="
+            M20,30
+            L80,30
+            M20,60
+            L80,60
+            M20,90
+            L80,90"
+        android:valueType="pathType" />
+    <objectAnimator
+        android:duration="400"
+        android:interpolator="@android:interpolator/decelerate_cubic"
+        android:propertyName="pathData"
+        android:valueFrom="
+            M20,30
+            L80,30
+            M20,60
+            L80,60
+            M20,90
+            L80,90"
+        android:valueTo="
+            M20,30
+            L180,30
+            M20,60
+            L180,60
+            M20,90
+            L180,90"
+        android:valueType="pathType" />
+    <objectAnimator
+        android:duration="400"
+        android:interpolator="@android:interpolator/decelerate_cubic"
+        android:propertyName="pathData"
+        android:valueFrom="
+            M20,30
+            L180,30
+            M20,60
+            L180,60
+            M20,90
+            L180,90"
+        android:valueTo="
+            M120,120
+            L180,120
+            M120,150
+            L180,150
+            M120,180
+            L180,180"
+        android:valueType="pathType" />
+    <objectAnimator
+        android:duration="400"
+        android:interpolator="@android:interpolator/decelerate_cubic"
+        android:propertyName="pathData"
+        android:valueFrom="
+            M120,120
+            L180,120
+            M120,150
+            L180,150
+            M120,180
+            L180,180"
+        android:valueTo="
+           M20,120
+            L180,120
+            M20,150
+            L180,150
+            M20,180
+            L180,180"
+        android:valueType="pathType" />
+</set>

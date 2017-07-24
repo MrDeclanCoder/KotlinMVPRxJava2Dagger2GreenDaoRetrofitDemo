@@ -11,12 +11,28 @@ import com.dch.test.base.BaseApplication;
  */
 public class ToastUtils {
 
-    public static void showMessage(String msg){
-        Toast.makeText(BaseApplication.application, msg, Toast.LENGTH_SHORT).show();
+    private static Toast toast;
+
+    public static void showMessage(String content) {
+        if (toast == null) {
+            toast = Toast.makeText(BaseApplication.application,
+                    content,
+                    Toast.LENGTH_SHORT);
+        } else {
+            toast.setText(content);
+        }
+        toast.show();
     }
 
 
-    public static void showLongTimeMessage(String msg){
-        Toast.makeText(BaseApplication.application, msg, Toast.LENGTH_LONG).show();
+    public static void showLongTimeMessage(String content) {
+        if (toast == null) {
+            toast = Toast.makeText(BaseApplication.application,
+                    content,
+                    Toast.LENGTH_LONG);
+        } else {
+            toast.setText(content);
+        }
+        toast.show();
     }
 }
