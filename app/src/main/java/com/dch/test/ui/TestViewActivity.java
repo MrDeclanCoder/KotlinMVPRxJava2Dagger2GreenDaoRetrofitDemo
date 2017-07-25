@@ -25,6 +25,7 @@ public class TestViewActivity extends AppCompatActivity {
 
     private int transY;
     private AnimatedVectorDrawable drawable;
+    private AnimatedVectorDrawable drawableTick;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -38,10 +39,10 @@ public class TestViewActivity extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        drawable.start();
+                        drawableTick.start();
                         waterRefreshView.refreshSuccess();
                     }
-                },300);
+                },200);
             }
         });
         final SwipeLayout swipeLayout = (SwipeLayout) findViewById(R.id.swipe_edit_layout);
@@ -91,6 +92,9 @@ public class TestViewActivity extends AppCompatActivity {
         ImageView iv_vector = (ImageView) findViewById(R.id.iv_test_view_vector_jrtt);
         AnimatedVectorDrawable drawable = (AnimatedVectorDrawable) iv_vector.getDrawable();
         drawable.start();
+        ImageView iv_tick = (ImageView) findViewById(R.id.iv_test_view_vector_tick);
+        drawableTick = (AnimatedVectorDrawable) iv_tick.getDrawable();
+        drawableTick.start();
     }
 
     private void transWaterRefreshView(WaterRefreshView waterRefreshView) {

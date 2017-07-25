@@ -4,7 +4,7 @@
 
     <objectAnimator
         android:duration="400"
-        android:interpolator="@android:interpolator/decelerate_cubic"
+        android:interpolator="@android:interpolator/cycle"
         android:propertyName="pathData"
         android:valueFrom="
             M20,30
