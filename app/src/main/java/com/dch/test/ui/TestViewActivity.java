@@ -95,6 +95,10 @@ public class TestViewActivity extends AppCompatActivity {
         ImageView iv_tick = (ImageView) findViewById(R.id.iv_test_view_vector_tick);
         drawableTick = (AnimatedVectorDrawable) iv_tick.getDrawable();
         drawableTick.start();
+
+
+
+
     }
 
     private void transWaterRefreshView(WaterRefreshView waterRefreshView) {

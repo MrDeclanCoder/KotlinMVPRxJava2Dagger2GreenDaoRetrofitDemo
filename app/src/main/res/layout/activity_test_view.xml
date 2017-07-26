@@ -31,6 +31,10 @@
             android:text="我是内容" />
 
     </com.dch.test.widget.SwipeLayout>
+    <com.dch.test.widget.PullWaveView
+        android:id="@+id/pullwaveview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <ImageView
         android:id="@+id/iv_test_view_vector_jrtt"
         android:layout_width="40dp"
