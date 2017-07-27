@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,18 +22,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.dch.test.R;
 import com.dch.test.base.BaseActivity;
-import com.dch.test.base.BaseApplication;
 import com.dch.test.base.BaseFragment;
 import com.dch.test.contract.presenter.HomePresenter;
 import com.dch.test.di.activity.HomePresenterModule;
-import com.dch.test.ui.fragment.CsdnBlogFragment;
+import com.dch.test.ui.fragment.HomeFragment;
 import com.dch.test.ui.fragment.GankAndroidFragment;
 import com.dch.test.ui.fragment.GankMeiziFragment;
-import com.dch.test.util.ActivityUtils;
 import com.dch.test.util.RxBus;
 
 import org.greenrobot.eventbus.EventBus;
@@ -61,7 +57,7 @@ public class HomeActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private List<BaseFragment> mFragmentList = new ArrayList<>();
-    private String[] titles = {"Android", "妹纸", "博客"};
+    private String[] titles = {"首页","Android", "妹纸"};
     private int currentIndex = 0;
     private boolean SHOWING = false;
 
@@ -139,9 +135,9 @@ public class HomeActivity extends BaseActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
+        mFragmentList.add(HomeFragment.newInstance());
         mFragmentList.add(GankAndroidFragment.newInstance());
         mFragmentList.add(GankMeiziFragment.newInstance());
-        mFragmentList.add(CsdnBlogFragment.newInstance());
 
         RxBus.getInstance().registSubject(new RxBus.CallBack<String>() {
             @Override

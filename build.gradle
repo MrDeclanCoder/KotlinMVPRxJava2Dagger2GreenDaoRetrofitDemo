@@ -56,4 +56,7 @@ ext{
     //eventbus
     eventbusVersion = "3.0.0"
 
+    //multitype
+    multitypeVersion = "2.5.0"
+
 }

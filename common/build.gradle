@@ -75,4 +75,6 @@ dependencies {
     compile 'com.ufreedom.uikit:FloatingViewLib:1.0.2'
     //eventbus
     compile 'org.greenrobot:eventbus:' + rootProject.eventbusVersion
+    //multitype
+    compile 'me.drakeet.multitype:multitype:' + rootProject.multitypeVersion
 }
