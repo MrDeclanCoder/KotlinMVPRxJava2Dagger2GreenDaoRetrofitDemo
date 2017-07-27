@@ -1,4 +1,4 @@
-package com.dch.test.ui;
+package com.dch.test.ui.test;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -8,27 +8,31 @@ import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.view.PagerAdapter;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.dch.test.R;
 import com.dch.test.widget.SwipeLayout;
 import com.dch.test.widget.WaterRefreshView;
 import com.dch.test.widget.banner.BezierIndicatorView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TestViewActivity extends AppCompatActivity {
 
     private int transY;
     private AnimatedVectorDrawable drawable;
     private AnimatedVectorDrawable drawableTick;
+    private List<Fragment> mFragmentList = new ArrayList<>();
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -99,21 +103,35 @@ public class TestViewActivity extends AppCompatActivity {
         drawableTick = (AnimatedVectorDrawable) iv_tick.getDrawable();
         drawableTick.start();
 
+
+        for (int i =0;i<5;i++){
+            TestFragment testFragment = new TestFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("pos",String.valueOf(i+1));
+            testFragment.setArguments(bundle);
+            mFragmentList.add(testFragment);
+        }
+
+
         final BezierIndicatorView bezierIndicatorView = (BezierIndicatorView) findViewById(R.id.bezierIndicatorView);
-        bezierIndicatorView.setIndicatorList(5);
+        bezierIndicatorView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                bezierIndicatorView.setIndicatorList(5);
+
+            }
+        });
         ViewPager viewPager = (ViewPager) findViewById(R.id.test_viewpager);
-        viewPager.setCurrentItem(0);
-        viewPager.setAdapter(new MyPagerAdapter());
+        viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.d("scroll",String.valueOf(positionOffset));
                 bezierIndicatorView.indicatorMove(positionOffset);
             }
 
             @Override
             public void onPageSelected(int position) {
-//                bezierIndicatorView.setCurrentPosition(position);
+                bezierIndicatorView.setCurrentPosition(position);
             }
 
             @Override
@@ -121,34 +139,23 @@ public class TestViewActivity extends AppCompatActivity {
 
             }
         });
+        viewPager.setCurrentItem(0);
     }
 
-    class MyPagerAdapter extends PagerAdapter {
+    class MyPagerAdapter extends FragmentPagerAdapter{
+
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
 
         @Override
         public int getCount() {
-            return 5;
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return false;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            TextView textView = new TextView(container.getContext());
-            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            textView.setLayoutParams(layoutParams);
-            textView.setText("我是第" + (position + 1) + "个位置");
-            container.addView(textView);
-            return textView;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-//            super.destroyItem(container, position, object);
-            container.removeView(container.getChildAt(position));
+            return mFragmentList.size();
         }
     }
 

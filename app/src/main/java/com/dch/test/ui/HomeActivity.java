@@ -31,6 +31,7 @@ import com.dch.test.di.activity.HomePresenterModule;
 import com.dch.test.ui.fragment.HomeFragment;
 import com.dch.test.ui.fragment.GankAndroidFragment;
 import com.dch.test.ui.fragment.GankMeiziFragment;
+import com.dch.test.ui.test.TestViewActivity;
 import com.dch.test.util.RxBus;
 
 import org.greenrobot.eventbus.EventBus;

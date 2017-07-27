@@ -51,16 +51,19 @@ public class BezierIndicatorView extends View {
 
     private void init(Context context, AttributeSet attrs) {
         mDefaultIndicatorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mDefaultIndicatorPaint.setAntiAlias(true);
         mDefaultIndicatorPaint.setColor(mDefaultIndicatorColor);
         mDefaultIndicatorPaint.setStyle(Paint.Style.FILL);
         mDefaultIndicatorPaint.setStrokeWidth(10);
 
         mMoveIndicatorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mMoveIndicatorPaint.setAntiAlias(true);
         mMoveIndicatorPaint.setColor(mMoveIndicatorColor);
         mMoveIndicatorPaint.setStyle(Paint.Style.FILL);
         mMoveIndicatorPaint.setStrokeWidth(10);
 
         mBezierAreaPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mBezierAreaPaint.setAntiAlias(true);
         mBezierAreaPaint.setColor(mMoveIndicatorColor);
         mBezierAreaPaint.setStyle(Paint.Style.FILL);
         mBezierAreaPaint.setStrokeWidth(10);
@@ -100,7 +103,7 @@ public class BezierIndicatorView extends View {
             Indicator indicator = new Indicator(mIndicatorRadius * (i * 2 + 1) + (i + 1) * mIndicatorInterval, mHeight / 2);
             mIndicatorList.add(indicator);
             if (i == mCurrentIndicatorPosition) {
-                mCurrentIndicator = indicator;
+                mCurrentIndicator = new Indicator(indicator.x,indicator.y);
             }
         }
         invalidate();
@@ -131,7 +134,6 @@ public class BezierIndicatorView extends View {
         }
 
         setMeasuredDimension(mWidth, mHeight);
-
         mIndicatorInterval = (mWidth - 2 * mIndicatorCount * mIndicatorRadius) / (1 + mIndicatorCount);
         mDeltDistanceBetweenIndicator = (int)mIndicatorRadius * 2 + (int)mIndicatorInterval;
     }
@@ -142,19 +144,18 @@ public class BezierIndicatorView extends View {
 
         for (int i = 0; i < mIndicatorList.size(); i++) {
             Indicator indicator = mIndicatorList.get(i);
-            if (i == mCurrentIndicatorPosition) {
-                canvas.drawCircle(indicator.x, indicator.y, mIndicatorRadius, mMoveIndicatorPaint);
-            } else {
                 canvas.drawCircle(indicator.x, indicator.y, mIndicatorRadius, mDefaultIndicatorPaint);
-            }
         }
-
+        if(null != mMoveIndicator){
+            canvas.drawCircle(mMoveIndicator.x,mMoveIndicator.y,mIndicatorRadius,mBezierAreaPaint);
+        }
         canvas.drawCircle(mCurrentIndicator.x, mCurrentIndicator.y, mIndicatorRadius, mMoveIndicatorPaint);
 
 
         canvas.drawPath(mBezierPath,mBezierAreaPaint);
     }
-
+    private Indicator mMoveIndicator;
+    private int mLastPosition = -1;
     /**
      * @param xOffset xOffSet是一个介于0~1之间的映射两个indicator距离的值
      */
@@ -162,27 +163,35 @@ public class BezierIndicatorView extends View {
         if (xOffset < 0 && xOffset > 1) {
             throw new RuntimeException("offset偏移量必须介于0~1之间");
         }
-        int currentPos = mCurrentIndicatorPosition;
-        Indicator indicator = mIndicatorList.get(currentPos);
-        float startX = indicator.x;
-        float startY = indicator.y;
+        if (xOffset<0.1){
+            mLastPosition = mCurrentIndicatorPosition;
+        }
+        if (mIndicatorList.size()>0){
+            Indicator indicator = mIndicatorList.get(mLastPosition);
+            float moveX = indicator.x + xOffset * mDeltDistanceBetweenIndicator;
+            if (mMoveIndicator == null) {
+                mMoveIndicator = new Indicator(moveX,indicator.y);
+            } else {
+                mMoveIndicator.x = moveX;
+            }
 
-        mCurrentIndicator.x += xOffset * mDeltDistanceBetweenIndicator;
+            float middleX = (mMoveIndicator.x - indicator.x) / 2 + indicator.x;
+            mBezierPath.reset();
+            mBezierPath.moveTo(indicator.x, indicator.y + mIndicatorRadius);
+            mBezierPath.quadTo(middleX, indicator.y, mMoveIndicator.x, mMoveIndicator.y + mIndicatorRadius);
+            mBezierPath.lineTo(mMoveIndicator.x, mMoveIndicator.y - mIndicatorRadius);
+            mBezierPath.quadTo(middleX, indicator.y,indicator.x, indicator.y - mIndicatorRadius);
+            mBezierPath.close();
 
-        float middleX = (mCurrentIndicator.x - indicator.x) / 2 + indicator.x;
-
-        mBezierPath.moveTo(indicator.x, indicator.y + mIndicatorRadius);
-        mBezierPath.quadTo(middleX, indicator.y, mCurrentIndicator.x, mCurrentIndicator.y + mIndicatorRadius);
-        mBezierPath.lineTo(mCurrentIndicator.x, mCurrentIndicator.y - mIndicatorRadius);
-        mBezierPath.quadTo(middleX, indicator.y,indicator.x, indicator.y - mIndicatorRadius);
-        mBezierPath.close();
-
-        postInvalidate();
+            invalidate();
+        }
     }
 
-    public void setCurrentPosition(int position) {
-        this.mCurrentIndicatorPosition = position;
-        invalidate();
+    public void setCurrentPosition(final int position) {
+        mCurrentIndicatorPosition = position;
+//        mMoveIndicator = null;
+        mCurrentIndicator.x = mIndicatorList.get(position).x;
+        postInvalidate();
     }
 
     private class Indicator {
