@@ -42,15 +42,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <com.dch.test.widget.banner.BezierIndicatorView
-            android:id="@+id/bezierIndicatorView"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:background="@color/white_pressed" />
-    </RelativeLayout>
 
+    </RelativeLayout>
+    <com.dch.test.widget.banner.BezierIndicatorView
+        android:id="@+id/bezierIndicatorView"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/white_pressed" />
     <com.dch.test.widget.PullWaveView
         android:id="@+id/pullwaveview"
         android:layout_width="match_parent"

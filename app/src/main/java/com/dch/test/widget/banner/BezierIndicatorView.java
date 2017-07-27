@@ -103,6 +103,7 @@ public class BezierIndicatorView extends View {
                 mCurrentIndicator = indicator;
             }
         }
+        invalidate();
     }
 
     @Override
