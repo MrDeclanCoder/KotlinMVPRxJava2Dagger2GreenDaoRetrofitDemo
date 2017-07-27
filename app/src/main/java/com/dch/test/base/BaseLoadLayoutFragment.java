@@ -2,7 +2,6 @@ package com.dch.test.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +21,7 @@ import butterknife.Unbinder;
  * 描述：
  * 邮箱：daichuanhao@caijinquan.com
  */
-public abstract class BaseLoadLayoutFragment extends Fragment implements HomeContract.View{
+public abstract class BaseLoadLayoutFragment extends BaseFragment implements HomeContract.View{
 
     protected AppCompatActivity activity;
     protected View rootView;
@@ -57,6 +56,11 @@ public abstract class BaseLoadLayoutFragment extends Fragment implements HomeCon
         ll_content_base.addView(addContentView(inflater));
         isPrepared = true;
         return rootView;
+    }
+
+    @Override
+    protected View initRootView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return null;
     }
 
     protected abstract View addContentView(LayoutInflater inflater);

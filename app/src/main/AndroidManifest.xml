@@ -19,7 +19,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
         <activity
-            android:name=".ui.SplashActivity"
+            android:name=".ui.TestViewActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,7 +62,7 @@
 
         <service android:name=".remote.MusicService" />
 
-        <activity android:name=".ui.TestViewActivity"></activity>
+        <activity android:name=".ui.SplashActivity"></activity>
     </application>
 
 </manifest>

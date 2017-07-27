@@ -31,6 +31,14 @@
             android:text="我是内容" />
 
     </com.dch.test.widget.SwipeLayout>
+
+    <com.dch.test.widget.banner.BezierIndicatorView
+        android:id="@+id/bezierIndicatorView"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="200dp"
+        android:background="@color/white_pressed"
+        android:layout_height="50dp" />
+
     <com.dch.test.widget.PullWaveView
         android:id="@+id/pullwaveview"
         android:layout_width="match_parent"
