@@ -22,8 +22,8 @@ public class BezierIndicatorView extends View {
     private int mDefaultIndicatorColor = Color.BLUE;
     private int mMoveIndicatorColor = Color.RED;
     private int mIndicatorCount = 5;
-    private int mIndicatorRadius = 25;
-    private int mIndicatorInterval = 10;
+    private float mIndicatorRadius = 25;
+    private float mIndicatorInterval = 10;
     private int mWidth;
     private int mHeight;
     private int mCurrentIndicatorPosition = 0;
@@ -33,6 +33,7 @@ public class BezierIndicatorView extends View {
     private Path mBezierPath;
     private Paint mDefaultIndicatorPaint;
     private Paint mMoveIndicatorPaint;
+    private Paint mBezierAreaPaint;
 
     public BezierIndicatorView(Context context) {
         this(context, null);
@@ -59,6 +60,13 @@ public class BezierIndicatorView extends View {
         mMoveIndicatorPaint.setStyle(Paint.Style.FILL);
         mMoveIndicatorPaint.setStrokeWidth(10);
 
+        mBezierAreaPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mBezierAreaPaint.setColor(mMoveIndicatorColor);
+        mBezierAreaPaint.setStyle(Paint.Style.FILL);
+        mBezierAreaPaint.setStrokeWidth(10);
+
+
+
         mBezierPath = new Path();
 
 //        this.addOnLayoutChangeListener(new OnLayoutChangeListener() {
@@ -69,21 +77,32 @@ public class BezierIndicatorView extends View {
 //                }
 //            }
 //        });
-        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                for (int i = 0; i < mIndicatorCount; i++) {
-                    Indicator indicator = new Indicator(mIndicatorRadius * (i * 2 + 1) + (i + 1) * mIndicatorInterval, mHeight / 2);
-                    mIndicatorList.add(indicator);
-                    if (i == mCurrentIndicatorPosition) {
-                        mCurrentIndicator = indicator;
-                    }
-                }
-                getViewTreeObserver().removeOnGlobalLayoutListener(this);
+//        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                for (int i = 0; i < mIndicatorCount; i++) {
+//                    Indicator indicator = new Indicator(mIndicatorRadius * (i * 2 + 1) + (i + 1) * mIndicatorInterval, mHeight / 2);
+//                    mIndicatorList.add(indicator);
+//                    if (i == mCurrentIndicatorPosition) {
+//                        mCurrentIndicator = indicator;
+//                    }
+//                }
+//                getViewTreeObserver().removeOnGlobalLayoutListener(this);
+//            }
+//        });
+
+
+    }
+
+    public void setIndicatorList(int count){
+        this.mIndicatorCount = count;
+        for (int i = 0; i < mIndicatorCount; i++) {
+            Indicator indicator = new Indicator(mIndicatorRadius * (i * 2 + 1) + (i + 1) * mIndicatorInterval, mHeight / 2);
+            mIndicatorList.add(indicator);
+            if (i == mCurrentIndicatorPosition) {
+                mCurrentIndicator = indicator;
             }
-        });
-
-
+        }
     }
 
     @Override
@@ -99,7 +118,7 @@ public class BezierIndicatorView extends View {
         } else if (widthMode == MeasureSpec.AT_MOST) {
             mWidth = measuredWidth + getPaddingLeft() + getPaddingRight();
         } else {
-            mWidth = getPaddingLeft() + getPaddingRight() + (mIndicatorCount + 1) * mIndicatorInterval + mIndicatorCount * 2 * mIndicatorRadius;
+            mWidth = getPaddingLeft() + getPaddingRight() + (mIndicatorCount + 1) * (int)mIndicatorInterval + mIndicatorCount * 2 * (int)mIndicatorRadius;
         }
 
         if (heightMode == MeasureSpec.EXACTLY) {
@@ -107,13 +126,13 @@ public class BezierIndicatorView extends View {
         } else if (widthMode == MeasureSpec.AT_MOST) {
             mHeight = measuredHeight + getPaddingTop() + getPaddingBottom();
         } else {
-            mHeight = getPaddingTop() + getPaddingBottom() + 2 * mIndicatorRadius + 10;
+            mHeight = getPaddingTop() + getPaddingBottom() + 2 * (int)mIndicatorRadius + 10;
         }
 
         setMeasuredDimension(mWidth, mHeight);
 
         mIndicatorInterval = (mWidth - 2 * mIndicatorCount * mIndicatorRadius) / (1 + mIndicatorCount);
-        mDeltDistanceBetweenIndicator = mIndicatorRadius * 2 + mIndicatorInterval;
+        mDeltDistanceBetweenIndicator = (int)mIndicatorRadius * 2 + (int)mIndicatorInterval;
     }
 
     @Override
@@ -131,23 +150,33 @@ public class BezierIndicatorView extends View {
 
         canvas.drawCircle(mCurrentIndicator.x, mCurrentIndicator.y, mIndicatorRadius, mMoveIndicatorPaint);
 
+
+        canvas.drawPath(mBezierPath,mBezierAreaPaint);
     }
 
     /**
      * @param xOffset xOffSet是一个介于0~1之间的映射两个indicator距离的值
      */
-    public void indicatorMove(int xOffset) {
-        if (xOffset<0 && xOffset>1){
+    public void indicatorMove(float xOffset) {
+        if (xOffset < 0 && xOffset > 1) {
             throw new RuntimeException("offset偏移量必须介于0~1之间");
         }
         int currentPos = mCurrentIndicatorPosition;
         Indicator indicator = mIndicatorList.get(currentPos);
-        int startX = indicator.x;
-        int startY = indicator.y;
+        float startX = indicator.x;
+        float startY = indicator.y;
 
         mCurrentIndicator.x += xOffset * mDeltDistanceBetweenIndicator;
 
+        float middleX = (mCurrentIndicator.x - indicator.x) / 2 + indicator.x;
 
+        mBezierPath.moveTo(indicator.x, indicator.y + mIndicatorRadius);
+        mBezierPath.quadTo(middleX, indicator.y, mCurrentIndicator.x, mCurrentIndicator.y + mIndicatorRadius);
+        mBezierPath.lineTo(mCurrentIndicator.x, mCurrentIndicator.y - mIndicatorRadius);
+        mBezierPath.quadTo(middleX, indicator.y,indicator.x, indicator.y - mIndicatorRadius);
+        mBezierPath.close();
+
+        postInvalidate();
     }
 
     public void setCurrentPosition(int position) {
@@ -156,10 +185,10 @@ public class BezierIndicatorView extends View {
     }
 
     private class Indicator {
-        public int x = -1;
-        public int y = -1;
+        public float x = -1;
+        public float y = -1;
 
-        public Indicator(int x, int y) {
+        public Indicator(float x, float y) {
             this.x = x;
             this.y = y;
         }

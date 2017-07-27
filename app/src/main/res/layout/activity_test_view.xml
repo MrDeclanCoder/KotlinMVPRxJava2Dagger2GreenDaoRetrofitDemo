@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         app:menuItemCount="1"
-        app:menuItemWidth="60dp"
-        >
+        app:menuItemWidth="60dp">
+
         <ImageView
             android:id="@+id/tv_edit_layout"
             android:layout_width="100dp"
@@ -21,6 +21,7 @@
             android:padding="10dp"
             android:src="@drawable/delete"
             android:text="删除" />
+
         <TextView
             android:id="@+id/tv_edit_text_layout"
             android:layout_width="match_parent"
@@ -32,33 +33,44 @@
 
     </com.dch.test.widget.SwipeLayout>
 
-    <com.dch.test.widget.banner.BezierIndicatorView
-        android:id="@+id/bezierIndicatorView"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="200dp"
-        android:background="@color/white_pressed"
-        android:layout_height="50dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/test_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <com.dch.test.widget.banner.BezierIndicatorView
+            android:id="@+id/bezierIndicatorView"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@color/white_pressed" />
+    </RelativeLayout>
 
     <com.dch.test.widget.PullWaveView
         android:id="@+id/pullwaveview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
     <ImageView
         android:id="@+id/iv_test_view_vector_jrtt"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_margin="20dp"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/jrtt_vector"
-        />
+        android:layout_margin="20dp"
+        android:src="@drawable/jrtt_vector" />
+
     <ImageView
         android:id="@+id/iv_test_view_vector_tick"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_margin="20dp"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/tick_vector"
-        />
+        android:layout_margin="20dp"
+        android:src="@drawable/tick_vector" />
 
     <com.dch.test.widget.WaterRefreshView
         android:id="@+id/waterrefreshview"
