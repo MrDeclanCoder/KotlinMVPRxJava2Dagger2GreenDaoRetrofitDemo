@@ -18,36 +18,39 @@ import java.util.List;
  * 描述：自定义贝塞尔效果指示器indicator
  * 邮箱：daichuanhao@caijinquan.com
  */
-public class BezierIndicatorView extends View {
+public class BezierPathIndicatorView extends View {
     private final String TAG = "BezierIndicatorView";
     private int mDefaultIndicatorColor = Color.BLUE;
     private int mMoveIndicatorColor = Color.RED;
     private int mIndicatorCount = 5;
     private float mIndicatorRadius = 10;
-    private float mPreIndicatorRadius = 10;
     private float mIndicatorInterval = 10;
     private int mWidth;
     private int mHeight;
-    private int mCurrentIndicatorPosition = 0;
-    private float[] mIndicators;
+    private int mCurrentPosition = 0;
+    private int mNextPosition;
+
     private float mDeltDistanceBetweenIndicator = 0;
     private Indicator mCurrentIndicator;
     private List<Indicator> mIndicatorList = new ArrayList<>();
-    private Path mBezierPath;
+    private Path[] paths;
+    private Path mPrePath;
+    private Path mNextPath;
+    private Path normalPath;
     private Paint mDefaultIndicatorPaint;
     private Paint mMoveIndicatorPaint;
     private Paint mCircleLinePaint;
     private Indicator indicatorFromList;
 
-    public BezierIndicatorView(Context context) {
+    public BezierPathIndicatorView(Context context) {
         this(context, null);
     }
 
-    public BezierIndicatorView(Context context, @Nullable AttributeSet attrs) {
+    public BezierPathIndicatorView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public BezierIndicatorView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public BezierPathIndicatorView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         init(context, attrs);
@@ -72,22 +75,26 @@ public class BezierIndicatorView extends View {
 
 
 
-        mBezierPath = new Path();
+        mPrePath = new Path();
+        mNextPath = new Path();
 
     }
 
     public void setIndicatorList(int count) {
-        this.mIndicatorCount = count;
-        mIndicators = new float[10];
+        mIndicatorCount = count;
+        paths = new Path[mIndicatorCount];
         for (int i = 0; i < mIndicatorCount; i++) {
             Indicator indicator = new Indicator(mIndicatorRadius * (i * 2 + 1) + (i + 1) * mIndicatorInterval, mHeight / 2);
             mIndicatorList.add(indicator);
-            mIndicators[2*i] = indicator.x;
-            mIndicators[2*i+1] = indicator.y;
-            if (i == mCurrentIndicatorPosition) {
+            if (i == mCurrentPosition) {
                 mCurrentIndicator = new Indicator(indicator.x, indicator.y);
             }
         }
+
+        normalPath.moveTo(mIndicatorInterval,mHeight/2);
+//        normalPath.q
+
+
         invalidate();
     }
 
@@ -127,23 +134,20 @@ public class BezierIndicatorView extends View {
         super.onDraw(canvas);
 
 //        for (int i = 0; i < mIndicatorList.size(); i++) {
-//            if (i == mCurrentIndicatorPosition) {
+//            if (i == mCurrentPosition) {
 //                continue;
 //            } else {
 //                indicator = mIndicatorList.get(i);
 //                canvas.drawCircle(indicator.x, indicator.y, mIndicatorRadius, mDefaultIndicatorPaint);
 //            }
 //        }
-        canvas.drawPoints(mIndicators,mCircleLinePaint);
         if (null != mMoveIndicator) {
             canvas.drawCircle(mMoveIndicator.x, mMoveIndicator.y, mIndicatorRadius, mMoveIndicatorPaint);
         }
 
-        if (!flag)
-        canvas.drawCircle(mCurrentIndicator.x, mCurrentIndicator.y, mPreIndicatorRadius, mMoveIndicatorPaint);
 
 
-        canvas.drawPath(mBezierPath, mMoveIndicatorPaint);
+        canvas.drawPath(mPrePath, mMoveIndicatorPaint);
     }
 
     private Indicator mMoveIndicator;
@@ -158,15 +162,10 @@ public class BezierIndicatorView extends View {
             throw new RuntimeException("offset偏移量必须介于0~1之间");
         }
         if (xOffset < 0.1) {
-            mLastPosition = mCurrentIndicatorPosition;
+            mLastPosition = mCurrentPosition;
             flag = false;
         }
-        mPreIndicatorRadius = mIndicatorRadius * (1 - xOffset);
-        if (mPreIndicatorRadius < 2) {
-            mPreIndicatorRadius = 2;
-        }
         Log.d(TAG, "xOffset: " + String.valueOf(xOffset));
-        Log.d(TAG, "mPreIndicatorRadius: " + String.valueOf(mPreIndicatorRadius));
         if (mIndicatorList.size() > 0) {
             indicatorFromList = mIndicatorList.get(mLastPosition);
             float moveX = indicatorFromList.x + xOffset * mDeltDistanceBetweenIndicator;
@@ -177,12 +176,6 @@ public class BezierIndicatorView extends View {
             }
 
             float middleX = (mMoveIndicator.x - indicatorFromList.x) / 2 + indicatorFromList.x;
-            mBezierPath.reset();
-            mBezierPath.moveTo(indicatorFromList.x, indicatorFromList.y + mPreIndicatorRadius);
-            mBezierPath.quadTo(middleX, indicatorFromList.y, mMoveIndicator.x, mMoveIndicator.y + mIndicatorRadius);
-            mBezierPath.lineTo(mMoveIndicator.x, mMoveIndicator.y - mIndicatorRadius);
-            mBezierPath.quadTo(middleX, indicatorFromList.y, indicatorFromList.x, indicatorFromList.y - mPreIndicatorRadius);
-            mBezierPath.close();
 
             invalidate();
         }
@@ -194,9 +187,7 @@ public class BezierIndicatorView extends View {
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                mBezierPath.reset();
-                mCurrentIndicatorPosition = position;
-                mPreIndicatorRadius = mIndicatorRadius;
+                mCurrentPosition = position;
                 mCurrentIndicator.x = mIndicatorList.get(position).x;
                 invalidate();
             }

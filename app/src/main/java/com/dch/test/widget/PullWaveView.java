@@ -15,7 +15,7 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
 import com.dch.test.R;
@@ -68,12 +68,14 @@ public class PullWaveView extends View {
         defaultDisplay.getMetrics(displayMetrics);
         mScreenWidth = displayMetrics.widthPixels;
 
-        mAbovePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mAbovePaint = new Paint();
+        mAbovePaint.setAntiAlias(true);
         mAbovePaint.setColor(Color.BLUE);
         mAbovePaint.setStyle(Paint.Style.FILL);
         mAbovePaint.setStrokeWidth(30);
 
-        mBallPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mBallPaint = new Paint();
+        mBallPaint.setAntiAlias(true);
         mBallPaint.setColor(getResources().getColor(R.color.colorAccent));
         mBallPaint.setStyle(Paint.Style.FILL);
         mBallPaint.setStrokeWidth(30);
@@ -215,9 +217,9 @@ public class PullWaveView extends View {
     private float animatedHeight;
 
     private void doBallAnim() {
-        ValueAnimator valueAnimator = ValueAnimator.ofFloat(500, 200);
-        valueAnimator.setDuration(500);
-        valueAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(500, 150,220);
+        valueAnimator.setDuration(800);
+        valueAnimator.setInterpolator(new DecelerateInterpolator());
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
