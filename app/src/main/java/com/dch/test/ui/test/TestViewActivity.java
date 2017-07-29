@@ -23,6 +23,7 @@ import com.dch.test.R;
 import com.dch.test.widget.SwipeLayout;
 import com.dch.test.widget.WaterRefreshView;
 import com.dch.test.widget.banner.BezierIndicatorView;
+import com.dch.test.widget.banner.BezierIndicatorView2;
 
 import java.util.ArrayList;
 import java.util.List;
