@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -27,20 +28,46 @@ public class BezierIndicatorView extends View {
     private int mIndicatorCount = 5;
     private float mOffSet = 0;
     private float mIndicatorRadius = 15;
+    float delt = mIndicatorRadius * RATIO;
     private float mIndicatorInterval = 10;
     private int mWidth;
     private int mHeight;
     private int mCurrentIndicatorPosition = 0;
     private float mDeltDistanceBetweenIndicator = 0;
     private Indicator mCurrentIndicator;
-    private List<Indicator> mIndicatorList = new ArrayList<>();
+    private List<Indicator> mIndicatorList = new LinkedList<>();
     private Path mBezierPath ;
     private Path mCurrentPath = new Path();
-    private List<Path> mDefaultIndicatorPaths = new ArrayList<>();
+    private List<Path> mDefaultIndicatorPaths = new LinkedList<>();
+    private List<Path> mCirclePaths = new ArrayList<>();
     private Paint mDefaultIndicatorPaint;
     private Paint mMoveIndicatorPaint;
     private Paint mCircleLinePaint;
     private int mLastPosition = -1;
+    private Path mPrePath;
+    private Path mNextPath;
+    private Indicator mNextIndicator;
+    private Indicator mPreIndicator;
+
+
+    private Indicator indicator1;
+    private Indicator indicator2;
+    private Indicator indicator3;
+    private Indicator indicator4;
+    private Indicator indicator5;
+
+    private Indicator indicator11;
+    private Indicator indicator22;
+    private Indicator indicator33;
+    private Indicator indicator44;
+    private Indicator indicator55;
+
+
+    private Path path1 = new Path();
+    private Path path2 = new Path();
+    private Path path3 = new Path();
+    private Path path4 = new Path();
+    private Path path5 = new Path();
 
     public BezierIndicatorView(Context context) {
         this(context, null);
@@ -73,11 +100,12 @@ public class BezierIndicatorView extends View {
         mCircleLinePaint.setStyle(Paint.Style.STROKE);
         mCircleLinePaint.setStrokeWidth(mIndicatorRadius * 2);
 
+
     }
 
     public void setIndicatorList(int count) {
         if (mDefaultIndicatorPaths.size()>0) mDefaultIndicatorPaths.clear();
-        float delt = mIndicatorRadius * RATIO;
+
         this.mIndicatorCount = count;
         for (int i = 0; i < mIndicatorCount; i++) {
 
@@ -127,7 +155,81 @@ public class BezierIndicatorView extends View {
                 mCurrentPath = calculatePath(indicator);
             }
         }
+        mCirclePaths = mDefaultIndicatorPaths;
         invalidate();
+    }
+
+    public void setIndicatorList2(int count){
+        if (mDefaultIndicatorPaths.size()>0) mDefaultIndicatorPaths.clear();
+        this.mIndicatorCount = count;
+        indicator1 = generateIndicator(0);
+        indicator11 = indicator1;
+        indicator2 = generateIndicator(1);
+        indicator22 = indicator2;
+        indicator3 = generateIndicator(2);
+        indicator33 = indicator3;
+        indicator4 = generateIndicator(3);
+        indicator44 = indicator4;
+        indicator5 = generateIndicator(4);
+        indicator55 = indicator5;
+
+        path1 = calculatePath(indicator1);
+        path2 = calculatePath(indicator2);
+        path3 = calculatePath(indicator3);
+        path4 = calculatePath(indicator4);
+        path5 = calculatePath(indicator5);
+
+        mDefaultIndicatorPaths.add(path1);
+        mDefaultIndicatorPaths.add(path2);
+        mDefaultIndicatorPaths.add(path3);
+        mDefaultIndicatorPaths.add(path4);
+        mDefaultIndicatorPaths.add(path5);
+
+        mCurrentIndicator = indicator1;
+        mCurrentPath = calculatePath(indicator1);
+        mCirclePaths = mDefaultIndicatorPaths;
+        invalidate();
+    }
+    private Indicator generateIndicator(int i){
+        Indicator indicator = new Indicator();
+        indicator.point0.x = mIndicatorRadius * (i * 2 + 1) + (i + 1) * mIndicatorInterval;
+        indicator.point0.y = mHeight / 2 + mIndicatorRadius;
+
+        indicator.point1.x = mIndicatorRadius * (i * 2 + 1) + (i + 1) * mIndicatorInterval + delt;
+        indicator.point1.y = mHeight / 2 + mIndicatorRadius;
+
+        indicator.point2.x = mIndicatorRadius * (i * 2 + 2) + (i + 1) * mIndicatorInterval;
+        indicator.point2.y = mHeight / 2 + delt;
+
+        indicator.point3.x = mIndicatorRadius * (i * 2 + 2) + (i + 1) * mIndicatorInterval;
+        indicator.point3.y = mHeight / 2;
+
+        indicator.point4.x = mIndicatorRadius * (i * 2 + 2) + (i + 1) * mIndicatorInterval;
+        indicator.point4.y = mHeight / 2 - delt;
+
+
+        indicator.point5.x = mIndicatorRadius * (i * 2 + 1) + (i + 1) * mIndicatorInterval + delt;
+        indicator.point5.y = mHeight / 2 - mIndicatorRadius;
+
+        indicator.point6.x = mIndicatorRadius * (i * 2 + 1) + (i + 1) * mIndicatorInterval;
+        indicator.point6.y = mHeight / 2 - mIndicatorRadius;
+
+        indicator.point7.x = mIndicatorRadius * (i * 2 + 1) + (i + 1) * mIndicatorInterval - delt;
+        indicator.point7.y = mHeight / 2 - mIndicatorRadius;
+
+        indicator.point8.x = mIndicatorRadius * (i * 2) + (i + 1) * mIndicatorInterval;
+        indicator.point8.y = mHeight / 2 - delt;
+
+        indicator.point9.x = mIndicatorRadius * (i * 2) + (i + 1) * mIndicatorInterval;
+        indicator.point9.y = mHeight / 2;
+
+        indicator.point10.x = mIndicatorRadius * (i * 2) + (i + 1) * mIndicatorInterval;
+        indicator.point10.y = mHeight / 2 + delt;
+
+        indicator.point11.x = mIndicatorRadius * (i * 2 + 1) + (i + 1) * mIndicatorInterval - delt;
+        indicator.point11.y = mHeight / 2 + mIndicatorRadius;
+
+        return indicator;
     }
 
     private Path calculatePath(Indicator indicator) {
@@ -175,9 +277,16 @@ public class BezierIndicatorView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        for (int i = 0; i < mDefaultIndicatorPaths.size(); i++) {
-            canvas.drawPath(mDefaultIndicatorPaths.get(i), mDefaultIndicatorPaint);
-        }
+//        for (int i = 0; i < mDefaultIndicatorPaths.size(); i++) {
+//            canvas.drawPath(mDefaultIndicatorPaths.get(i), mDefaultIndicatorPaint);
+//        }
+
+        canvas.drawPath(path1, mDefaultIndicatorPaint);
+        canvas.drawPath(path2, mDefaultIndicatorPaint);
+        canvas.drawPath(path3, mDefaultIndicatorPaint);
+        canvas.drawPath(path4, mDefaultIndicatorPaint);
+        canvas.drawPath(path5, mDefaultIndicatorPaint);
+
 
         canvas.drawPath(mCurrentPath,mMoveIndicatorPaint);
 
@@ -195,40 +304,122 @@ public class BezierIndicatorView extends View {
         }
         if (mIndicatorList.size() > 0) {
             this.mOffSet = xOffset;
-            Indicator mPreIndicator = mIndicatorList.get(mLastPosition);
+            mPreIndicator = mIndicatorList.get(mLastPosition);
             mPreIndicator.point2.x = mIndicatorRadius * (mLastPosition * 2 + 2) + (mLastPosition + 1) * mIndicatorInterval + mIndicatorInterval * mOffSet;
             mPreIndicator.point3.x = mPreIndicator.point2.x;
             mPreIndicator.point4.x = mPreIndicator.point2.x;
 
-            Indicator mNextIndicator = mIndicatorList.get(mLastPosition+1);
+            mNextIndicator = mIndicatorList.get(mLastPosition+1);
             mNextIndicator.point8.x = mIndicatorRadius * (mLastPosition+1 * 2) + (mLastPosition+1 + 1) * mIndicatorInterval - mIndicatorInterval * mOffSet;
             mNextIndicator.point9.x = mNextIndicator.point8.x;
             mNextIndicator.point10.x = mNextIndicator.point8.x;
 
 
-
-            Path mPrePath = calculatePath(mPreIndicator);
+            mPrePath = calculatePath(mPreIndicator);
             mDefaultIndicatorPaths.remove(mLastPosition);
-            mDefaultIndicatorPaths.add(mLastPosition,mPrePath);
+            mDefaultIndicatorPaths.add(mLastPosition, mPrePath);
 
-            Path mNextPath = calculatePath(mNextIndicator);
+            mNextPath = calculatePath(mNextIndicator);
             mDefaultIndicatorPaths.remove(mLastPosition+1);
-            mDefaultIndicatorPaths.add(mLastPosition+1,mNextPath);
+            mDefaultIndicatorPaths.add(mLastPosition+1, mNextPath);
 
             invalidate();
         }
     }
 
+    /**
+     * @param xOffset xOffSet是一个介于0~1之间的映射两个indicator距离的值
+     */
+    public void indicatorMove2(float xOffset) {
+        if (xOffset < 0 && xOffset > 1) {
+            throw new RuntimeException("offset偏移量必须介于0~1之间");
+        }
+        if (xOffset < 0.1) {
+            mLastPosition = mCurrentIndicatorPosition;
+        }
+        if (indicator1 != null) {
+            this.mOffSet = xOffset;
 
+            if (mLastPosition == 0){
+                indicator1.point2.x = indicator11.point2.x + mIndicatorInterval * mOffSet;
+                indicator1.point3.x = indicator1.point2.x;
+                indicator1.point4.x = indicator1.point2.x;
+
+                path1 = calculatePath(indicator1);
+
+                indicator2.point8.x = indicator22.point8.x - mIndicatorInterval * mOffSet;
+                indicator2.point9.x = indicator2.point8.x;
+                indicator2.point10.x = indicator2.point8.x;
+
+                path2 = calculatePath(indicator2);
+
+            } else if(mLastPosition == 1){
+                indicator2.point2.x = indicator22.point2.x + mIndicatorInterval * mOffSet;
+                indicator2.point3.x = indicator2.point2.x;
+                indicator2.point4.x = indicator2.point2.x;
+
+                path2 = calculatePath(indicator2);
+
+                indicator3.point8.x = indicator33.point8.x - mIndicatorInterval * mOffSet;
+                indicator3.point9.x = indicator3.point8.x;
+                indicator3.point10.x = indicator3.point8.x;
+
+                path3 = calculatePath(indicator3);
+            } else if(mLastPosition == 2){
+                indicator3.point2.x = indicator33.point2.x + mIndicatorInterval * mOffSet;
+                indicator3.point3.x = indicator3.point2.x;
+                indicator3.point4.x = indicator3.point2.x;
+
+                path3 = calculatePath(indicator3);
+
+                indicator4.point8.x = indicator44.point8.x - mIndicatorInterval * mOffSet;
+                indicator4.point9.x = indicator4.point8.x;
+                indicator4.point10.x = indicator4.point8.x;
+
+                path4 = calculatePath(indicator4);
+            } else if(mLastPosition == 3){
+                indicator4.point2.x = indicator44.point2.x + mIndicatorInterval * mOffSet;
+                indicator4.point3.x = indicator4.point2.x;
+                indicator4.point4.x = indicator4.point2.x;
+
+                path4 = calculatePath(indicator4);
+
+                indicator5.point8.x = indicator55.point8.x - mIndicatorInterval * mOffSet;
+                indicator5.point9.x = indicator5.point8.x;
+                indicator5.point10.x = indicator5.point8.x;
+
+                path5 = calculatePath(indicator5);
+            } else if(mLastPosition == 4){
+                indicator5.point2.x = indicator55.point2.x + mIndicatorInterval * mOffSet;
+                indicator5.point3.x = indicator5.point2.x;
+                indicator5.point4.x = indicator5.point2.x;
+
+                path5 = calculatePath(indicator5);
+
+                indicator4.point8.x = indicator44.point8.x - mIndicatorInterval * mOffSet;
+                indicator4.point9.x = indicator4.point8.x;
+                indicator4.point10.x = indicator4.point8.x;
+
+                path4 = calculatePath(indicator4);
+            }
+
+            invalidate();
+        }
+    }
     public void setCurrentPosition(final int position) {
         postDelayed(new Runnable() {
             @Override
             public void run() {
                 mCurrentIndicatorPosition = position;
-                mCurrentPath = calculatePath(mIndicatorList.get(mCurrentIndicatorPosition));
+                mCurrentPath = mCirclePaths.get(mCurrentIndicatorPosition);
+                path1 = mCirclePaths.get(0);
+                path2 = mCirclePaths.get(1);
+                path3 = mCirclePaths.get(2);
+                path4 = mCirclePaths.get(3);
+                path5 = mCirclePaths.get(4);
                 invalidate();
             }
-        },10);
+        },500);
 
     }
 

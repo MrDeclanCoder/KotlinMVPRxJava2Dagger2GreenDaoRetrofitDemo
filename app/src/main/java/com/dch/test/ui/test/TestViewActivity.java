@@ -118,7 +118,7 @@ public class TestViewActivity extends AppCompatActivity {
         bezierIndicatorView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                bezierIndicatorView.setIndicatorList(5);
+                bezierIndicatorView.setIndicatorList2(5);
 
             }
         });
@@ -127,12 +127,17 @@ public class TestViewActivity extends AppCompatActivity {
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                bezierIndicatorView.indicatorMove(positionOffset);
+                bezierIndicatorView.indicatorMove2(positionOffset);
             }
 
             @Override
-            public void onPageSelected(int position) {
-                bezierIndicatorView.setCurrentPosition(position);
+            public void onPageSelected( final int position) {
+                bezierIndicatorView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        bezierIndicatorView.setCurrentPosition(position);
+                    }
+                },400);
             }
 
             @Override
