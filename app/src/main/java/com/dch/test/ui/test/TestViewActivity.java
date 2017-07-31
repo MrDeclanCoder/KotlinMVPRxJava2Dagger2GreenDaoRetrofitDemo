@@ -124,27 +124,7 @@ public class TestViewActivity extends AppCompatActivity {
         });
         ViewPager viewPager = (ViewPager) findViewById(R.id.test_viewpager);
         viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                bezierIndicatorView.indicatorMove2(positionOffset);
-            }
-
-            @Override
-            public void onPageSelected( final int position) {
-                bezierIndicatorView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        bezierIndicatorView.setCurrentPosition(position);
-                    }
-                },400);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+        viewPager.setOnPageChangeListener(bezierIndicatorView);
         viewPager.setCurrentItem(0);
     }
 
