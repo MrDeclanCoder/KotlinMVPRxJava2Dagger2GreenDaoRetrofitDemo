@@ -179,8 +179,19 @@ public class BezierIndicatorView extends View implements ViewPager.OnPageChangeL
 
     private Path calculateAboveHalfPath(Indicator preIndicator, Indicator nextIndicator) {
         float middleX = (preIndicator.point2.x + mIndicatorInterval/2);
-        float topY = mHeight/2 -  mOffSet * mIndicatorRadius*0.9f;
-        float bottomY = mHeight/2 + mOffSet* mIndicatorRadius*0.9f;
+        float topY= 0;
+        float bottomY = 0;
+        if (mOffSet<0.7){
+            topY = mHeight/2 -  mOffSet * mIndicatorRadius*0.5f;
+            bottomY = mHeight/2 + mOffSet* mIndicatorRadius*0.5f;
+        } else if (mOffSet<0.85){
+            topY = mHeight/2 -  mOffSet * mIndicatorRadius*0.7f;
+            bottomY = mHeight/2 + mOffSet* mIndicatorRadius*0.7f;
+        } {
+            topY = mHeight/2 -  mOffSet * mIndicatorRadius*1f;
+            bottomY = mHeight/2 + mOffSet* mIndicatorRadius*1f;
+        }
+
         Path mBezierPath = new Path();
         mBezierPath.moveTo(preIndicator.point0.x, preIndicator.point0.y);
         mBezierPath.quadTo(middleX,bottomY,nextIndicator.point0.x,nextIndicator.point0.y);
