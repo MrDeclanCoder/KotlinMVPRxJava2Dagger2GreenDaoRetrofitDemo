@@ -13,7 +13,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
@@ -23,7 +22,6 @@ import com.dch.test.R;
 import com.dch.test.widget.SwipeLayout;
 import com.dch.test.widget.WaterRefreshView;
 import com.dch.test.widget.banner.BezierIndicatorView;
-import com.dch.test.widget.banner.BezierIndicatorView2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,17 +113,11 @@ public class TestViewActivity extends AppCompatActivity {
 
 
         final BezierIndicatorView bezierIndicatorView = (BezierIndicatorView) findViewById(R.id.bezierIndicatorView);
-        bezierIndicatorView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                bezierIndicatorView.setIndicatorList2(5);
-
-            }
-        });
         ViewPager viewPager = (ViewPager) findViewById(R.id.test_viewpager);
         viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         viewPager.setOnPageChangeListener(bezierIndicatorView);
         viewPager.setCurrentItem(0);
+        bezierIndicatorView.setAdapter(viewPager.getAdapter());
     }
 
     class MyPagerAdapter extends FragmentPagerAdapter{
