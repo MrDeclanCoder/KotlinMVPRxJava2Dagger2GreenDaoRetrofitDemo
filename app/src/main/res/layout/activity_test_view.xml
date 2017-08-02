@@ -35,6 +35,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="200dp">
 
         <android.support.v4.view.ViewPager
@@ -51,9 +52,11 @@
         android:layout_gravity="center_horizontal"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:visibility="gone"
         android:background="@color/white_pressed" />
     <com.dch.test.widget.PullWaveView
         android:id="@+id/pullwaveview"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -61,6 +64,7 @@
         android:id="@+id/iv_test_view_vector_jrtt"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:visibility="gone"
         android:layout_gravity="center_horizontal"
         android:layout_margin="20dp"
         android:src="@drawable/jrtt_vector" />
@@ -71,6 +75,7 @@
         android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:layout_margin="20dp"
+        android:visibility="gone"
         android:src="@drawable/tick_vector" />
 
     <com.dch.test.widget.WaterRefreshView

@@ -87,7 +87,7 @@ public class ChrysanthemumLoadingView extends View {
         super.onDraw(canvas);
         for (int i = 0; i < 12; i++) {
             mPaint.setAlpha(((i + 1 + control) % 12 * 255) / 12);
-            canvas.drawLine(mCenterX, mCenterY - mSegmentLength, mCenterX, mCenterY - mSegmentLength*2, mPaint);
+            canvas.drawLine(mCenterX, mCenterY - mSegmentLength*1.3f, mCenterX, mCenterY - mSegmentLength*2, mPaint);
             canvas.rotate(30, mCenterX, mCenterY);
         }
     }

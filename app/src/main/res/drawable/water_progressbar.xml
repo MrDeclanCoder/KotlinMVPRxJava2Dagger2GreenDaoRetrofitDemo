@@ -1,0 +1,28 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="50dp"
+    android:height="50dp"
+    android:viewportHeight="200"
+    android:viewportWidth="200">
+
+    <path
+        android:name="pathpbwater"
+        android:fillColor="@color/white_pressed"
+        android:pathData="
+            M100,20
+            L100,7
+            L120,29
+            L100,50
+            L100,35
+            C64,35 35,64 35,100
+            C35,136 64,165 100,165
+            C136,165 165,136 165,100
+            L180,100
+            C180,144 144,180 100,180
+            C56,180 20,144 20,100
+            C20,56 56,20 100,20
+            "
+        android:strokeColor="@color/black_overlay"
+        android:strokeLineCap="round"
+        android:strokeWidth="2" />
+
+</vector>

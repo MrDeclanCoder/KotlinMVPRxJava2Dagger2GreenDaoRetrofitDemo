@@ -48,7 +48,7 @@ public class TestViewActivity extends AppCompatActivity {
                         drawableTick.start();
                         waterRefreshView.refreshSuccess();
                     }
-                }, 200);
+                }, 2000);
             }
         });
         final SwipeLayout swipeLayout = (SwipeLayout) findViewById(R.id.swipe_edit_layout);
