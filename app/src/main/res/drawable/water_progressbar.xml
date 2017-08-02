@@ -22,7 +22,7 @@
             C20,56 56,20 100,20
             "
         android:strokeColor="@color/black_overlay"
-        android:strokeLineCap="round"
-        android:strokeWidth="2" />
+        android:strokeLineCap="square"
+        android:strokeWidth="1" />
 
 </vector>

@@ -19,6 +19,10 @@ ps:倒计时已更新,自定义ProgressBar
 
 ![](pic/111.gif)
 
+#仿ios版qq下拉刷新
+
+![](pic/qq.gif)
+
 #揭示动画
 
 ![](pic/revealanimator.gif)
