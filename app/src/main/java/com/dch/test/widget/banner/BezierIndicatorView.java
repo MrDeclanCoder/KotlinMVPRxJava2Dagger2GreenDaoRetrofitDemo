@@ -165,6 +165,7 @@ public class BezierIndicatorView extends View implements ViewPager.OnPageChangeL
     private void invalidatePath2() {
         if (mUnderHalfDrawing) {
             generateUnderHalfPath();
+
         } else {
             generateAboveHalfOffsetPath();
         }
