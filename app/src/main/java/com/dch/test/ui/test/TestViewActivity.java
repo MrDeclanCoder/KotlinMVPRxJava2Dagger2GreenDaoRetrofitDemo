@@ -19,6 +19,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 
 import com.dch.test.R;
+import com.dch.test.util.ToastUtils;
 import com.dch.test.widget.SwipeLayout;
 import com.dch.test.widget.WaterRefreshView;
 import com.dch.test.widget.banner.BezierIndicatorView;
@@ -45,7 +46,7 @@ public class TestViewActivity extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        drawableTick.start();
+                        ToastUtils.showMessage("刷新成功");
                         waterRefreshView.refreshSuccess();
                     }
                 }, 2000);
@@ -64,7 +65,7 @@ public class TestViewActivity extends AppCompatActivity {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
-//                        swipeLayout.setVisibility(View.GONE);
+                        swipeLayout.setVisibility(View.GONE);
                     }
                 });
             }
@@ -103,10 +104,10 @@ public class TestViewActivity extends AppCompatActivity {
         drawableTick.start();
 
 
-        for (int i =0;i<5;i++){
+        for (int i = 0; i < 5; i++) {
             TestFragment testFragment = new TestFragment();
             Bundle bundle = new Bundle();
-            bundle.putString("pos",String.valueOf(i+1));
+            bundle.putString("pos", String.valueOf(i + 1));
             testFragment.setArguments(bundle);
             mFragmentList.add(testFragment);
         }
@@ -120,7 +121,7 @@ public class TestViewActivity extends AppCompatActivity {
         bezierIndicatorView.setAdapter(viewPager.getAdapter());
     }
 
-    class MyPagerAdapter extends FragmentPagerAdapter{
+    class MyPagerAdapter extends FragmentPagerAdapter {
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);

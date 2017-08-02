@@ -9,6 +9,7 @@
         android:id="@+id/swipe_edit_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:visibility="gone"
         app:menuItemCount="1"
         app:menuItemWidth="60dp">
 
